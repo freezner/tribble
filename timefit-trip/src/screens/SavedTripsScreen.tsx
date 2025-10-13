@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   View,
   Text,
@@ -11,13 +11,18 @@ import { useTripStore } from '../stores/tripStore';
 import { Trip } from '../types';
 import { DUOLINGO_COLORS } from '../constants';
 import { formatMinutes } from '../utils/timeCalculator';
+import { TripShareCard } from '../components';
+import { shareTripAsImage } from '../utils/shareTrip';
 
 interface Props {
   onSelectTrip?: (tripId: string) => void;
+  onCreateNew?: () => void;
 }
 
-export const SavedTripsScreen: React.FC<Props> = ({ onSelectTrip }) => {
-  const { savedTrips, loadAllTrips, deleteTrip, loadTrip } = useTripStore();
+export const SavedTripsScreen: React.FC<Props> = ({ onSelectTrip, onCreateNew }) => {
+  const { savedTrips, loadAllTrips, deleteTrip, loadTrip, createTrip } = useTripStore();
+  const shareViewRef = useRef<View>(null);
+  const [shareTrip, setShareTrip] = useState<Trip | null>(null);
 
   useEffect(() => {
     loadAllTrips();
@@ -56,26 +61,64 @@ export const SavedTripsScreen: React.FC<Props> = ({ onSelectTrip }) => {
           </View>
         </View>
 
-        <TouchableOpacity
-          style={styles.deleteButton}
-          onPress={() => handleDeleteTrip(item.id)}
-        >
-          <Text style={styles.deleteButtonText}>🗑️</Text>
-        </TouchableOpacity>
+        <View style={styles.actionButtons}>
+          <TouchableOpacity
+            style={styles.shareButton}
+            onPress={(e) => {
+              e.stopPropagation();
+              handleShareTrip(item);
+            }}
+          >
+            <Text style={styles.shareButtonText}>📤</Text>
+          </TouchableOpacity>
+          
+          <TouchableOpacity
+            style={styles.deleteButton}
+            onPress={(e) => {
+              e.stopPropagation();
+              handleDeleteTrip(item.id);
+            }}
+          >
+            <Text style={styles.deleteButtonText}>🗑️</Text>
+          </TouchableOpacity>
+        </View>
       </TouchableOpacity>
     );
+  };
+
+  const handleCreateNew = () => {
+    createTrip('새 여행');
+    onCreateNew?.();
+  };
+
+  const handleShareTrip = async (trip: Trip) => {
+    try {
+      setShareTrip(trip);
+      // 다음 렌더링 사이클에서 캡처 (ref가 업데이트된 후)
+      setTimeout(async () => {
+        await shareTripAsImage(shareViewRef, trip.name);
+        setShareTrip(null);
+      }, 100);
+    } catch (error) {
+      console.error('공유 실패:', error);
+      setShareTrip(null);
+    }
   };
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.title}>저장된 여행</Text>
+        <TouchableOpacity style={styles.newButton} onPress={handleCreateNew}>
+          <Text style={styles.newButtonText}>+ 새 여행</Text>
+        </TouchableOpacity>
       </View>
 
       {savedTrips.length === 0 ? (
         <View style={styles.emptyContainer}>
           <Text style={styles.emptyText}>
             저장된 여행이 없습니다.{'\n'}
+            우측 상단 "+ 새 여행" 버튼을 눌러{'\n'}
             새로운 여행을 계획해보세요! ✈️
           </Text>
         </View>
@@ -87,6 +130,15 @@ export const SavedTripsScreen: React.FC<Props> = ({ onSelectTrip }) => {
           contentContainerStyle={styles.listContent}
         />
       )}
+
+      {/* 공유용 숨겨진 뷰 */}
+      {shareTrip && (
+        <View style={styles.hiddenShareView}>
+          <View ref={shareViewRef} collapsable={false}>
+            <TripShareCard trip={shareTrip} />
+          </View>
+        </View>
+      )}
     </SafeAreaView>
   );
 };
@@ -97,6 +149,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#F8F9FA',
   },
   header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     paddingHorizontal: 16,
     paddingVertical: 16,
     backgroundColor: '#fff',
@@ -107,6 +162,17 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: '700',
     color: '#333',
+  },
+  newButton: {
+    backgroundColor: DUOLINGO_COLORS.green,
+    paddingHorizontal: 16,
+    paddingVertical: 10,
+    borderRadius: 20,
+  },
+  newButtonText: {
+    color: '#fff',
+    fontSize: 14,
+    fontWeight: '600',
   },
   listContent: {
     padding: 16,
@@ -141,11 +207,26 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: DUOLINGO_COLORS.gray,
   },
+  actionButtons: {
+    flexDirection: 'row',
+    gap: 4,
+  },
+  shareButton: {
+    padding: 8,
+  },
+  shareButtonText: {
+    fontSize: 20,
+  },
   deleteButton: {
     padding: 8,
   },
   deleteButtonText: {
-    fontSize: 24,
+    fontSize: 20,
+  },
+  hiddenShareView: {
+    position: 'absolute',
+    left: -9999,
+    top: -9999,
   },
   emptyContainer: {
     flex: 1,

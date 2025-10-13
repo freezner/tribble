@@ -4,16 +4,19 @@ import { StatusBar } from 'expo-status-bar';
 import { TripPlannerScreen, SavedTripsScreen } from './src/screens';
 
 export default function App() {
-  const [currentScreen, setCurrentScreen] = useState<'planner' | 'saved'>('planner');
+  const [currentScreen, setCurrentScreen] = useState<'home' | 'planner'>('home');
 
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
       
-      {currentScreen === 'planner' ? (
-        <TripPlannerScreen />
+      {currentScreen === 'home' ? (
+        <SavedTripsScreen 
+          onSelectTrip={() => setCurrentScreen('planner')}
+          onCreateNew={() => setCurrentScreen('planner')}
+        />
       ) : (
-        <SavedTripsScreen onSelectTrip={() => setCurrentScreen('planner')} />
+        <TripPlannerScreen onBack={() => setCurrentScreen('home')} />
       )}
     </View>
   );

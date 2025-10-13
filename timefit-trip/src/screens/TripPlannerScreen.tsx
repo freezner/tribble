@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import {
   View,
   Text,
@@ -9,12 +9,17 @@ import {
   Alert,
 } from 'react-native';
 import { useTripStore } from '../stores/tripStore';
-import { TripSummaryCard, PlaceCard, PlaceSearchInput, TransportModePicker, TravelBadge } from '../components';
+import { TripSummaryCard, PlaceCard, PlaceSearchInput, TransportModePicker, TravelBadge, TripNameDialog, TripShareCard } from '../components';
 import { DEFAULT_STAY_DURATION } from '../constants';
 import { DUOLINGO_COLORS } from '../constants';
 import { TransportMode } from '../types';
+import { shareTripAsImage } from '../utils/shareTrip';
 
-export const TripPlannerScreen: React.FC = () => {
+interface Props {
+  onBack?: () => void;
+}
+
+export const TripPlannerScreen: React.FC<Props> = ({ onBack }) => {
   const {
     currentTrip,
     summary,
@@ -25,11 +30,16 @@ export const TripPlannerScreen: React.FC = () => {
     saveCurrentTrip,
     createTrip,
     recalculateTravelTimes,
+    setTripName,
   } = useTripStore();
   
   const [isSaving, setIsSaving] = useState(false);
   const [pendingPlace, setPendingPlace] = useState<any>(null);
   const [showTransportPicker, setShowTransportPicker] = useState(false);
+  const [showNameDialog, setShowNameDialog] = useState(false);
+  const [isAddingNewPlace, setIsAddingNewPlace] = useState(false);
+  
+  const shareViewRef = useRef<View>(null);
 
   useEffect(() => {
     if (!currentTrip) {
@@ -59,6 +69,7 @@ export const TripPlannerScreen: React.FC = () => {
     // 첫 번째 장소가 아니면 이동 수단 선택
     if (currentTrip && currentTrip.places.length > 0) {
       setPendingPlace(newPlace);
+      setIsAddingNewPlace(true);
       setShowTransportPicker(true);
     } else {
       addPlace(newPlace);
@@ -68,15 +79,8 @@ export const TripPlannerScreen: React.FC = () => {
 
   const handleTransportModeSelect = async (mode: TransportMode) => {
     if (pendingPlace && currentTrip) {
-      // 이동 수단 변경 모드인 경우 (기존 장소)
-      if (pendingPlace.id) {
-        updatePlace(pendingPlace.id, { transportModeToNext: mode });
-        await recalculateTravelTimes();
-        Alert.alert('완료', '이동 시간이 재계산되었습니다! ✅');
-        setPendingPlace(null);
-      } 
       // 새 장소 추가 모드인 경우
-      else {
+      if (isAddingNewPlace) {
         // 이전 장소에 이동 수단 설정
         const lastPlace = currentTrip.places[currentTrip.places.length - 1];
         updatePlace(lastPlace.id, { transportModeToNext: mode });
@@ -85,26 +89,59 @@ export const TripPlannerScreen: React.FC = () => {
         addPlace(pendingPlace);
         Alert.alert('성공', `${pendingPlace.name}이(가) 추가되었습니다! ✅`);
         setPendingPlace(null);
+        setIsAddingNewPlace(false);
+      } 
+      // 이동 수단 변경 모드인 경우 (기존 장소)
+      else {
+        updatePlace(pendingPlace.id, { transportModeToNext: mode });
+        await recalculateTravelTimes();
+        Alert.alert('완료', '이동 시간이 재계산되었습니다! ✅');
+        setPendingPlace(null);
       }
     }
   };
 
-  const handleSaveTrip = async () => {
+  const handleSaveTrip = () => {
     if (!currentTrip || currentTrip.places.length === 0) {
       Alert.alert('알림', '저장할 장소가 없습니다. 먼저 장소를 추가해주세요.');
       return;
     }
+    setShowNameDialog(true);
+  };
+
+  const handleSaveTripWithName = async (tripName: string) => {
+    if (!currentTrip) return;
 
     setIsSaving(true);
+    setShowNameDialog(false);
+
     try {
+      // 여정 이름 업데이트
+      setTripName(tripName);
+      
+      // 여정 저장
       await saveCurrentTrip();
-      Alert.alert('저장 완료', '여행이 성공적으로 저장되었습니다! 🎉');
-      console.log('여행 저장 완료:', currentTrip.name);
+      
+      Alert.alert('저장 완료', `"${tripName}" 여정이 저장되었습니다! 🎉`);
+      console.log('여행 저장 완료:', tripName);
     } catch (error) {
       console.error('저장 실패:', error);
       Alert.alert('오류', '저장 중 문제가 발생했습니다.');
     } finally {
       setIsSaving(false);
+    }
+  };
+
+  const handleShareTrip = async () => {
+    if (!currentTrip || currentTrip.places.length === 0) {
+      Alert.alert('알림', '공유할 장소가 없습니다.');
+      return;
+    }
+
+    try {
+      await shareTripAsImage(shareViewRef, currentTrip.name);
+    } catch (error) {
+      console.error('공유 실패:', error);
     }
   };
 
@@ -121,16 +158,29 @@ export const TripPlannerScreen: React.FC = () => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
+        {onBack && (
+          <TouchableOpacity style={styles.backButton} onPress={onBack}>
+            <Text style={styles.backButtonText}>←</Text>
+          </TouchableOpacity>
+        )}
         <Text style={styles.title}>{currentTrip.name}</Text>
-        <TouchableOpacity 
-          style={[styles.saveButton, isSaving && styles.saveButtonDisabled]} 
-          onPress={handleSaveTrip}
-          disabled={isSaving}
-        >
-          <Text style={styles.saveButtonText}>
-            {isSaving ? '저장 중...' : '저장'}
-          </Text>
-        </TouchableOpacity>
+        <View style={styles.headerButtons}>
+          <TouchableOpacity 
+            style={styles.shareButton} 
+            onPress={handleShareTrip}
+          >
+            <Text style={styles.shareButtonText}>📤</Text>
+          </TouchableOpacity>
+          <TouchableOpacity 
+            style={[styles.saveButton, isSaving && styles.saveButtonDisabled]} 
+            onPress={handleSaveTrip}
+            disabled={isSaving}
+          >
+            <Text style={styles.saveButtonText}>
+              {isSaving ? '저장 중...' : '저장'}
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
 
       <ScrollView style={styles.content}>
@@ -182,6 +232,7 @@ export const TripPlannerScreen: React.FC = () => {
                       onPress={() => {
                         // 이동 수단 변경 모달 표시를 위해 state 설정
                         setPendingPlace({ ...place, nextPlaceName: nextPlace?.name });
+                        setIsAddingNewPlace(false);
                         setShowTransportPicker(true);
                       }}
                     />
@@ -209,8 +260,24 @@ export const TripPlannerScreen: React.FC = () => {
         onClose={() => {
           setShowTransportPicker(false);
           setPendingPlace(null);
+          setIsAddingNewPlace(false);
         }}
       />
+
+      {/* 여정 이름 입력 다이얼로그 */}
+      <TripNameDialog
+        visible={showNameDialog}
+        initialName={currentTrip?.name}
+        onSave={handleSaveTripWithName}
+        onCancel={() => setShowNameDialog(false)}
+      />
+
+      {/* 공유용 숨겨진 뷰 */}
+      <View style={styles.hiddenShareView}>
+        <View ref={shareViewRef} collapsable={false}>
+          <TripShareCard trip={currentTrip} />
+        </View>
+      </View>
     </SafeAreaView>
   );
 };
@@ -231,9 +298,36 @@ const styles = StyleSheet.create({
     borderBottomColor: DUOLINGO_COLORS.lightGray,
   },
   title: {
+    flex: 1,
     fontSize: 24,
     fontWeight: '700',
     color: '#333',
+    textAlign: 'center',
+  },
+  backButton: {
+    width: 40,
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  backButtonText: {
+    fontSize: 28,
+    color: '#333',
+  },
+  headerButtons: {
+    flexDirection: 'row',
+    gap: 8,
+  },
+  shareButton: {
+    backgroundColor: DUOLINGO_COLORS.blue,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  shareButtonText: {
+    fontSize: 18,
   },
   saveButton: {
     backgroundColor: DUOLINGO_COLORS.green,
@@ -288,6 +382,11 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 16,
     fontWeight: '600',
+  },
+  hiddenShareView: {
+    position: 'absolute',
+    left: -9999,
+    top: -9999,
   },
 });
 

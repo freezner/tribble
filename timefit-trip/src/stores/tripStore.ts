@@ -28,6 +28,7 @@ interface TripStore {
   reorderPlaces: (startIndex: number, endIndex: number) => void;
   
   // 설정
+  setTripName: (name: string) => void;
   setTotalAvailableTime: (minutes: number) => void;
   setTransportMode: (mode: TransportMode) => void;
   
@@ -153,6 +154,18 @@ export const useTripStore = create<TripStore>((set, get) => ({
     
     set({ currentTrip: updatedTrip });
     get().recalculateTravelTimes();
+  },
+
+  setTripName: (name: string) => {
+    const { currentTrip } = get();
+    if (!currentTrip) return;
+    
+    set({
+      currentTrip: {
+        ...currentTrip,
+        name,
+      },
+    });
   },
   
   setTotalAvailableTime: (minutes: number) => {
