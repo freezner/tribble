@@ -3,5 +3,6 @@ export { TripSummaryCard } from './TripSummaryCard';
 export { PlaceCard } from './PlaceCard';
 export { PlaceSearchInput } from './PlaceSearchInput';
 export { TransportModePicker } from './TransportModePicker';
+export { TravelBadge } from './TravelBadge';
 
 

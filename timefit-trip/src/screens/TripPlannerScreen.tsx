@@ -9,7 +9,7 @@ import {
   Alert,
 } from 'react-native';
 import { useTripStore } from '../stores/tripStore';
-import { TripSummaryCard, PlaceCard, PlaceSearchInput, TransportModePicker } from '../components';
+import { TripSummaryCard, PlaceCard, PlaceSearchInput, TransportModePicker, TravelBadge } from '../components';
 import { DEFAULT_STAY_DURATION } from '../constants';
 import { DUOLINGO_COLORS } from '../constants';
 import { TransportMode } from '../types';
@@ -66,16 +66,26 @@ export const TripPlannerScreen: React.FC = () => {
     }
   };
 
-  const handleTransportModeSelect = (mode: TransportMode) => {
+  const handleTransportModeSelect = async (mode: TransportMode) => {
     if (pendingPlace && currentTrip) {
-      // 이전 장소에 이동 수단 설정
-      const lastPlace = currentTrip.places[currentTrip.places.length - 1];
-      updatePlace(lastPlace.id, { transportModeToNext: mode });
-      
-      // 새 장소 추가
-      addPlace(pendingPlace);
-      Alert.alert('성공', `${pendingPlace.name}이(가) 추가되었습니다! ✅`);
-      setPendingPlace(null);
+      // 이동 수단 변경 모드인 경우 (기존 장소)
+      if (pendingPlace.id) {
+        updatePlace(pendingPlace.id, { transportModeToNext: mode });
+        await recalculateTravelTimes();
+        Alert.alert('완료', '이동 시간이 재계산되었습니다! ✅');
+        setPendingPlace(null);
+      } 
+      // 새 장소 추가 모드인 경우
+      else {
+        // 이전 장소에 이동 수단 설정
+        const lastPlace = currentTrip.places[currentTrip.places.length - 1];
+        updatePlace(lastPlace.id, { transportModeToNext: mode });
+        
+        // 새 장소 추가
+        addPlace(pendingPlace);
+        Alert.alert('성공', `${pendingPlace.name}이(가) 추가되었습니다! ✅`);
+        setPendingPlace(null);
+      }
     }
   };
 
@@ -150,23 +160,33 @@ export const TripPlannerScreen: React.FC = () => {
           <View style={styles.placesList}>
             {currentTrip.places.map((place, index) => {
               const nextPlace = currentTrip.places[index + 1];
+              const hasNextPlace = index < currentTrip.places.length - 1;
+              
               return (
-                <PlaceCard
-                  key={place.id}
-                  place={place}
-                  index={index}
-                  transportMode={currentTrip.transportMode}
-                  nextPlaceName={nextPlace?.name}
-                  onRemove={() => removePlace(place.id)}
-                  onUpdateDuration={(duration) =>
-                    updatePlace(place.id, { stayDuration: duration })
-                  }
-                  onTransportModeChange={async (mode) => {
-                    updatePlace(place.id, { transportModeToNext: mode });
-                    await recalculateTravelTimes();
-                    Alert.alert('완료', '이동 시간이 재계산되었습니다! ✅');
-                  }}
-                />
+                <React.Fragment key={place.id}>
+                  <PlaceCard
+                    place={place}
+                    index={index}
+                    onRemove={() => removePlace(place.id)}
+                    onUpdateDuration={(duration) =>
+                      updatePlace(place.id, { stayDuration: duration })
+                    }
+                  />
+                  
+                  {/* 다음 장소가 있으면 이동 뱃지 표시 */}
+                  {hasNextPlace && place.travelTimeToNext !== undefined && (
+                    <TravelBadge
+                      transportMode={place.transportModeToNext || currentTrip.transportMode}
+                      travelTime={place.travelTimeToNext}
+                      travelDistance={place.travelDistance}
+                      onPress={() => {
+                        // 이동 수단 변경 모달 표시를 위해 state 설정
+                        setPendingPlace({ ...place, nextPlaceName: nextPlace?.name });
+                        setShowTransportPicker(true);
+                      }}
+                    />
+                  )}
+                </React.Fragment>
               );
             })}
           </View>
@@ -179,8 +199,12 @@ export const TripPlannerScreen: React.FC = () => {
       {/* 이동 수단 선택 모달 */}
       <TransportModePicker
         visible={showTransportPicker}
-        selectedMode={currentTrip?.transportMode || 'driving'}
-        destinationName={pendingPlace?.name}
+        selectedMode={
+          pendingPlace?.transportModeToNext || 
+          currentTrip?.transportMode || 
+          'driving'
+        }
+        destinationName={pendingPlace?.nextPlaceName || pendingPlace?.name}
         onSelect={handleTransportModeSelect}
         onClose={() => {
           setShowTransportPicker(false);
