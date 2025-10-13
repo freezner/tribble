@@ -199,12 +199,15 @@ export const useTripStore = create<TripStore>((set, get) => ({
       const current = updatedPlaces[i];
       const next = updatedPlaces[i + 1];
       
-      console.log(`[${i + 1}/${updatedPlaces.length - 1}] 이동 시간 계산: ${current.name} → ${next.name}`);
+      // 각 장소의 이동 수단 또는 기본 이동 수단 사용
+      const transportMode = current.transportModeToNext || currentTrip.transportMode;
+      
+      console.log(`[${i + 1}/${updatedPlaces.length - 1}] 이동 시간 계산: ${current.name} → ${next.name} (${transportMode})`);
       
       const result = await calculateDistance(
         { lat: current.latitude, lng: current.longitude, placeId: current.placeId },
         { lat: next.latitude, lng: next.longitude, placeId: next.placeId },
-        currentTrip.transportMode
+        transportMode
       );
       
       if (result) {

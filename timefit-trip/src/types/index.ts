@@ -13,6 +13,7 @@ export interface PlaceWithDuration extends Place {
   stayDuration: number; // 체류 시간 (분)
   travelTimeToNext?: number; // 다음 장소까지 이동 시간 (분)
   travelDistance?: number; // 다음 장소까지 거리 (미터)
+  transportModeToNext?: TransportMode; // 다음 장소까지 이동 수단
 }
 
 export interface Trip {

@@ -35,19 +35,27 @@ const estimateTravelTime = (
   distance: number,
   mode: TransportMode
 ): { duration: number; distance: number } => {
-  // 실제 도로 거리는 직선 거리의 약 1.3배로 추정
-  const actualDistance = Math.round(distance * 1.3);
-  
-  // 교통 수단별 평균 속도 (km/h)
-  const speeds = {
-    driving: 30, // 도심 평균
-    walking: 5,
-    transit: 25,
-    bicycling: 15,
+  // 교통 수단별 거리 계수 (직선 거리 대비 실제 이동 거리)
+  const distanceFactors = {
+    driving: 1.4,    // 자동차는 도로를 따라 우회
+    walking: 1.2,    // 도보는 지름길 가능
+    transit: 1.5,    // 대중교통은 노선을 따라 이동
+    bicycling: 1.3,  // 자전거는 차도보다 유연
   };
   
+  // 교통 수단별 평균 속도 (km/h) - 더 현실적으로 조정
+  const speeds = {
+    driving: 25,     // 도심 평균 (신호, 정체 고려)
+    walking: 4.5,    // 일반적인 걷기 속도
+    transit: 20,     // 대중교통 (대기 시간 포함)
+    bicycling: 15,   // 자전거 평균 속도
+  };
+  
+  const actualDistance = Math.round(distance * distanceFactors[mode]);
   const speedKmh = speeds[mode];
   const durationMinutes = Math.ceil((actualDistance / 1000 / speedKmh) * 60);
+  
+  console.log(`⚠️ 추정 계산 (${mode}): 직선거리 ${Math.round(distance)}m → 실제거리 ${actualDistance}m, 속도 ${speedKmh}km/h → ${durationMinutes}분`);
   
   return {
     duration: durationMinutes,
@@ -122,7 +130,7 @@ export const getPlaceDetails = async (placeId: string): Promise<GooglePlaceDetai
 export const calculateDistance = async (
   origin: { lat: number; lng: number; placeId?: string },
   destination: { lat: number; lng: number; placeId?: string },
-  mode: TransportMode = 'driving'
+  mode: TransportMode = 'walking'
 ): Promise<{ duration: number; distance: number } | null> => {
   try {
     // place_id를 우선 사용, 없으면 좌표 사용
@@ -168,9 +176,9 @@ export const calculateDistance = async (
       if (element.status !== 'OK') {
         console.error('❌ Distance Matrix 요소 오류:', element.status);
         
-        // ZERO_RESULTS인 경우 교통 수단을 변경해서 재시도
+        // ZERO_RESULTS인 경우
         if (element.status === 'ZERO_RESULTS') {
-          // place_id에서 좌표로 재시도
+          // place_id에서 좌표로 재시도 (한 번만)
           if (origin.placeId || destination.placeId) {
             console.log('🔄 좌표로 재시도...');
             return calculateDistance(
@@ -179,29 +187,17 @@ export const calculateDistance = async (
               mode
             );
           }
-          // 이미 좌표인 경우, walking으로 재시도
-          else if (mode === 'driving') {
-            console.log('🔄 교통수단을 transit으로 변경하여 재시도...');
-            return calculateDistance(origin, destination, 'transit');
-          }
-          // transit도 실패한 경우, 직선 거리로 추정
-          else if (mode === 'transit') {
-            console.log('🔄 교통수단을 walking으로 변경하여 재시도...');
-            return calculateDistance(origin, destination, 'walking');
-          }
-          // walking도 실패한 경우, 직선 거리로 추정
-          else {
-            console.log('⚠️ API 실패, 직선 거리로 추정...');
-            const straightDistance = calculateStraightDistance(
-              origin.lat,
-              origin.lng,
-              destination.lat,
-              destination.lng
-            );
-            const estimated = estimateTravelTime(straightDistance, mode);
-            console.log(`📏 추정 결과: ${estimated.duration}분, ${estimated.distance}m (직선거리 기반)`);
-            return estimated;
-          }
+          
+          // 좌표로도 실패하면 바로 추정치 사용 (요청한 교통수단으로)
+          console.log(`⚠️ API ZERO_RESULTS, ${mode} 모드로 직선 거리 추정 사용`);
+          const straightDistance = calculateStraightDistance(
+            origin.lat,
+            origin.lng,
+            destination.lat,
+            destination.lng
+          );
+          const estimated = estimateTravelTime(straightDistance, mode);
+          return estimated;
         }
       }
     } else {

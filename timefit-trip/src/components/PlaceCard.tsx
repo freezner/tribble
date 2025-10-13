@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { PlaceWithDuration, TransportMode } from '../types';
 import { formatMinutes } from '../utils/timeCalculator';
 import { DUOLINGO_COLORS, TRANSPORT_MODES } from '../constants';
+import { TransportModePicker } from './TransportModePicker';
 
 interface Props {
   place: PlaceWithDuration;
@@ -10,19 +11,32 @@ interface Props {
   transportMode?: TransportMode;
   onRemove: () => void;
   onUpdateDuration: (duration: number) => void;
+  onTransportModeChange?: (mode: TransportMode) => void;
+  nextPlaceName?: string;
 }
 
 export const PlaceCard: React.FC<Props> = ({
   place,
   index,
-  transportMode = 'driving',
+  transportMode = 'walking',
   onRemove,
   onUpdateDuration,
+  onTransportModeChange,
+  nextPlaceName,
 }) => {
-  // 이동 수단 정보 가져오기
-  const transport = TRANSPORT_MODES.find(t => t.value === transportMode);
-  const transportIcon = transport?.icon || '🚗';
-  const transportLabel = transport?.label || '자동차';
+  const [showTransportPicker, setShowTransportPicker] = useState(false);
+  
+  // 각 장소의 이동 수단 또는 기본 이동 수단 사용
+  const actualTransportMode = place.transportModeToNext || transportMode;
+  const transport = TRANSPORT_MODES.find(t => t.value === actualTransportMode);
+  const transportIcon = transport?.icon || '🚶';
+  const transportLabel = transport?.label || '도보';
+
+  const handleTransportModeSelect = (mode: TransportMode) => {
+    if (onTransportModeChange) {
+      onTransportModeChange(mode);
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -50,7 +64,11 @@ export const PlaceCard: React.FC<Props> = ({
 
         {/* 이동 시간 (다음 장소가 있는 경우) */}
         {place.travelTimeToNext !== undefined && (
-          <View style={styles.travelContainer}>
+          <TouchableOpacity 
+            style={styles.travelContainer}
+            onPress={() => setShowTransportPicker(true)}
+            disabled={!onTransportModeChange}
+          >
             <Text style={styles.transportIcon}>{transportIcon}</Text>
             <Text style={styles.travelText}>
               {transportLabel} {formatMinutes(place.travelTimeToNext)}
@@ -60,7 +78,10 @@ export const PlaceCard: React.FC<Props> = ({
                 · {(place.travelDistance / 1000).toFixed(1)}km
               </Text>
             )}
-          </View>
+            {onTransportModeChange && (
+              <Text style={styles.editIcon}> ✏️</Text>
+            )}
+          </TouchableOpacity>
         )}
       </View>
 
@@ -68,6 +89,15 @@ export const PlaceCard: React.FC<Props> = ({
       <TouchableOpacity style={styles.removeButton} onPress={onRemove}>
         <Text style={styles.removeButtonText}>✕</Text>
       </TouchableOpacity>
+
+      {/* 이동 수단 선택 모달 */}
+      <TransportModePicker
+        visible={showTransportPicker}
+        selectedMode={actualTransportMode}
+        destinationName={nextPlaceName}
+        onSelect={handleTransportModeSelect}
+        onClose={() => setShowTransportPicker(false)}
+      />
     </View>
   );
 };
@@ -151,6 +181,10 @@ const styles = StyleSheet.create({
   distanceText: {
     fontSize: 11,
     color: DUOLINGO_COLORS.gray,
+    marginLeft: 4,
+  },
+  editIcon: {
+    fontSize: 12,
     marginLeft: 4,
   },
   removeButton: {

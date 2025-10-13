@@ -9,9 +9,10 @@ import {
   Alert,
 } from 'react-native';
 import { useTripStore } from '../stores/tripStore';
-import { TripSummaryCard, PlaceCard, PlaceSearchInput } from '../components';
+import { TripSummaryCard, PlaceCard, PlaceSearchInput, TransportModePicker } from '../components';
 import { DEFAULT_STAY_DURATION } from '../constants';
 import { DUOLINGO_COLORS } from '../constants';
+import { TransportMode } from '../types';
 
 export const TripPlannerScreen: React.FC = () => {
   const {
@@ -23,9 +24,12 @@ export const TripPlannerScreen: React.FC = () => {
     updatePlace,
     saveCurrentTrip,
     createTrip,
+    recalculateTravelTimes,
   } = useTripStore();
   
   const [isSaving, setIsSaving] = useState(false);
+  const [pendingPlace, setPendingPlace] = useState<any>(null);
+  const [showTransportPicker, setShowTransportPicker] = useState(false);
 
   useEffect(() => {
     if (!currentTrip) {
@@ -52,8 +56,27 @@ export const TripPlannerScreen: React.FC = () => {
       stayDuration: DEFAULT_STAY_DURATION,
     };
 
-    addPlace(newPlace);
-    Alert.alert('성공', `${placeData.name}이(가) 추가되었습니다! ✅`);
+    // 첫 번째 장소가 아니면 이동 수단 선택
+    if (currentTrip && currentTrip.places.length > 0) {
+      setPendingPlace(newPlace);
+      setShowTransportPicker(true);
+    } else {
+      addPlace(newPlace);
+      Alert.alert('성공', `${placeData.name}이(가) 추가되었습니다! ✅`);
+    }
+  };
+
+  const handleTransportModeSelect = (mode: TransportMode) => {
+    if (pendingPlace && currentTrip) {
+      // 이전 장소에 이동 수단 설정
+      const lastPlace = currentTrip.places[currentTrip.places.length - 1];
+      updatePlace(lastPlace.id, { transportModeToNext: mode });
+      
+      // 새 장소 추가
+      addPlace(pendingPlace);
+      Alert.alert('성공', `${pendingPlace.name}이(가) 추가되었습니다! ✅`);
+      setPendingPlace(null);
+    }
   };
 
   const handleSaveTrip = async () => {
@@ -125,24 +148,45 @@ export const TripPlannerScreen: React.FC = () => {
           </View>
         ) : (
           <View style={styles.placesList}>
-            {currentTrip.places.map((place, index) => (
-              <PlaceCard
-                key={place.id}
-                place={place}
-                index={index}
-                transportMode={currentTrip.transportMode}
-                onRemove={() => removePlace(place.id)}
-                onUpdateDuration={(duration) =>
-                  updatePlace(place.id, { stayDuration: duration })
-                }
-              />
-            ))}
+            {currentTrip.places.map((place, index) => {
+              const nextPlace = currentTrip.places[index + 1];
+              return (
+                <PlaceCard
+                  key={place.id}
+                  place={place}
+                  index={index}
+                  transportMode={currentTrip.transportMode}
+                  nextPlaceName={nextPlace?.name}
+                  onRemove={() => removePlace(place.id)}
+                  onUpdateDuration={(duration) =>
+                    updatePlace(place.id, { stayDuration: duration })
+                  }
+                  onTransportModeChange={async (mode) => {
+                    updatePlace(place.id, { transportModeToNext: mode });
+                    await recalculateTravelTimes();
+                    Alert.alert('완료', '이동 시간이 재계산되었습니다! ✅');
+                  }}
+                />
+              );
+            })}
           </View>
         )}
 
         {/* 하단 여백 */}
         <View style={styles.bottomSpacer} />
       </ScrollView>
+
+      {/* 이동 수단 선택 모달 */}
+      <TransportModePicker
+        visible={showTransportPicker}
+        selectedMode={currentTrip?.transportMode || 'driving'}
+        destinationName={pendingPlace?.name}
+        onSelect={handleTransportModeSelect}
+        onClose={() => {
+          setShowTransportPicker(false);
+          setPendingPlace(null);
+        }}
+      />
     </SafeAreaView>
   );
 };
