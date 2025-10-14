@@ -44,6 +44,3 @@
 ---
 
 **끝.**
-
-
-Google API: AIzaSyAqTWePZSU1f5vwGRZ6g44EGdXRRqQ-6A8
