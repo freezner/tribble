@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
   header: {
     marginBottom: 20,
     borderBottomWidth: 2,
-    borderBottomColor: DUOLINGO_COLORS.green,
+    borderBottomColor: DUOLINGO_COLORS.red,
     paddingBottom: 16,
   },
   appName: {
@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
   summaryValue: {
     fontSize: 16,
     fontWeight: '700',
-    color: DUOLINGO_COLORS.green,
+    color: DUOLINGO_COLORS.red,
   },
   overTime: {
     color: DUOLINGO_COLORS.red,

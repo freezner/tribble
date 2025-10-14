@@ -73,7 +73,7 @@ export const TripPlannerScreen: React.FC<Props> = ({ onBack }) => {
       setShowTransportPicker(true);
     } else {
       addPlace(newPlace);
-      Alert.alert('성공', `${placeData.name}이(가) 추가되었습니다! ✅`);
+      // Alert.alert('성공', `${placeData.name}이(가) 추가되었습니다!`);
     }
   };
 
@@ -87,7 +87,7 @@ export const TripPlannerScreen: React.FC<Props> = ({ onBack }) => {
         
         // 새 장소 추가
         addPlace(pendingPlace);
-        Alert.alert('성공', `${pendingPlace.name}이(가) 추가되었습니다! ✅`);
+        // Alert.alert('성공', `${pendingPlace.name}이(가) 추가되었습니다!`);
         setPendingPlace(null);
         setIsAddingNewPlace(false);
       } 
@@ -95,7 +95,7 @@ export const TripPlannerScreen: React.FC<Props> = ({ onBack }) => {
       else {
         updatePlace(pendingPlace.id, { transportModeToNext: mode });
         await recalculateTravelTimes();
-        Alert.alert('완료', '이동 시간이 재계산되었습니다! ✅');
+        Alert.alert('완료', '이동 시간이 재계산되었습니다!');
         setPendingPlace(null);
       }
     }
@@ -122,7 +122,7 @@ export const TripPlannerScreen: React.FC<Props> = ({ onBack }) => {
       // 여정 저장
       await saveCurrentTrip();
       
-      Alert.alert('저장 완료', `"${tripName}" 여정이 저장되었습니다! 🎉`);
+      Alert.alert('저장 완료', `"${tripName}" 여정이 저장되었습니다!`);
       console.log('여행 저장 완료:', tripName);
     } catch (error) {
       console.error('저장 실패:', error);
@@ -169,7 +169,7 @@ export const TripPlannerScreen: React.FC<Props> = ({ onBack }) => {
             style={styles.shareButton} 
             onPress={handleShareTrip}
           >
-            <Text style={styles.shareButtonText}>📤</Text>
+            <Text style={styles.shareButtonText}>🚀</Text>
           </TouchableOpacity>
           <TouchableOpacity 
             style={[styles.saveButton, isSaving && styles.saveButtonDisabled]} 
@@ -190,7 +190,7 @@ export const TripPlannerScreen: React.FC<Props> = ({ onBack }) => {
         {/* 이동 시간 계산 중 표시 */}
         {isLoading && (
           <View style={styles.loadingContainer}>
-            <Text style={styles.loadingText}>🚗 이동 시간 계산 중...</Text>
+            <Text style={styles.loadingText}>이동 시간 계산 중...</Text>
           </View>
         )}
 
@@ -203,7 +203,7 @@ export const TripPlannerScreen: React.FC<Props> = ({ onBack }) => {
         {currentTrip.places.length === 0 ? (
           <View style={styles.emptyPlacesContainer}>
             <Text style={styles.emptyPlacesText}>
-              장소를 추가해서 여행 계획을 시작하세요! 🗺️
+              장소를 추가해서 여행 계획을 시작하세요!
             </Text>
           </View>
         ) : (
@@ -327,10 +327,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   shareButtonText: {
-    fontSize: 18,
+    fontSize: 16,
+    color: '#fff',
   },
   saveButton: {
-    backgroundColor: DUOLINGO_COLORS.green,
+    backgroundColor: DUOLINGO_COLORS.red,
     paddingHorizontal: 20,
     paddingVertical: 10,
     borderRadius: 20,

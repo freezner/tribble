@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
   time: {
     fontSize: 12,
     fontWeight: '700',
-    color: DUOLINGO_COLORS.green,
+    color: DUOLINGO_COLORS.red,
   },
   separator: {
     fontSize: 11,

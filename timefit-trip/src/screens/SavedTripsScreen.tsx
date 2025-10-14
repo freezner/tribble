@@ -20,7 +20,7 @@ interface Props {
 }
 
 export const SavedTripsScreen: React.FC<Props> = ({ onSelectTrip, onCreateNew }) => {
-  const { savedTrips, loadAllTrips, deleteTrip, loadTrip, createTrip } = useTripStore();
+  const { savedTrips, loadAllTrips, deleteTrip, loadTrip } = useTripStore();
   const shareViewRef = useRef<View>(null);
   const [shareTrip, setShareTrip] = useState<Trip | null>(null);
 
@@ -69,7 +69,7 @@ export const SavedTripsScreen: React.FC<Props> = ({ onSelectTrip, onCreateNew })
               handleShareTrip(item);
             }}
           >
-            <Text style={styles.shareButtonText}>📤</Text>
+            <Text style={styles.shareButtonText}>🚀</Text>
           </TouchableOpacity>
           
           <TouchableOpacity
@@ -84,11 +84,6 @@ export const SavedTripsScreen: React.FC<Props> = ({ onSelectTrip, onCreateNew })
         </View>
       </TouchableOpacity>
     );
-  };
-
-  const handleCreateNew = () => {
-    createTrip('새 여행');
-    onCreateNew?.();
   };
 
   const handleShareTrip = async (trip: Trip) => {
@@ -109,17 +104,17 @@ export const SavedTripsScreen: React.FC<Props> = ({ onSelectTrip, onCreateNew })
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.title}>저장된 여행</Text>
-        <TouchableOpacity style={styles.newButton} onPress={handleCreateNew}>
-          <Text style={styles.newButtonText}>+ 새 여행</Text>
-        </TouchableOpacity>
       </View>
 
       {savedTrips.length === 0 ? (
         <View style={styles.emptyContainer}>
+          <Text style={styles.emptyEmoji}>🗺️</Text>
           <Text style={styles.emptyText}>
-            저장된 여행이 없습니다.{'\n'}
-            우측 상단 "+ 새 여행" 버튼을 눌러{'\n'}
-            새로운 여행을 계획해보세요! ✈️
+            저장된 여행이 없습니다
+          </Text>
+          <Text style={styles.emptySubtext}>
+            하단 중앙의 + 버튼을 눌러{'\n'}
+            새로운 여행을 시작하세요!
           </Text>
         </View>
       ) : (
@@ -149,30 +144,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#F8F9FA',
   },
   header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
     paddingHorizontal: 16,
-    paddingVertical: 16,
+    paddingVertical: 20,
     backgroundColor: '#fff',
     borderBottomWidth: 1,
     borderBottomColor: DUOLINGO_COLORS.lightGray,
   },
   title: {
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: '700',
     color: '#333',
-  },
-  newButton: {
-    backgroundColor: DUOLINGO_COLORS.green,
-    paddingHorizontal: 16,
-    paddingVertical: 10,
-    borderRadius: 20,
-  },
-  newButtonText: {
-    color: '#fff',
-    fontSize: 14,
-    fontWeight: '600',
   },
   listContent: {
     padding: 16,
@@ -215,7 +196,8 @@ const styles = StyleSheet.create({
     padding: 8,
   },
   shareButtonText: {
-    fontSize: 20,
+    fontSize: 16,
+    color: '#fff',
   },
   deleteButton: {
     padding: 8,
@@ -234,11 +216,22 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 40,
   },
+  emptyEmoji: {
+    fontSize: 64,
+    marginBottom: 16,
+  },
   emptyText: {
-    fontSize: 16,
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#333',
+    textAlign: 'center',
+    marginBottom: 8,
+  },
+  emptySubtext: {
+    fontSize: 14,
     color: DUOLINGO_COLORS.gray,
     textAlign: 'center',
-    lineHeight: 24,
+    lineHeight: 20,
   },
 });
 

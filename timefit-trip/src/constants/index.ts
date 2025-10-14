@@ -16,7 +16,7 @@ export const TRANSPORT_MODES = [
 ] as const;
 
 export const COLORS = {
-  primary: '#4A90E2',
+  primary: '#cb311c',
   secondary: '#F5A623',
   success: '#7ED321',
   warning: '#F5A623',
@@ -32,7 +32,7 @@ export const DUOLINGO_COLORS = {
   green: '#58CC02',
   lightGreen: '#89E219',
   darkGreen: '#43A000',
-  red: '#FF4B4B',
+  red: '#cb311c',
   yellow: '#FFC800',
   blue: '#1CB0F6',
   purple: '#CE82FF',

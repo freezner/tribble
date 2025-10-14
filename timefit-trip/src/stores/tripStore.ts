@@ -20,6 +20,7 @@ interface TripStore {
   loadAllTrips: () => Promise<void>;
   saveCurrentTrip: () => Promise<void>;
   deleteTrip: (tripId: string) => Promise<void>;
+  clearAllTrips: () => Promise<void>;
   
   // 장소 관리
   addPlace: (place: PlaceWithDuration) => void;
@@ -96,6 +97,23 @@ export const useTripStore = create<TripStore>((set, get) => ({
     if (currentTrip?.id === tripId) {
       set({ currentTrip: null, summary: null });
     }
+  },
+
+  clearAllTrips: async () => {
+    // 모든 여행 삭제
+    const trips = await getAllTrips();
+    for (const trip of trips) {
+      await deleteStoredTrip(trip.id);
+    }
+    
+    // 상태 초기화
+    set({
+      currentTrip: null,
+      savedTrips: [],
+      summary: null,
+    });
+    
+    console.log('모든 여행이 삭제되었습니다');
   },
   
   addPlace: (place: PlaceWithDuration) => {

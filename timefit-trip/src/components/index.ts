@@ -6,5 +6,6 @@ export { TransportModePicker } from './TransportModePicker';
 export { TravelBadge } from './TravelBadge';
 export { TripNameDialog } from './TripNameDialog';
 export { TripShareCard } from './TripShareCard';
+export { BottomNav } from './BottomNav';
 
 
