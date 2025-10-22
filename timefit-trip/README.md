@@ -19,6 +19,8 @@
 - AsyncStorage (로컬 저장)
 - Google Maps Platform API
 - axios, zod, dayjs
+- iOS 14.0+ (배포 타겟)
+- Xcode 16+ (iOS 18 SDK 지원)
 
 ---
 
@@ -178,6 +180,32 @@ brew install watchman
 ⚠️ 추정 계산 (walking): 직선거리 2000m → 실제거리 2400m, 속도 4.5km/h → 32분
 ```
 
+### iOS SDK 버전 오류
+
+**증상**: `SDK version issue. This app was built with the iOS 17.5 SDK`
+
+**해결:**
+1. **Xcode 업데이트**: Xcode 16 이상 필요
+2. **배포 타겟 설정**: iOS 14.0 이상
+3. **CocoaPods 재설치**:
+   ```bash
+   cd ios
+   rm -rf Pods Podfile.lock
+   pod install
+   ```
+4. **EAS 빌드 설정 업데이트**:
+   ```json
+   {
+     "ios": {
+       "xcodeVersion": "16.0",
+       "image": "latest"
+     }
+   }
+   ```
+
+**Apple 요구사항**: 2025년 4월 24일부터 iOS 18 SDK 필수
+👉 [Expo 공식 안내](https://expo.dev/blog/apple-sdk-minimum-requirements)
+
 ---
 
 ## 📱 아이폰 설치
@@ -205,7 +233,16 @@ npx expo start --tunnel
 "bundleIdentifier": "com.yourname.tribble"
 ```
 
-### 2. EAS 빌드
+### 2. iOS SDK 요구사항 확인
+
+**중요**: Apple은 2025년 4월 24일부터 iOS 18 SDK 필수 요구
+👉 [Expo 공식 안내](https://expo.dev/blog/apple-sdk-minimum-requirements)
+
+- **Xcode**: 16.0+ 설치 필요
+- **iOS 배포 타겟**: 14.0+ 설정
+- **빌드 환경**: iOS 18 SDK 사용
+
+### 3. EAS 빌드
 
 ```bash
 # EAS CLI 설치
@@ -217,13 +254,13 @@ eas login
 # 프로젝트 설정
 eas build:configure
 
-# iOS 빌드
-eas build --platform ios --profile production
+# iOS 빌드 (캐시 클리어 권장)
+eas build --platform ios --profile production --clear-cache
 ```
 
 **소요 시간**: 20-30분
 
-### 3. App Store Connect 설정
+### 4. App Store Connect 설정
 
 1. [App Store Connect](https://appstoreconnect.apple.com) 접속
 2. 새 앱 만들기
@@ -234,13 +271,13 @@ eas build --platform ios --profile production
    eas submit --platform ios --latest
    ```
 
-### 4. 스크린샷 및 정보 입력
+### 5. 스크린샷 및 정보 입력
 
 - 스크린샷: 최소 3개 (1290 x 2796)
 - 설명, 키워드 입력
 - 연령 등급 설정 (4+)
 
-### 5. 심사 제출
+### 6. 심사 제출
 
 - **"심사를 위해 제출"** 클릭
 - 심사 기간: 1-3일
@@ -558,10 +595,17 @@ eas submit --platform ios --latest
 - **Expo CLI**: `npm install -g expo-cli`
 - **EAS CLI**: `npm install -g eas-cli`
 
-### 선택 도구
+### iOS 개발 도구
 
-- **iOS 개발**: Xcode (macOS only)
-- **Android 개발**: Android Studio
+- **Xcode**: 16.0+ (iOS 18 SDK 포함)
+- **macOS**: Sequoia 15.4.1+ (Xcode 16 요구사항)
+- **iOS 배포 타겟**: 14.0+
+- **CocoaPods**: 최신 버전
+
+### Android 개발 도구
+
+- **Android Studio**: 최신 버전
+- **Android SDK**: API 33+
 
 ---
 
@@ -626,6 +670,7 @@ eas submit --platform ios --latest
 - [React Native 문서](https://reactnative.dev/)
 - [Google Maps Platform](https://developers.google.com/maps)
 - [Zustand 문서](https://github.com/pmndrs/zustand)
+- [Apple iOS 18 SDK 요구사항](https://expo.dev/blog/apple-sdk-minimum-requirements)
 
 ---
 

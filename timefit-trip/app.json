@@ -21,6 +21,7 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.tribble.tribbleapp",
       "buildNumber": "1",
+      "deploymentTarget": "13.0",
       "infoPlist": {
         "NSLocationWhenInUseUsageDescription": "여행 장소를 지도에서 확인하기 위해 위치 권한이 필요합니다.",
         "NSPhotoLibraryUsageDescription": "여정 이미지를 저장하고 공유하기 위해 사진 라이브러리 접근이 필요합니다.",

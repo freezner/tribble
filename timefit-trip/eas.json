@@ -21,15 +21,18 @@
     "production": {
       "autoIncrement": true,
       "ios": {
-        "resourceClass": "m-medium"
+        "resourceClass": "m-medium",
+        "buildConfiguration": "Release",
+        "simulator": false,
+        "image": "latest"
       }
     }
   },
   "submit": {
     "production": {
       "ios": {
-        "ascAppId": "YOUR_APP_STORE_CONNECT_APP_ID",
-        "appleId": "your-apple-id@example.com"
+        "ascAppId": "6753949093",
+        "appleId": "freezner3@gmail.com"
       }
     }
   }
