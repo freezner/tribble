@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { useTripStore } from '../stores/tripStore';
 import { DUOLINGO_COLORS } from '../constants';
+import { MaterialIcons } from '@expo/vector-icons';
 
 export const SettingsScreen: React.FC = () => {
   const { savedTrips, clearAllTrips } = useTripStore();
@@ -70,7 +71,12 @@ export const SettingsScreen: React.FC = () => {
             style={styles.dangerButton}
             onPress={handleClearAllTrips}
           >
-            <Text style={styles.dangerButtonIcon}>🗑️</Text>
+            <MaterialIcons
+              name="refresh"
+              size={30}
+              marginRight={10}
+              color={DUOLINGO_COLORS.red}
+            />
             <View style={styles.dangerButtonTextContainer}>
               <Text style={styles.dangerButtonText}>모든 여행 삭제</Text>
               <Text style={styles.dangerButtonSubtext}>
@@ -132,7 +138,7 @@ const styles = StyleSheet.create({
   appName: {
     fontSize: 24,
     fontWeight: '700',
-    color: DUOLINGO_COLORS.green,
+    color: DUOLINGO_COLORS.red,
     marginBottom: 4,
   },
   appVersion: {
@@ -169,7 +175,7 @@ const styles = StyleSheet.create({
   statValue: {
     fontSize: 18,
     fontWeight: '700',
-    color: DUOLINGO_COLORS.blue,
+    color: DUOLINGO_COLORS.red,
   },
   dangerButton: {
     flexDirection: 'row',

@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { MaterialIcons } from '@expo/vector-icons';
 import { DUOLINGO_COLORS } from '../constants';
 
 interface Props {
@@ -16,12 +17,12 @@ export const BottomNav: React.FC<Props> = ({ activeScreen, onNavigate, onCreateN
         style={styles.navItem}
         onPress={() => onNavigate('home')}
       >
-        <Text style={[styles.navIcon, activeScreen === 'home' && styles.navIconActive]}>
-          🏠
-        </Text>
-        <Text style={[styles.navLabel, activeScreen === 'home' && styles.navLabelActive]}>
-          홈
-        </Text>
+        <MaterialIcons 
+          name="home" 
+          size={24} 
+          color={activeScreen === 'home' ? DUOLINGO_COLORS.gray : '#999'}
+          style={{ marginBottom: 4 }}
+        />
       </TouchableOpacity>
 
       {/* 중앙 새 여행 버튼 */}
@@ -33,7 +34,6 @@ export const BottomNav: React.FC<Props> = ({ activeScreen, onNavigate, onCreateN
         <View style={styles.centerButtonInner}>
           <Text style={styles.centerButtonText}>+</Text>
         </View>
-        <Text style={styles.centerButtonLabel}>새 여행</Text>
       </TouchableOpacity>
 
       {/* 설정 버튼 */}
@@ -41,12 +41,12 @@ export const BottomNav: React.FC<Props> = ({ activeScreen, onNavigate, onCreateN
         style={styles.navItem}
         onPress={() => onNavigate('settings')}
       >
-        <Text style={[styles.navIcon, activeScreen === 'settings' && styles.navIconActive]}>
-          ⚙️
-        </Text>
-        <Text style={[styles.navLabel, activeScreen === 'settings' && styles.navLabelActive]}>
-          설정
-        </Text>
+        <MaterialIcons 
+          name="settings" 
+          size={24} 
+          color={activeScreen === 'settings' ? DUOLINGO_COLORS.gray : '#999'}
+          style={{ marginBottom: 4 }}
+        />
       </TouchableOpacity>
     </View>
   );
@@ -58,8 +58,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderTopWidth: 1,
     borderTopColor: DUOLINGO_COLORS.lightGray,
-    paddingBottom: 20,
-    paddingTop: 8,
+    paddingBottom: 10,
+    paddingTop: 0,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: -2 },
     shadowOpacity: 0.1,
@@ -69,11 +69,10 @@ const styles = StyleSheet.create({
   navItem: {
     flex: 1,
     alignItems: 'center',
-    paddingTop: 8,
+    paddingTop: 25,
   },
   navIcon: {
-    fontSize: 24,
-    marginBottom: 4,
+    fontSize: 30,
     opacity: 0.5,
   },
   navIconActive: {
@@ -91,7 +90,7 @@ const styles = StyleSheet.create({
   centerButton: {
     flex: 1,
     alignItems: 'center',
-    marginTop: -28,
+    marginTop: 12,
   },
   centerButtonInner: {
     width: 56,
@@ -112,12 +111,6 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: '700',
     lineHeight: 32,
-  },
-  centerButtonLabel: {
-    fontSize: 16,
-    color: DUOLINGO_COLORS.red,
-    fontWeight: '700',
-    marginTop: 4,
   },
 });
 

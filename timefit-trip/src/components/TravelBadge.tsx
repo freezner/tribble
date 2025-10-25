@@ -38,9 +38,6 @@ export const TravelBadge: React.FC<Props> = ({
             </Text>
           </>
         )}
-        {editable && onPress && (
-          <Text style={styles.editIcon}>✏️</Text>
-        )}
       </View>
       <View style={styles.line} />
     </View>

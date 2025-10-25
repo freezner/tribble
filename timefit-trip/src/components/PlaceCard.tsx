@@ -1,23 +1,71 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, TextInput, Alert } from 'react-native';
 import { PlaceWithDuration } from '../types';
-import { formatMinutes } from '../utils/timeCalculator';
 import { DUOLINGO_COLORS } from '../constants';
+import { MaterialIcons } from '@expo/vector-icons';
 
 interface Props {
   place: PlaceWithDuration;
   index: number;
   onRemove: () => void;
-  onUpdateDuration: (duration: number) => void;
+  onEdit: () => void;
+  onUpdateName?: (newName: string) => void;
 }
 
 export const PlaceCard: React.FC<Props> = ({
   place,
   index,
   onRemove,
-  onUpdateDuration,
+  onEdit,
+  onUpdateName,
 }) => {
-  return (
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedName, setEditedName] = useState(place.name);
+
+  const handleEditPress = () => {
+    if (onUpdateName) {
+      setIsEditing(true);
+    } else {
+      onEdit();
+    }
+  };
+
+  const handleSave = () => {
+    if (editedName.trim() === '') {
+      Alert.alert('오류', '장소 이름을 입력해주세요.');
+      return;
+    }
+    
+    if (onUpdateName) {
+      onUpdateName(editedName.trim());
+      setIsEditing(false);
+    }
+  };
+
+  const handleCancel = () => {
+    setEditedName(place.name);
+    setIsEditing(false);
+  };
+
+  const handleRemove = () => {
+    Alert.alert(
+      '장소 삭제',
+      `"${place.name}"을 경로에서 삭제하시겠습니까?`,
+      [
+        {
+          text: '취소',
+          style: 'cancel',
+        },
+        {
+          text: '삭제',
+          style: 'destructive',
+          onPress: onRemove,
+        },
+      ]
+    );
+  };
+
+  const content = (
     <View style={styles.container}>
       {/* 순서 번호 */}
       <View style={styles.indexBadge}>
@@ -26,29 +74,69 @@ export const PlaceCard: React.FC<Props> = ({
 
       {/* 장소 정보 */}
       <View style={styles.contentContainer}>
-        <Text style={styles.placeName} numberOfLines={1}>
-          {place.name}
-        </Text>
+        {isEditing ? (
+          <TextInput
+            style={styles.editInput}
+            value={editedName}
+            onChangeText={setEditedName}
+            placeholder="장소 이름을 입력하세요"
+            autoFocus
+            maxLength={50}
+          />
+        ) : (
+          <Text style={styles.placeName} numberOfLines={1}>
+            {place.name}
+          </Text>
+        )}
         <Text style={styles.placeAddress} numberOfLines={1}>
           {place.address}
         </Text>
-
-        {/* 체류 시간 */}
-        <View style={styles.durationContainer}>
-          <Text style={styles.durationLabel}>체류 시간:</Text>
-          <Text style={styles.durationValue}>
-            {formatMinutes(place.stayDuration)}
-          </Text>
-        </View>
-
       </View>
 
-      {/* 삭제 버튼 */}
-      <TouchableOpacity style={styles.removeButton} onPress={onRemove}>
-        <Text style={styles.removeButtonText}>✕</Text>
-      </TouchableOpacity>
+      {/* 편집 모드 버튼들 */}
+      {isEditing ? (
+        <>
+          {/* 저장 버튼 */}
+          <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
+            <Text style={styles.saveButtonText}>✓</Text>
+          </TouchableOpacity>
+          {/* 취소 버튼 */}
+          <TouchableOpacity style={styles.cancelButton} onPress={handleCancel}>
+            <Text style={styles.cancelButtonText}>✕</Text>
+          </TouchableOpacity>
+        </>
+      ) : (
+        <>
+          {/* 수정 버튼 */}
+          <TouchableOpacity style={styles.editButton} onPress={handleEditPress}>
+            <MaterialIcons
+              name="edit"
+              size={20}
+              color={DUOLINGO_COLORS.blue}
+            />
+          </TouchableOpacity>
+          {/* 삭제 버튼 */}
+          <TouchableOpacity style={styles.removeButton} onPress={handleRemove}>
+            <MaterialIcons
+              name="delete"
+              size={20}
+              color={DUOLINGO_COLORS.gray}
+            />
+          </TouchableOpacity>
+        </>
+      )}
     </View>
   );
+
+  if (onEdit && !isEditing) {
+    return (
+      <TouchableOpacity onPress={onEdit} activeOpacity={0.7}>
+        {content}
+      </TouchableOpacity>
+    );
+  }
+
+  return content;
 };
 
 const styles = StyleSheet.create({
@@ -110,15 +198,65 @@ const styles = StyleSheet.create({
     color: DUOLINGO_COLORS.green,
   },
   removeButton: {
-    width: 28,
-    height: 28,
-    borderRadius: 14,
-    backgroundColor: DUOLINGO_COLORS.red,
+    width: 25,
+    height: 25,
     justifyContent: 'center',
     alignItems: 'center',
     marginLeft: 8,
   },
   removeButtonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: '700',
+  },
+  editButton: {
+    width: 25,
+    height: 25,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: 8,
+  },
+  editButtonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: '700',
+  },
+  editInput: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#333',
+    borderWidth: 1,
+    borderColor: DUOLINGO_COLORS.blue,
+    borderRadius: 6,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    backgroundColor: '#f8f9fa',
+    marginBottom: 4,
+  },
+  saveButton: {
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    backgroundColor: DUOLINGO_COLORS.green,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: 8,
+  },
+  saveButtonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: '700',
+  },
+  cancelButton: {
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    backgroundColor: DUOLINGO_COLORS.gray,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: 8,
+  },
+  cancelButtonText: {
     color: '#fff',
     fontSize: 16,
     fontWeight: '700',

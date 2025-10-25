@@ -7,7 +7,8 @@ export const calculateTripSummary = (
   places: PlaceWithDuration[],
   availableTime: number
 ): TripSummary => {
-  const totalStayTime = places.reduce((sum, place) => sum + place.stayDuration, 0);
+  // const totalStayTime = places.reduce((sum, place) => sum + place.stayDuration, 0);
+  const totalStayTime = 0;
   const totalTravelTime = places.reduce(
     (sum, place) => sum + (place.travelTimeToNext || 0),
     0

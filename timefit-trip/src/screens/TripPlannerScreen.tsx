@@ -8,6 +8,7 @@ import {
   SafeAreaView,
   Alert,
 } from 'react-native';
+import { MaterialIcons } from '@expo/vector-icons';
 import { useTripStore } from '../stores/tripStore';
 import { TripSummaryCard, PlaceCard, PlaceSearchInput, TransportModePicker, TravelBadge, TripNameDialog, TripShareCard } from '../components';
 import { DEFAULT_STAY_DURATION } from '../constants';
@@ -160,7 +161,11 @@ export const TripPlannerScreen: React.FC<Props> = ({ onBack }) => {
       <View style={styles.header}>
         {onBack && (
           <TouchableOpacity style={styles.backButton} onPress={onBack}>
-            <Text style={styles.backButtonText}>←</Text>
+            <MaterialIcons
+              name="arrow-back"
+              size={25}
+              color={DUOLINGO_COLORS.gray}
+            />
           </TouchableOpacity>
         )}
         <Text style={styles.title}>{currentTrip.name}</Text>
@@ -169,16 +174,22 @@ export const TripPlannerScreen: React.FC<Props> = ({ onBack }) => {
             style={styles.shareButton} 
             onPress={handleShareTrip}
           >
-            <Text style={styles.shareButtonText}>🚀</Text>
+            <MaterialIcons 
+              name="ios-share" 
+              size={25} 
+              color={DUOLINGO_COLORS.blue}
+            />
           </TouchableOpacity>
           <TouchableOpacity 
             style={[styles.saveButton, isSaving && styles.saveButtonDisabled]} 
             onPress={handleSaveTrip}
             disabled={isSaving}
           >
-            <Text style={styles.saveButtonText}>
-              {isSaving ? '저장 중...' : '저장'}
-            </Text>
+            <MaterialIcons
+              name={isSaving ? "autorenew" : "check"}
+              size={25}
+              color={DUOLINGO_COLORS.green}
+            />
           </TouchableOpacity>
         </View>
       </View>
@@ -218,9 +229,12 @@ export const TripPlannerScreen: React.FC<Props> = ({ onBack }) => {
                     place={place}
                     index={index}
                     onRemove={() => removePlace(place.id)}
-                    onUpdateDuration={(duration) =>
-                      updatePlace(place.id, { stayDuration: duration })
-                    }
+                    onEdit={() => {
+                      // 기존 편집 기능 (체류 시간 수정 등)
+                    }}
+                    onUpdateName={(newName) => {
+                      updatePlace(place.id, { name: newName });
+                    }}
                   />
                   
                   {/* 다음 장소가 있으면 이동 뱃지 표시 */}
@@ -319,29 +333,22 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   shareButton: {
-    backgroundColor: DUOLINGO_COLORS.blue,
     width: 40,
     height: 40,
     borderRadius: 20,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  shareButtonText: {
-    fontSize: 16,
-    color: '#fff',
-  },
   saveButton: {
-    backgroundColor: DUOLINGO_COLORS.red,
-    paddingHorizontal: 20,
+    paddingHorizontal: 10,
     paddingVertical: 10,
     borderRadius: 20,
   },
   saveButtonDisabled: {
-    backgroundColor: DUOLINGO_COLORS.gray,
     opacity: 0.6,
   },
   saveButtonText: {
-    color: '#fff',
+    color: '#333',
     fontSize: 16,
     fontWeight: '600',
   },

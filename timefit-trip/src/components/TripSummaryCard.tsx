@@ -38,10 +38,6 @@ export const TripSummaryCard: React.FC<Props> = ({ summary }) => {
 
       {/* 시간 정보 */}
       <View style={styles.timeInfoContainer}>
-        <View style={styles.timeRow}>
-          <Text style={styles.label}>체류 시간</Text>
-          <Text style={styles.value}>{formatMinutes(totalStayTime)}</Text>
-        </View>
 
         <View style={styles.timeRow}>
           <Text style={styles.label}>이동 시간</Text>
@@ -53,11 +49,6 @@ export const TripSummaryCard: React.FC<Props> = ({ summary }) => {
           <Text style={[styles.totalValue, isOverTime && styles.overTime]}>
             {formatMinutes(totalTime)}
           </Text>
-        </View>
-
-        <View style={[styles.timeRow, styles.totalRow]}>
-          <Text style={styles.totalLabel}>가능 시간</Text>
-          <Text style={styles.totalValue}>{formatMinutes(availableTime)}</Text>
         </View>
       </View>
 

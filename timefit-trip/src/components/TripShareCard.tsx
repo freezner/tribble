@@ -16,7 +16,7 @@ export const TripShareCard: React.FC<Props> = ({ trip }) => {
     <View style={styles.container}>
       {/* 헤더 */}
       <View style={styles.header}>
-        <Text style={styles.appName}>TimeFit Trip 🗺️</Text>
+        <Text style={styles.appName}>Tribble - 여정 공유</Text>
         <Text style={styles.tripName}>{trip.name}</Text>
       </View>
 
@@ -28,12 +28,6 @@ export const TripShareCard: React.FC<Props> = ({ trip }) => {
             {formatMinutes(summary.totalTime)}
           </Text>
         </View>
-        <View style={styles.summaryRow}>
-          <Text style={styles.summaryLabel}>가능 시간</Text>
-          <Text style={styles.summaryValue}>
-            {formatMinutes(summary.availableTime)}
-          </Text>
-        </View>
         <View style={[styles.badge, summary.isOverTime ? styles.overTimeBadge : styles.onTimeBadge]}>
           <Text style={styles.badgeText}>
             {summary.isOverTime ? '⚠️ 시간 초과' : '✅ 여유 있음'}
@@ -43,25 +37,13 @@ export const TripShareCard: React.FC<Props> = ({ trip }) => {
 
       {/* 장소 목록 */}
       <View style={styles.placesContainer}>
-        <Text style={styles.placesTitle}>📍 여정 ({trip.places.length}개 장소)</Text>
+        <Text style={styles.placesTitle}>이동 경로 ({trip.places.length}개의 장소)</Text>
         {trip.places.map((place, index) => {
           const transport = TRANSPORT_MODES.find(t => t.value === (place.transportModeToNext || trip.transportMode));
           const transportIcon = transport?.icon || '🚗';
           
           return (
             <View key={place.id}>
-              {/* 장소 */}
-              <View style={styles.placeRow}>
-                <View style={styles.placeNumber}>
-                  <Text style={styles.placeNumberText}>{index + 1}</Text>
-                </View>
-                <View style={styles.placeInfo}>
-                  <Text style={styles.placeName}>{place.name}</Text>
-                  <Text style={styles.placeDetail}>
-                    ⏱️ 체류 {formatMinutes(place.stayDuration)}
-                  </Text>
-                </View>
-              </View>
 
               {/* 이동 정보 */}
               {place.travelTimeToNext !== undefined && (
@@ -83,7 +65,7 @@ export const TripShareCard: React.FC<Props> = ({ trip }) => {
       {/* 푸터 */}
       <View style={styles.footer}>
         <Text style={styles.footerText}>
-          TimeFit Trip으로 만든 여행 계획
+          Tribble로 만든 여행 계획
         </Text>
       </View>
     </View>
