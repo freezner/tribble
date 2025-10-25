@@ -7,12 +7,14 @@ import {
   TouchableOpacity,
   SafeAreaView,
 } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { useTripStore } from '../stores/tripStore';
 import { Trip } from '../types';
 import { DUOLINGO_COLORS } from '../constants';
 import { formatMinutes } from '../utils/timeCalculator';
 import { TripShareCard } from '../components';
 import { shareTripAsImage } from '../utils/shareTrip';
+import { MaterialIcons } from '@expo/vector-icons';
 
 interface Props {
   onSelectTrip?: (tripId: string) => void;
@@ -20,6 +22,7 @@ interface Props {
 }
 
 export const SavedTripsScreen: React.FC<Props> = ({ onSelectTrip, onCreateNew }) => {
+  const { t } = useTranslation();
   const { savedTrips, loadAllTrips, deleteTrip, loadTrip } = useTripStore();
   const shareViewRef = useRef<View>(null);
   const [shareTrip, setShareTrip] = useState<Trip | null>(null);
@@ -53,7 +56,7 @@ export const SavedTripsScreen: React.FC<Props> = ({ onSelectTrip, onCreateNew })
           <Text style={styles.tripName}>{item.name}</Text>
           <View style={styles.tripInfo}>
             <Text style={styles.tripInfoText}>
-              📍 {totalPlaces}개 장소
+              📍 {totalPlaces} {t('savedTripCount')}
             </Text>
             <Text style={styles.tripInfoText}>
               ⏱️ {formatMinutes(totalTime)}
@@ -69,7 +72,11 @@ export const SavedTripsScreen: React.FC<Props> = ({ onSelectTrip, onCreateNew })
               handleShareTrip(item);
             }}
           >
-            <Text style={styles.shareButtonText}>🚀</Text>
+            <MaterialIcons
+              name="share"
+              size={20}
+              color={DUOLINGO_COLORS.blue}
+            />
           </TouchableOpacity>
           
           <TouchableOpacity
@@ -79,7 +86,11 @@ export const SavedTripsScreen: React.FC<Props> = ({ onSelectTrip, onCreateNew })
               handleDeleteTrip(item.id);
             }}
           >
-            <Text style={styles.deleteButtonText}>🗑️</Text>
+            <MaterialIcons
+              name="delete"
+              size={20}
+              color={DUOLINGO_COLORS.red}
+            />
           </TouchableOpacity>
         </View>
       </TouchableOpacity>
@@ -103,18 +114,17 @@ export const SavedTripsScreen: React.FC<Props> = ({ onSelectTrip, onCreateNew })
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.title}>저장된 여행</Text>
+        <Text style={styles.title}>{t('savedTripTitle')}</Text>
       </View>
 
       {savedTrips.length === 0 ? (
         <View style={styles.emptyContainer}>
           <Text style={styles.emptyEmoji}>🗺️</Text>
           <Text style={styles.emptyText}>
-            저장된 여행이 없습니다
+            {t('noSavedTrips')}
           </Text>
           <Text style={styles.emptySubtext}>
-            하단 중앙의 + 버튼을 눌러{'\n'}
-            새로운 여행을 시작하세요!
+            {t('noSavedTripsDescription')}
           </Text>
         </View>
       ) : (

@@ -11,6 +11,7 @@ import {
 import { searchPlaces, getPlaceDetails } from '../services/googleApi';
 import { GooglePlaceAutocomplete } from '../types';
 import { DUOLINGO_COLORS } from '../constants';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   onPlaceSelected: (place: {
@@ -26,6 +27,7 @@ export const PlaceSearchInput: React.FC<Props> = ({ onPlaceSelected }) => {
   const [searchText, setSearchText] = useState('');
   const [results, setResults] = useState<GooglePlaceAutocomplete[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const { t } = useTranslation();
 
   const handleSearch = async (text: string) => {
     setSearchText(text);
@@ -71,7 +73,7 @@ export const PlaceSearchInput: React.FC<Props> = ({ onPlaceSelected }) => {
       <View style={styles.searchContainer}>
         <TextInput
           style={styles.searchInput}
-          placeholder="장소를 검색하세요..."
+          placeholder={t('searchPlace')}
           value={searchText}
           onChangeText={handleSearch}
           placeholderTextColor={DUOLINGO_COLORS.gray}

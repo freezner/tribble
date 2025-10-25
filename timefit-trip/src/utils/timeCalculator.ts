@@ -30,16 +30,23 @@ export const calculateTripSummary = (
 /**
  * 분을 시간:분 형식으로 변환합니다
  */
-export const formatMinutes = (minutes: number): string => {
+export const formatMinutes = (
+  minutes: number, 
+  translations?: { hours: string; minutes: string }
+): string => {
   const hours = Math.floor(Math.abs(minutes) / 60);
   const mins = Math.abs(minutes) % 60;
   const sign = minutes < 0 ? '-' : '';
   
+  // 번역이 제공되지 않으면 기본 한국어 사용
+  const hoursText = translations?.hours || '시간';
+  const minutesText = translations?.minutes || '분';
+  
   if (hours === 0) {
-    return `${sign}${mins}분`;
+    return `${sign}${mins}${minutesText}`;
   }
   
-  return `${sign}${hours}시간 ${mins > 0 ? `${mins}분` : ''}`.trim();
+  return `${sign}${hours}${hoursText} ${mins > 0 ? `${mins}${minutesText}` : ''}`.trim();
 };
 
 /**

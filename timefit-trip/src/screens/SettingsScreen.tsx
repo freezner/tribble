@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -7,63 +7,92 @@ import {
   SafeAreaView,
   Alert,
   ScrollView,
+  Modal,
 } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { useTripStore } from '../stores/tripStore';
+import { useLanguage, SupportedLanguage } from '../hooks/useLanguage';
 import { DUOLINGO_COLORS } from '../constants';
 import { MaterialIcons } from '@expo/vector-icons';
 
 export const SettingsScreen: React.FC = () => {
+  const { t } = useTranslation();
   const { savedTrips, clearAllTrips } = useTripStore();
+  const { currentLanguage, changeLanguage, getLanguageName } = useLanguage();
+  const [showLanguageModal, setShowLanguageModal] = useState(false);
 
   const handleClearAllTrips = () => {
     Alert.alert(
-      '모든 여행 삭제',
-      `${savedTrips.length}개의 저장된 여행이 모두 삭제됩니다.\n계속하시겠습니까?`,
+      t('deleteAllTrips'),
+      t('deleteAllTripsConfirm', { count: savedTrips.length }),
       [
         {
-          text: '취소',
+          text: t('cancel'),
           style: 'cancel',
         },
         {
-          text: '삭제',
+          text: t('delete'),
           style: 'destructive',
           onPress: () => {
             clearAllTrips();
-            Alert.alert('완료', '모든 여행이 삭제되었습니다.');
+            Alert.alert(t('complete'), t('allTripsDeleted'));
           },
         },
       ]
     );
   };
 
+  const handleLanguageSelect = async (language: SupportedLanguage) => {
+    await changeLanguage(language);
+    setShowLanguageModal(false);
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.title}>설정</Text>
+        <Text style={styles.title}>{t('settings')}</Text>
       </View>
 
       <ScrollView style={styles.content}>
         {/* 앱 정보 */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>앱 정보</Text>
+          <Text style={styles.sectionTitle}>{t('appInfo')}</Text>
           
           <View style={styles.infoCard}>
             <Text style={styles.appName}>Tribble</Text>
-            <Text style={styles.appVersion}>버전 1.0.0</Text>
+            <Text style={styles.appVersion}>{t('appVersion')} 1.0.0</Text>
             <Text style={styles.appDescription}>
-              여행 시간을 계획하는 똑똑한 플래너
+              {t('appDescription')}
             </Text>
           </View>
         </View>
 
+        {/* 언어 설정 */}
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>{t('language')}</Text>
+          
+          <TouchableOpacity
+            style={styles.card}
+            onPress={() => setShowLanguageModal(true)}
+          >
+            <View style={styles.settingRow}>
+              <View style={styles.settingInfo}>
+                <Text style={styles.settingLabel}>{t('selectLanguage')}</Text>
+                <Text style={styles.settingValue}>{getLanguageName(currentLanguage)}</Text>
+              </View>
+              <MaterialIcons name="chevron-right" size={24} color={DUOLINGO_COLORS.gray} />
+            </View>
+          </TouchableOpacity>
+        </View>
+
         {/* 데이터 관리 */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>저장 목록 관리</Text>
+          <Text style={styles.sectionTitle}>{t('savedTripList')}</Text>
           
           <View style={styles.card}>
             <View style={styles.statRow}>
-              <Text style={styles.statLabel}>저장된 여행</Text>
-              <Text style={styles.statValue}>{savedTrips.length}개</Text>
+              <Text style={styles.statLabel}>{t('savedTripListDescription')}</Text>
+              <Text style={styles.statValue}>{savedTrips.length}{t('number')}</Text>
             </View>
           </View>
 
@@ -78,9 +107,9 @@ export const SettingsScreen: React.FC = () => {
               color={DUOLINGO_COLORS.red}
             />
             <View style={styles.dangerButtonTextContainer}>
-              <Text style={styles.dangerButtonText}>모든 여행 삭제</Text>
+              <Text style={styles.dangerButtonText}>{t('deleteAllTrips')}</Text>
               <Text style={styles.dangerButtonSubtext}>
-                저장된 모든 여행이 삭제됩니다
+                {t('deleteAllTripsConfirm')}
               </Text>
             </View>
           </TouchableOpacity>
@@ -88,6 +117,51 @@ export const SettingsScreen: React.FC = () => {
 
         <View style={styles.bottomSpacer} />
       </ScrollView>
+
+      {/* 언어 선택 모달 */}
+      <Modal
+        visible={showLanguageModal}
+        transparent
+        animationType="slide"
+        onRequestClose={() => setShowLanguageModal(false)}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            <View style={styles.modalHeader}>
+              <Text style={styles.modalTitle}>{t('selectLanguage')}</Text>
+              <TouchableOpacity
+                style={styles.modalCloseButton}
+                onPress={() => setShowLanguageModal(false)}
+              >
+                <MaterialIcons name="close" size={24} color={DUOLINGO_COLORS.gray} />
+              </TouchableOpacity>
+            </View>
+
+            <View style={styles.languageList}>
+              {(['ko', 'en', 'ja', 'zh'] as SupportedLanguage[]).map((language) => (
+                <TouchableOpacity
+                  key={language}
+                  style={[
+                    styles.languageItem,
+                    currentLanguage === language && styles.languageItemActive
+                  ]}
+                  onPress={() => handleLanguageSelect(language)}
+                >
+                  <Text style={[
+                    styles.languageName,
+                    currentLanguage === language && styles.languageNameActive
+                  ]}>
+                    {getLanguageName(language)}
+                  </Text>
+                  {currentLanguage === language && (
+                    <MaterialIcons name="check" size={24} color={DUOLINGO_COLORS.blue} />
+                  )}
+                </TouchableOpacity>
+              ))}
+            </View>
+          </View>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 };
@@ -237,6 +311,76 @@ const styles = StyleSheet.create({
   },
   bottomSpacer: {
     height: 40,
+  },
+  // 언어 선택 관련 스타일
+  settingRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  settingInfo: {
+    flex: 1,
+  },
+  settingLabel: {
+    fontSize: 16,
+    fontWeight: '500',
+    color: '#333',
+    marginBottom: 2,
+  },
+  settingValue: {
+    fontSize: 14,
+    color: DUOLINGO_COLORS.gray,
+  },
+  // 모달 스타일
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'flex-end',
+  },
+  modalContent: {
+    backgroundColor: '#fff',
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    paddingBottom: 40,
+  },
+  modalHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 20,
+    paddingVertical: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: DUOLINGO_COLORS.lightGray,
+  },
+  modalTitle: {
+    fontSize: 20,
+    fontWeight: '700',
+    color: '#333',
+  },
+  modalCloseButton: {
+    padding: 4,
+  },
+  languageList: {
+    paddingHorizontal: 20,
+  },
+  languageItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingVertical: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: DUOLINGO_COLORS.lightGray,
+  },
+  languageItemActive: {
+    backgroundColor: '#f8f9fa',
+  },
+  languageName: {
+    fontSize: 16,
+    color: '#333',
+  },
+  languageNameActive: {
+    color: DUOLINGO_COLORS.blue,
+    fontWeight: '600',
   },
 });
 

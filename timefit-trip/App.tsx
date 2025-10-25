@@ -4,10 +4,13 @@ import { StatusBar } from 'expo-status-bar';
 import { TripPlannerScreen, SavedTripsScreen, SettingsScreen } from './src/screens';
 import { BottomNav } from './src/components';
 import { useTripStore } from './src/stores/tripStore';
+import './src/i18n';
+import { useTranslation } from 'react-i18next';
 
 export default function App() {
   const [currentScreen, setCurrentScreen] = useState<'home' | 'planner' | 'settings'>('home');
   const { createTrip } = useTripStore();
+  const { t } = useTranslation();
 
   useEffect(() => {
     // 하단 에러 토스트 및 경고 메시지 비활성화
@@ -21,7 +24,7 @@ export default function App() {
   }, []);
 
   const handleCreateNew = () => {
-    createTrip('새 여행');
+    createTrip(t('newTrip'));
     setCurrentScreen('planner');
   };
 

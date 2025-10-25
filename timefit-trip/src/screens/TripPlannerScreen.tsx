@@ -15,6 +15,7 @@ import { DEFAULT_STAY_DURATION } from '../constants';
 import { DUOLINGO_COLORS } from '../constants';
 import { TransportMode } from '../types';
 import { shareTripAsImage } from '../utils/shareTrip';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   onBack?: () => void;
@@ -41,12 +42,13 @@ export const TripPlannerScreen: React.FC<Props> = ({ onBack }) => {
   const [isAddingNewPlace, setIsAddingNewPlace] = useState(false);
   
   const shareViewRef = useRef<View>(null);
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (!currentTrip) {
-      createTrip('새 여행');
+      createTrip(t('newTrip'));
     }
-  }, []);
+  }, [createTrip, currentTrip]);
 
   const handleAddPlace = (placeData: {
     name: string;
@@ -96,7 +98,7 @@ export const TripPlannerScreen: React.FC<Props> = ({ onBack }) => {
       else {
         updatePlace(pendingPlace.id, { transportModeToNext: mode });
         await recalculateTravelTimes();
-        Alert.alert('완료', '이동 시간이 재계산되었습니다!');
+        Alert.alert(t('complete'), t('resetTravelTime'));
         setPendingPlace(null);
       }
     }
@@ -104,7 +106,7 @@ export const TripPlannerScreen: React.FC<Props> = ({ onBack }) => {
 
   const handleSaveTrip = () => {
     if (!currentTrip || currentTrip.places.length === 0) {
-      Alert.alert('알림', '저장할 장소가 없습니다. 먼저 장소를 추가해주세요.');
+      Alert.alert(t('alert'), t('noPlacesToSave'));
       return;
     }
     setShowNameDialog(true);
@@ -123,11 +125,11 @@ export const TripPlannerScreen: React.FC<Props> = ({ onBack }) => {
       // 여정 저장
       await saveCurrentTrip();
       
-      Alert.alert('저장 완료', `"${tripName}" 여정이 저장되었습니다!`);
+      Alert.alert(t('saveComplete'), t('tripSavedSuccess', { tripName }));
       console.log('여행 저장 완료:', tripName);
     } catch (error) {
       console.error('저장 실패:', error);
-      Alert.alert('오류', '저장 중 문제가 발생했습니다.');
+      Alert.alert(t('error'), t('saveError'));
     } finally {
       setIsSaving(false);
     }
@@ -135,7 +137,7 @@ export const TripPlannerScreen: React.FC<Props> = ({ onBack }) => {
 
   const handleShareTrip = async () => {
     if (!currentTrip || currentTrip.places.length === 0) {
-      Alert.alert('알림', '공유할 장소가 없습니다.');
+      Alert.alert(t('alert'), t('noPlacesToShare'));
       return;
     }
 
@@ -150,7 +152,7 @@ export const TripPlannerScreen: React.FC<Props> = ({ onBack }) => {
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.emptyContainer}>
-          <Text style={styles.emptyText}>여행을 생성하는 중...</Text>
+          <Text style={styles.emptyText}>{t('creatingTrip')}</Text>
         </View>
       </SafeAreaView>
     );
@@ -201,7 +203,7 @@ export const TripPlannerScreen: React.FC<Props> = ({ onBack }) => {
         {/* 이동 시간 계산 중 표시 */}
         {isLoading && (
           <View style={styles.loadingContainer}>
-            <Text style={styles.loadingText}>이동 시간 계산 중...</Text>
+            <Text style={styles.loadingText}>{t('calculatingTravelTime')}</Text>
           </View>
         )}
 
@@ -214,7 +216,7 @@ export const TripPlannerScreen: React.FC<Props> = ({ onBack }) => {
         {currentTrip.places.length === 0 ? (
           <View style={styles.emptyPlacesContainer}>
             <Text style={styles.emptyPlacesText}>
-              장소를 추가해서 여행 계획을 시작하세요!
+              {t('startPlanningTrip')}
             </Text>
           </View>
         ) : (

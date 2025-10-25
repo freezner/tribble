@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { TransportMode } from '../types';
 import { formatMinutes } from '../utils/timeCalculator';
 import { DUOLINGO_COLORS, TRANSPORT_MODES } from '../constants';
@@ -19,6 +20,7 @@ export const TravelBadge: React.FC<Props> = ({
   onPress,
   editable = true,
 }) => {
+  const { t } = useTranslation();
   const transport = TRANSPORT_MODES.find(t => t.value === transportMode);
   const transportIcon = transport?.icon || '🚗';
   const transportLabel = transport?.label || '자동차';
@@ -29,7 +31,7 @@ export const TravelBadge: React.FC<Props> = ({
       <View style={styles.badge}>
         <Text style={styles.icon}>{transportIcon}</Text>
         <Text style={styles.label}>{transportLabel}</Text>
-        <Text style={styles.time}>{formatMinutes(travelTime)}</Text>
+        <Text style={styles.time}>{formatMinutes(travelTime, { hours: t('hours'), minutes: t('minutes') })}</Text>
         {travelDistance && (
           <>
             <Text style={styles.separator}>·</Text>

@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import { TransportMode } from '../types';
 import { TRANSPORT_MODES, DUOLINGO_COLORS } from '../constants';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   visible: boolean;
@@ -24,6 +25,7 @@ export const TransportModePicker: React.FC<Props> = ({
   onClose,
   destinationName,
 }) => {
+  const { t } = useTranslation();
   const handleSelect = (mode: TransportMode) => {
     onSelect(mode);
     onClose();
@@ -43,7 +45,7 @@ export const TransportModePicker: React.FC<Props> = ({
       >
         <View style={styles.container}>
           <View style={styles.header}>
-            <Text style={styles.title}>이동 수단 선택</Text>
+            <Text style={styles.title}>{t('transportMode')}</Text>
             {destinationName && (
               <Text style={styles.subtitle}>→ {destinationName}</Text>
             )}
@@ -68,7 +70,11 @@ export const TransportModePicker: React.FC<Props> = ({
                       isSelected && styles.optionLabelSelected,
                     ]}
                   >
-                    {transport.label}
+                    {transport.value === 'driving' ? t('driving') 
+                    : transport.value === 'walking' ? t('walking') 
+                    : transport.value === 'transit' ? t('transit') 
+                    : transport.value === 'bicycling' ? t('bicycling') 
+                    : ''}
                   </Text>
                   {isSelected && (
                     <Text style={styles.checkmark}>✓</Text>
@@ -79,7 +85,7 @@ export const TransportModePicker: React.FC<Props> = ({
           </View>
 
           <TouchableOpacity style={styles.closeButton} onPress={onClose}>
-            <Text style={styles.closeButtonText}>닫기</Text>
+            <Text style={styles.closeButtonText}>{t('close')}</Text>
           </TouchableOpacity>
         </View>
       </TouchableOpacity>

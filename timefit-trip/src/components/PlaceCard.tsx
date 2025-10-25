@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, TextInput, Alert } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { PlaceWithDuration } from '../types';
 import { DUOLINGO_COLORS } from '../constants';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -19,6 +20,7 @@ export const PlaceCard: React.FC<Props> = ({
   onEdit,
   onUpdateName,
 }) => {
+  const { t } = useTranslation();
   const [isEditing, setIsEditing] = useState(false);
   const [editedName, setEditedName] = useState(place.name);
 
@@ -32,7 +34,7 @@ export const PlaceCard: React.FC<Props> = ({
 
   const handleSave = () => {
     if (editedName.trim() === '') {
-      Alert.alert('오류', '장소 이름을 입력해주세요.');
+      Alert.alert(t('error'), t('placeNameRequired'));
       return;
     }
     
@@ -49,15 +51,15 @@ export const PlaceCard: React.FC<Props> = ({
 
   const handleRemove = () => {
     Alert.alert(
-      '장소 삭제',
-      `"${place.name}"을 경로에서 삭제하시겠습니까?`,
+      t('placeDelete'),
+      t('placeDeleteConfirm', { placeName: place.name }),
       [
         {
-          text: '취소',
+          text: t('cancel'),
           style: 'cancel',
         },
         {
-          text: '삭제',
+          text: t('delete'),
           style: 'destructive',
           onPress: onRemove,
         },

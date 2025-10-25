@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
+import { useTranslation } from 'react-i18next';
 import { DUOLINGO_COLORS } from '../constants';
 
 interface Props {
@@ -10,6 +11,7 @@ interface Props {
 }
 
 export const BottomNav: React.FC<Props> = ({ activeScreen, onNavigate, onCreateNew }) => {
+  const { t } = useTranslation();
   return (
     <View style={styles.container}>
       {/* 홈 버튼 */}
@@ -19,7 +21,7 @@ export const BottomNav: React.FC<Props> = ({ activeScreen, onNavigate, onCreateN
       >
         <MaterialIcons 
           name="home" 
-          size={24} 
+          size={30} 
           color={activeScreen === 'home' ? DUOLINGO_COLORS.gray : '#999'}
           style={{ marginBottom: 4 }}
         />
@@ -43,7 +45,7 @@ export const BottomNav: React.FC<Props> = ({ activeScreen, onNavigate, onCreateN
       >
         <MaterialIcons 
           name="settings" 
-          size={24} 
+          size={30} 
           color={activeScreen === 'settings' ? DUOLINGO_COLORS.gray : '#999'}
           style={{ marginBottom: 4 }}
         />

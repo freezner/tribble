@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { TripSummary } from '../types';
 import { formatMinutes } from '../utils/timeCalculator';
 import { DUOLINGO_COLORS } from '../constants';
@@ -9,6 +10,7 @@ interface Props {
 }
 
 export const TripSummaryCard: React.FC<Props> = ({ summary }) => {
+  const { t } = useTranslation();
   const {
     totalStayTime,
     totalTravelTime,
@@ -40,22 +42,16 @@ export const TripSummaryCard: React.FC<Props> = ({ summary }) => {
       <View style={styles.timeInfoContainer}>
 
         <View style={styles.timeRow}>
-          <Text style={styles.label}>이동 시간</Text>
-          <Text style={styles.value}>{formatMinutes(totalTravelTime)}</Text>
+          <Text style={styles.label}>{t('travelTime')}</Text>
+          <Text style={styles.value}>{formatMinutes(totalTravelTime, { hours: t('hours'), minutes: t('minutes') })}</Text>
         </View>
 
-        <View style={[styles.timeRow, styles.totalRow]}>
-          <Text style={styles.totalLabel}>총 소요</Text>
-          <Text style={[styles.totalValue, isOverTime && styles.overTime]}>
-            {formatMinutes(totalTime)}
-          </Text>
-        </View>
       </View>
 
       {/* 남은/초과 시간 */}
       <View style={[styles.remainingContainer, isOverTime && styles.overTimeContainer]}>
         <Text style={[styles.remainingText, isOverTime && styles.overTimeText]}>
-          {isOverTime ? '시간 초과' : '남은 시간'}: {formatMinutes(Math.abs(remainingTime))}
+          {t('totalTime')}: {formatMinutes(totalTime, { hours: t('hours'), minutes: t('minutes') })}
         </Text>
       </View>
     </View>
@@ -122,7 +118,7 @@ const styles = StyleSheet.create({
     color: DUOLINGO_COLORS.red,
   },
   remainingContainer: {
-    backgroundColor: DUOLINGO_COLORS.green,
+    backgroundColor: DUOLINGO_COLORS.red,
     borderRadius: 8,
     padding: 12,
     alignItems: 'center',
