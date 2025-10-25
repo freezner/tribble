@@ -2,14 +2,14 @@
   "expo": {
     "name": "Tribble",
     "slug": "tribble",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#bb3f2a"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
