@@ -461,6 +461,7 @@ defaultConfig {
 - [ ] `android/app/build.gradle`의 `versionName` 업데이트
 - [ ] `android/app/build.gradle`의 `versionCode` 증가
 - [ ] `SettingsScreen.tsx`의 표시 버전 업데이트
+- [ ] `ios/Tribble/Info.plist`의 <string>{{version}}</string> 증가
 
 ### 새 빌드 및 제출
 
