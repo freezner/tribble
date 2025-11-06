@@ -404,26 +404,82 @@ interface PlaceWithDuration {
 
 ## 🔄 업데이트 배포
 
-### 버전 증가
+### 배포 전 버전 업데이트
 
-`app.json` 수정:
+배포하기 전에 다음 파일들의 버전을 일관되게 업데이트해야 합니다:
+
+#### 1. `package.json`
 ```json
 {
-  "version": "1.0.0" → "1.1.0",
-  "ios": {
-    "buildNumber": "1" → "2"
+  "version": "1.0.4" → "1.0.5"
+}
+```
+
+#### 2. `app.json`
+```json
+{
+  "expo": {
+    "version": "1.0.4" → "1.0.5",
+    "ios": {
+      "buildNumber": "5" → "6"  // iOS는 매번 증가 필요
+    },
+    "android": {
+      "versionCode": 1 → 2  // Android는 매번 증가 필요
+    }
   }
 }
 ```
 
+#### 3. `android/app/build.gradle`
+```gradle
+defaultConfig {
+    versionCode 1 → 2
+    versionName "1.0.4" → "1.0.5"
+}
+```
+
+#### 4. `src/screens/SettingsScreen.tsx`
+```typescript
+// 화면에 표시되는 버전도 업데이트
+<Text style={styles.appVersion}>{t('appVersion')} 1.0.5</Text>
+```
+
+### 버전 번호 규칙
+
+- **Major.Minor.Patch** 형식 사용 (예: `1.0.5`)
+  - **Major**: 큰 기능 변경, 호환성 깨짐
+  - **Minor**: 새로운 기능 추가
+  - **Patch**: 버그 수정, 작은 개선
+
+### 버전 업데이트 체크리스트
+
+배포 전 확인:
+- [ ] `package.json`의 `version` 업데이트
+- [ ] `app.json`의 `version` 업데이트
+- [ ] `app.json`의 iOS `buildNumber` 증가
+- [ ] `app.json`의 Android `versionCode` 증가
+- [ ] `android/app/build.gradle`의 `versionName` 업데이트
+- [ ] `android/app/build.gradle`의 `versionCode` 증가
+- [ ] `SettingsScreen.tsx`의 표시 버전 업데이트
+
 ### 새 빌드 및 제출
 
 ```bash
-# 빌드
-eas build --platform ios --profile production
+# 1. 버전 업데이트 완료 후 빌드
+eas build --platform ios --profile production --clear-cache
 
-# 제출
+# 2. App Store 제출
 eas submit --platform ios --latest
+```
+
+### Android 배포
+
+```bash
+# Android 빌드
+eas build --platform android --profile production
+
+# Google Play Console 제출
+eas submit --platform android --latest
 ```
 
 ---

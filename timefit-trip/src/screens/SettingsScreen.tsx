@@ -92,7 +92,7 @@ export const SettingsScreen: React.FC = () => {
           
           <View style={styles.infoCard}>
             <Text style={styles.appName}>Tribble</Text>
-            <Text style={styles.appVersion}>{t('appVersion')} 1.0.1</Text>
+            <Text style={styles.appVersion}>{t('appVersion')} 1.0.5</Text>
             <Text style={styles.appDescription}>
               {t('appDescription')}
             </Text>
