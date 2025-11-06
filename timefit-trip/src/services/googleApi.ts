@@ -9,7 +9,7 @@ const DISTANCE_MATRIX_API_BASE = 'https://maps.googleapis.com/maps/api/distancem
 /**
  * 두 좌표 간 직선 거리를 계산 (Haversine formula)
  */
-const calculateStraightDistance = (
+export const calculateStraightDistance = (
   lat1: number,
   lng1: number,
   lat2: number,

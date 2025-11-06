@@ -16,6 +16,7 @@ import { DUOLINGO_COLORS } from '../constants';
 import { TransportMode } from '../types';
 import { shareTripAsImage } from '../utils/shareTrip';
 import { useTranslation } from 'react-i18next';
+import { calculateStraightDistance } from '../services/googleApi';
 
 interface Props {
   onBack?: () => void;
@@ -69,8 +70,34 @@ export const TripPlannerScreen: React.FC<Props> = ({ onBack }) => {
       stayDuration: DEFAULT_STAY_DURATION,
     };
 
-    // 첫 번째 장소가 아니면 이동 수단 선택
+    // 첫 번째 장소가 아니면 거리 체크 및 이동 수단 선택
     if (currentTrip && currentTrip.places.length > 0) {
+      // 마지막 장소와 새 장소 간의 거리 계산
+      const lastPlace = currentTrip.places[currentTrip.places.length - 1];
+      const distance = calculateStraightDistance(
+        lastPlace.latitude,
+        lastPlace.longitude,
+        placeData.latitude,
+        placeData.longitude
+      );
+      
+      // 30km (30000m) 이상이면 경고 메시지 표시
+      if (distance >= 30000) {
+        Alert.alert(
+          t('alert'),
+          t('distanceTooFar'),
+          [{ 
+            text: t('ok'), 
+            onPress: () => {
+              setPendingPlace(newPlace);
+              setIsAddingNewPlace(true);
+              setShowTransportPicker(true);
+            }
+          }]
+        );
+        return;
+      }
+      
       setPendingPlace(newPlace);
       setIsAddingNewPlace(true);
       setShowTransportPicker(true);
@@ -177,9 +204,9 @@ export const TripPlannerScreen: React.FC<Props> = ({ onBack }) => {
             onPress={handleShareTrip}
           >
             <MaterialIcons 
-              name="ios-share" 
-              size={25} 
-              color={DUOLINGO_COLORS.blue}
+              name="share" 
+              size={23} 
+              color={DUOLINGO_COLORS.gray}
             />
           </TouchableOpacity>
           <TouchableOpacity 
@@ -190,7 +217,7 @@ export const TripPlannerScreen: React.FC<Props> = ({ onBack }) => {
             <MaterialIcons
               name={isSaving ? "autorenew" : "check"}
               size={25}
-              color={DUOLINGO_COLORS.green}
+              color={DUOLINGO_COLORS.red}
             />
           </TouchableOpacity>
         </View>

@@ -14,6 +14,7 @@ const resources = {
       delete: '삭제',
       edit: '수정',
       error: '오류',
+      ok: '확인',
       placeDelete: '장소 삭제',
       share: '공유',
       back: '뒤로',
@@ -33,6 +34,8 @@ const resources = {
       tripSaveComplete: '여행 저장 완료',
       saveFailed: '저장 실패',
       shareFailed: '공유 실패',
+      shareNotAvailable: '공유 기능을 사용할 수 없습니다.',
+      shareError: '공유 중 오류가 발생했습니다.',
       hours: '시간',
       minutes: '분',
       
@@ -62,6 +65,7 @@ const resources = {
       saveTripSuccess: '여행이 저장되었습니다.',
       saveTripError: '여행 저장에 실패했습니다.',
       searchPlace: '장소를 검색하세요...',
+      distanceTooFar: '거리가 너무 멉니다. 소요 시간 정확하지 않을 수 있습니다.',
 
       // 홈
       savedTripTitle: '저장된 여행',
@@ -105,6 +109,7 @@ const resources = {
       delete: 'Delete',
       edit: 'Edit',
       error: 'Error',
+      ok: 'OK',
       placeDelete: 'Delete Place',
       share: 'Share',
       back: 'Back',
@@ -124,6 +129,8 @@ const resources = {
       tripSaveComplete: 'Trip Save Complete',
       saveFailed: 'Save Failed',
       shareFailed: 'Share Failed',
+      shareNotAvailable: 'Sharing is not available.',
+      shareError: 'An error occurred while sharing.',
       hours: 'h',
       minutes: 'm',
       
@@ -153,6 +160,7 @@ const resources = {
       saveTripSuccess: 'Trip saved successfully.',
       saveTripError: 'Failed to save trip.',
       searchPlace: 'Search for a place...',
+      distanceTooFar: 'The distance is too far. The travel time may not be accurate.',
 
       // Home
       savedTripTitle: 'Saved Trip',
@@ -168,7 +176,7 @@ const resources = {
       japanese: 'Japanese',
       chinese: 'Chinese',
       deleteAllTrips: 'Delete All Trips',
-      deleteAllTripsConfirm: 'All saved trips will be deleted.\nContinue?',
+      deleteAllTripsConfirm: 'All {{count}} saved trips will be deleted.\nContinue?',
       complete: 'Complete',
       allTripsDeleted: 'All trips have been deleted.',
       appInfo: 'App Info',
@@ -196,6 +204,7 @@ const resources = {
       delete: '削除',
       edit: '編集',
       error: 'エラー',
+      ok: '確認',
       placeDelete: '場所を削除',
       share: '共有',
       back: '戻る',
@@ -215,6 +224,8 @@ const resources = {
       tripSaveComplete: '旅行保存完了',
       saveFailed: '保存失敗',
       shareFailed: '共有失敗',
+      shareNotAvailable: '共有機能を使用できません。',
+      shareError: '共有中にエラーが発生しました。',
       hours: '時間',
       minutes: '分',
       
@@ -244,6 +255,7 @@ const resources = {
       saveTripSuccess: '旅行が保存されました。',
       saveTripError: '旅行の保存に失敗しました。',
       searchPlace: '場所を検索...',
+      distanceTooFar: '距離が遠すぎます。所要時間が正確でない可能性があります。',
 
       // Home
       savedTripTitle: '保存された旅行',
@@ -287,6 +299,7 @@ const resources = {
       delete: '删除',
       edit: '编辑',
       error: '错误',
+      ok: '确认',
       placeDelete: '删除地点',
       share: '分享',
       back: '返回',
@@ -306,6 +319,8 @@ const resources = {
       tripSaveComplete: '旅行保存完成',
       saveFailed: '保存失败',
       shareFailed: '分享失败',
+      shareNotAvailable: '无法使用分享功能。',
+      shareError: '分享时发生错误。',
       hours: '小时',
       minutes: '分钟',
       
@@ -335,6 +350,7 @@ const resources = {
       saveTripSuccess: '旅行已保存。',
       saveTripError: '保存旅行失败。',
       searchPlace: '地点を検索...',
+      distanceTooFar: '距离太远。旅行时间可能不准确。',
       
       // Home
       savedTripTitle: '保存的旅行',

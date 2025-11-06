@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   View,
   Text,
@@ -8,6 +8,7 @@ import {
   Alert,
   ScrollView,
   Modal,
+  Animated,
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useTripStore } from '../stores/tripStore';
@@ -20,6 +21,19 @@ export const SettingsScreen: React.FC = () => {
   const { savedTrips, clearAllTrips } = useTripStore();
   const { currentLanguage, changeLanguage, getLanguageName } = useLanguage();
   const [showLanguageModal, setShowLanguageModal] = useState(false);
+  const slideAnim = useRef(new Animated.Value(300)).current; // 초기값을 화면 밖으로 설정
+
+  useEffect(() => {
+    if (showLanguageModal) {
+      // 모달이 열릴 때: 아래에서 위로 슬라이드
+      Animated.spring(slideAnim, {
+        toValue: 0,
+        useNativeDriver: true,
+        tension: 65,
+        friction: 11,
+      }).start();
+    }
+  }, [showLanguageModal, slideAnim]);
 
   const handleClearAllTrips = () => {
     Alert.alert(
@@ -44,7 +58,25 @@ export const SettingsScreen: React.FC = () => {
 
   const handleLanguageSelect = async (language: SupportedLanguage) => {
     await changeLanguage(language);
-    setShowLanguageModal(false);
+    // 모달 닫기 애니메이션
+    Animated.timing(slideAnim, {
+      toValue: 300,
+      duration: 250,
+      useNativeDriver: true,
+    }).start(() => {
+      setShowLanguageModal(false);
+    });
+  };
+
+  const handleCloseModal = () => {
+    // 모달 닫기 애니메이션
+    Animated.timing(slideAnim, {
+      toValue: 300,
+      duration: 250,
+      useNativeDriver: true,
+    }).start(() => {
+      setShowLanguageModal(false);
+    });
   };
 
   return (
@@ -109,7 +141,7 @@ export const SettingsScreen: React.FC = () => {
             <View style={styles.dangerButtonTextContainer}>
               <Text style={styles.dangerButtonText}>{t('deleteAllTrips')}</Text>
               <Text style={styles.dangerButtonSubtext}>
-                {t('deleteAllTripsConfirm')}
+                {t('deleteAllTripsConfirm', { count: savedTrips.length })}
               </Text>
             </View>
           </TouchableOpacity>
@@ -122,16 +154,23 @@ export const SettingsScreen: React.FC = () => {
       <Modal
         visible={showLanguageModal}
         transparent
-        animationType="slide"
-        onRequestClose={() => setShowLanguageModal(false)}
+        animationType="fade"
+        onRequestClose={handleCloseModal}
       >
         <View style={styles.modalOverlay}>
-          <View style={styles.modalContent}>
+          <Animated.View
+            style={[
+              styles.modalContent,
+              {
+                transform: [{ translateY: slideAnim }],
+              },
+            ]}
+          >
             <View style={styles.modalHeader}>
               <Text style={styles.modalTitle}>{t('selectLanguage')}</Text>
               <TouchableOpacity
                 style={styles.modalCloseButton}
-                onPress={() => setShowLanguageModal(false)}
+                onPress={handleCloseModal}
               >
                 <MaterialIcons name="close" size={24} color={DUOLINGO_COLORS.gray} />
               </TouchableOpacity>
@@ -159,7 +198,7 @@ export const SettingsScreen: React.FC = () => {
                 </TouchableOpacity>
               ))}
             </View>
-          </View>
+          </Animated.View>
         </View>
       </Modal>
     </SafeAreaView>

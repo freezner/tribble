@@ -34,7 +34,11 @@ export const BottomNav: React.FC<Props> = ({ activeScreen, onNavigate, onCreateN
         activeOpacity={0.8}
       >
         <View style={styles.centerButtonInner}>
-          <Text style={styles.centerButtonText}>+</Text>
+          <MaterialIcons 
+            name="search" 
+            size={30} 
+            color="#fff" 
+          />
         </View>
       </TouchableOpacity>
 
