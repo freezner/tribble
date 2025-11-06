@@ -193,7 +193,7 @@ export const TripPlannerScreen: React.FC<Props> = ({ onBack }) => {
             <MaterialIcons
               name="arrow-back"
               size={25}
-              color={DUOLINGO_COLORS.gray}
+              color={'#000'}
             />
           </TouchableOpacity>
         )}
@@ -206,7 +206,7 @@ export const TripPlannerScreen: React.FC<Props> = ({ onBack }) => {
             <MaterialIcons 
               name="share" 
               size={23} 
-              color={DUOLINGO_COLORS.gray}
+              color={'#000'}
             />
           </TouchableOpacity>
           <TouchableOpacity 
@@ -217,7 +217,7 @@ export const TripPlannerScreen: React.FC<Props> = ({ onBack }) => {
             <MaterialIcons
               name={isSaving ? "autorenew" : "check"}
               size={25}
-              color={DUOLINGO_COLORS.red}
+              color={'#000'}
             />
           </TouchableOpacity>
         </View>

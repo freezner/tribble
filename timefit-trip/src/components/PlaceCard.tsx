@@ -114,7 +114,7 @@ export const PlaceCard: React.FC<Props> = ({
             <MaterialIcons
               name="edit"
               size={20}
-              color={DUOLINGO_COLORS.blue}
+              color={DUOLINGO_COLORS.gray}
             />
           </TouchableOpacity>
           {/* 삭제 버튼 */}

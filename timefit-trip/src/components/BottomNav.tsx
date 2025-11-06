@@ -22,7 +22,7 @@ export const BottomNav: React.FC<Props> = ({ activeScreen, onNavigate, onCreateN
         <MaterialIcons 
           name="home" 
           size={30} 
-          color={activeScreen === 'home' ? DUOLINGO_COLORS.gray : '#999'}
+          color={activeScreen === 'home' ? '#000' : '#999'}
           style={{ marginBottom: 4 }}
         />
       </TouchableOpacity>
@@ -50,7 +50,7 @@ export const BottomNav: React.FC<Props> = ({ activeScreen, onNavigate, onCreateN
         <MaterialIcons 
           name="settings" 
           size={30} 
-          color={activeScreen === 'settings' ? DUOLINGO_COLORS.gray : '#999'}
+          color={activeScreen === 'settings' ? '#000' : '#999'}
           style={{ marginBottom: 4 }}
         />
       </TouchableOpacity>

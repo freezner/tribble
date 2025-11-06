@@ -75,7 +75,7 @@ export const SavedTripsScreen: React.FC<Props> = ({ onSelectTrip, onCreateNew })
             <MaterialIcons
               name="share"
               size={20}
-              color={DUOLINGO_COLORS.blue}
+              color={DUOLINGO_COLORS.gray}
             />
           </TouchableOpacity>
           
@@ -88,8 +88,8 @@ export const SavedTripsScreen: React.FC<Props> = ({ onSelectTrip, onCreateNew })
           >
             <MaterialIcons
               name="delete"
-              size={20}
-              color={DUOLINGO_COLORS.red}
+              size={23}
+              color={DUOLINGO_COLORS.gray}
             />
           </TouchableOpacity>
         </View>
