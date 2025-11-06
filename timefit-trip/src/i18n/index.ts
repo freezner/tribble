@@ -375,17 +375,17 @@ const languageDetector = {
   type: 'languageDetector' as const,
   async: true,
   detect: async (callback: (lng: string) => void) => {
+    // 먼저 기본 언어를 반환
+    callback('ko');
+    
+    // 그 다음 AsyncStorage에서 언어를 확인하고 필요시 변경
     try {
       const savedLanguage = await AsyncStorage.getItem('user-language');
-      if (savedLanguage) {
+      if (savedLanguage && savedLanguage !== 'ko') {
         callback(savedLanguage);
-      } else {
-        // 기본 언어를 한국어로 설정
-        callback('ko');
       }
     } catch (error) {
       console.error('언어 감지 오류:', error);
-      callback('ko');
     }
   },
   init: () => {},
