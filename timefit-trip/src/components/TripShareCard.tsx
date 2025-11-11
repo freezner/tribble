@@ -43,7 +43,20 @@ export const TripShareCard: React.FC<Props> = ({ trip }) => {
           const transportIcon = transport?.icon || '🚗';
           
           return (
-            <View key={place.id}>
+            <View key={place.id} style={styles.placeSection}>
+              {/* 장소 정보 */}
+              <View style={styles.placeRow}>
+                <View style={styles.placeNumber}>
+                  <Text style={styles.placeNumberText}>{index + 1}</Text>
+                </View>
+                <View style={styles.placeInfo}>
+                  <Text style={styles.placeName}>{place.name}</Text>
+                  <Text style={styles.placeDetail}>
+                    ⏱ {formatMinutes(place.stayDuration)}
+                    {place.address ? ` · 📍 ${place.address}` : ''}
+                  </Text>
+                </View>
+              </View>
 
               {/* 이동 정보 */}
               {place.travelTimeToNext !== undefined && (
@@ -136,6 +149,9 @@ const styles = StyleSheet.create({
   },
   placesContainer: {
     marginBottom: 20,
+  },
+  placeSection: {
+    marginBottom: 12,
   },
   placesTitle: {
     fontSize: 16,
