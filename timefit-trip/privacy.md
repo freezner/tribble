@@ -20,7 +20,7 @@ Google의 공식 안내에 따르면 Google Maps Platform의 모든 요청은 �
 
 Google은 서비스 개선·기술 지원·운영·보안 등의 목적으로 로그를 사용하며, 정당한 업무상 필요와 보관 정책에 따라 보관 기간을 정합니다. 해당 공식 안내에는 일률적인 보관 일수가 명시되어 있지 않으며, 익명화된 집계 통계는 더 오래 보관될 수 있습니다. 자세한 내용은 [Google Maps Platform의 데이터 수집·이용·보관 안내](https://developers.google.com/maps/security/compliance/security-compliance#data_collection_usage_and_retention), [Google 개인정보처리방침](https://policies.google.com/privacy), [Google Maps Platform 약관](https://cloud.google.com/maps-platform/terms)을 참고해 주세요.
 
-현재 구현은 기기의 GPS나 현재 위치 센서를 읽지 않습니다. 검색하거나 선택한 장소의 좌표와 사용자의 실시간 위치는 구별됩니다.
+현재 구현은 기기의 GPS나 현재 위치 센서를 읽지 않습니다. 다만 장소 자동완성 검색에 사용하는 Google Places Autocomplete는 IP 주소를 바탕으로 대략적인 지역을 추정해 검색 결과에 반영합니다. 이는 앱이 검색 지역을 따로 지정하지 않을 때 적용되는 Google API의 기본 동작입니다. 검색하거나 선택한 장소의 좌표와 사용자의 실시간 GPS 위치는 구별됩니다. 자세한 내용은 [Google의 장소 자동완성 지역 편향 안내](https://developers.google.com/maps/documentation/places/web-service/legacy/autocomplete#locationbias)를 참고해 주세요.
 
 ## 이미지 공유
 
