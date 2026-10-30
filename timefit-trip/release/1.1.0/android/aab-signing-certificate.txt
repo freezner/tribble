@@ -1,0 +1,25 @@
+서명자 #1:
+
+Certificate #1:
+소유자: CN=Tribble Android Upload
+발행자: CN=Tribble Android Upload
+일련 번호: 43c31d355dff9508
+적합한 시작 날짜: Mon Oct 26 23:28:51 KST 2026 종료 날짜: Fri Mar 13 23:28:51 KST 2054
+인증서 지문:
+	 SHA1: 33:72:28:66:31:6B:3B:FD:07:7B:6F:AC:90:9C:00:29:6C:FF:A2:D6
+	 SHA256: A6:40:CE:E6:29:F9:78:26:FA:C8:F8:5F:C1:13:45:D1:28:EB:C2:ED:C7:D4:F7:C3:0A:6C:95:25:9B:17:A6:25
+서명 알고리즘 이름: SHA256withRSA
+주체 공용 키 알고리즘: 2048비트 RSA 키
+버전: 3
+
+확장: 
+
+#1: ObjectId: 2.5.29.14 Criticality=false
+SubjectKeyIdentifier [
+KeyIdentifier [
+0000: 09 05 DE 82 31 16 D8 F1   E9 74 E8 D1 10 06 B6 25  ....1....t.....%
+0010: 2C 8C 01 10                                        ,...
+]
+]
+
+

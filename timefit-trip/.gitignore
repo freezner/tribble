@@ -38,6 +38,9 @@ yarn-error.log
 
 # Bundle artifacts
 *.jsbundle
+*.aab
+*.apk
+*.apks
 
 # CocoaPods
 /ios/Pods/
@@ -65,3 +68,11 @@ web-build/
 
 # Metro
 .metro-health-check*
+
+# Private app signing credentials
+/credentials.json
+*.p12
+*.mobileprovision
+*.p8
+*.key
+*.jks

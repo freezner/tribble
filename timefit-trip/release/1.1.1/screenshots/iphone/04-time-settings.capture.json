@@ -1,0 +1,13 @@
+{
+  "capturedAt": "2026-10-30T00:37:20.680205+00:00",
+  "deviceName": "Tribble Store39 iPhone",
+  "udid": "DAF2D8B1-8C71-4FDD-83A7-5A96725F8E20",
+  "filename": "04-time-settings.jpg",
+  "dimensions": [
+    1206,
+    2622
+  ],
+  "mode": "RGB",
+  "sha256": "d4d31182ce3f5f6f05a3750bd73f2af321d5cee68773c4d5fe1e795e5161864f",
+  "method": "xcrun simctl io screenshot --type=jpeg; no image editing"
+}

@@ -1,0 +1,514 @@
+{
+  "bundle": "/Users/hyungjin/git-repo/tribble/timefit-trip/release/1.1.0/android/tribble-1.1.0-6.aab",
+  "libraryCount64Bit": 24,
+  "allLoadAlignmentsPass": true,
+  "allRelroPass": true,
+  "libraries": [
+    {
+      "library": "base/lib/arm64-v8a/libc++_shared.so",
+      "loadAlignments": [
+        16384,
+        16384,
+        16384,
+        16384
+      ],
+      "loadAlignmentPass": true,
+      "relro": [
+        {
+          "vaddr": "0x1392f0",
+          "memsz": "0x9d10",
+          "end": "0x143000",
+          "aligned16KB": false,
+          "dedicatedLoad": true,
+          "subsequentWritableOverlap": false,
+          "pass": true
+        }
+      ],
+      "relroPass": true
+    },
+    {
+      "library": "base/lib/arm64-v8a/libexpo-modules-core.so",
+      "loadAlignments": [
+        16384,
+        16384,
+        16384
+      ],
+      "loadAlignmentPass": true,
+      "relro": [
+        {
+          "vaddr": "0x122760",
+          "memsz": "0x88a0",
+          "end": "0x12b000",
+          "aligned16KB": false,
+          "dedicatedLoad": true,
+          "subsequentWritableOverlap": false,
+          "pass": true
+        }
+      ],
+      "relroPass": true
+    },
+    {
+      "library": "base/lib/arm64-v8a/libfbjni.so",
+      "loadAlignments": [
+        16384,
+        16384,
+        16384
+      ],
+      "loadAlignmentPass": true,
+      "relro": [
+        {
+          "vaddr": "0x2dc90",
+          "memsz": "0x1370",
+          "end": "0x2f000",
+          "aligned16KB": false,
+          "dedicatedLoad": true,
+          "subsequentWritableOverlap": false,
+          "pass": true
+        }
+      ],
+      "relroPass": true
+    },
+    {
+      "library": "base/lib/arm64-v8a/libgifimage.so",
+      "loadAlignments": [
+        16384,
+        16384,
+        16384
+      ],
+      "loadAlignmentPass": true,
+      "relro": [
+        {
+          "vaddr": "0x4ce70",
+          "memsz": "0x5190",
+          "end": "0x52000",
+          "aligned16KB": false,
+          "dedicatedLoad": true,
+          "subsequentWritableOverlap": false,
+          "pass": true
+        }
+      ],
+      "relroPass": true
+    },
+    {
+      "library": "base/lib/arm64-v8a/libhermes.so",
+      "loadAlignments": [
+        16384,
+        16384,
+        16384
+      ],
+      "loadAlignmentPass": true,
+      "relro": [
+        {
+          "vaddr": "0x204af0",
+          "memsz": "0x8510",
+          "end": "0x20d000",
+          "aligned16KB": false,
+          "dedicatedLoad": true,
+          "subsequentWritableOverlap": false,
+          "pass": true
+        }
+      ],
+      "relroPass": true
+    },
+    {
+      "library": "base/lib/arm64-v8a/libhermestooling.so",
+      "loadAlignments": [
+        16384,
+        16384,
+        16384
+      ],
+      "loadAlignmentPass": true,
+      "relro": [
+        {
+          "vaddr": "0x238d0",
+          "memsz": "0x1730",
+          "end": "0x25000",
+          "aligned16KB": false,
+          "dedicatedLoad": true,
+          "subsequentWritableOverlap": false,
+          "pass": true
+        }
+      ],
+      "relroPass": true
+    },
+    {
+      "library": "base/lib/arm64-v8a/libimagepipeline.so",
+      "loadAlignments": [
+        16384,
+        16384,
+        16384
+      ],
+      "loadAlignmentPass": true,
+      "relro": [
+        {
+          "vaddr": "0x5740",
+          "memsz": "0x8c0",
+          "end": "0x6000",
+          "aligned16KB": false,
+          "dedicatedLoad": true,
+          "subsequentWritableOverlap": false,
+          "pass": true
+        }
+      ],
+      "relroPass": true
+    },
+    {
+      "library": "base/lib/arm64-v8a/libjsi.so",
+      "loadAlignments": [
+        16384,
+        16384,
+        16384
+      ],
+      "loadAlignmentPass": true,
+      "relro": [
+        {
+          "vaddr": "0x60930",
+          "memsz": "0x26d0",
+          "end": "0x63000",
+          "aligned16KB": false,
+          "dedicatedLoad": true,
+          "subsequentWritableOverlap": false,
+          "pass": true
+        }
+      ],
+      "relroPass": true
+    },
+    {
+      "library": "base/lib/arm64-v8a/libnative-filters.so",
+      "loadAlignments": [
+        16384,
+        16384,
+        16384
+      ],
+      "loadAlignmentPass": true,
+      "relro": [
+        {
+          "vaddr": "0x91e0",
+          "memsz": "0xe20",
+          "end": "0xa000",
+          "aligned16KB": false,
+          "dedicatedLoad": true,
+          "subsequentWritableOverlap": false,
+          "pass": true
+        }
+      ],
+      "relroPass": true
+    },
+    {
+      "library": "base/lib/arm64-v8a/libnative-imagetranscoder.so",
+      "loadAlignments": [
+        16384,
+        16384,
+        16384
+      ],
+      "loadAlignmentPass": true,
+      "relro": [
+        {
+          "vaddr": "0x8dfb0",
+          "memsz": "0x5050",
+          "end": "0x93000",
+          "aligned16KB": false,
+          "dedicatedLoad": true,
+          "subsequentWritableOverlap": false,
+          "pass": true
+        }
+      ],
+      "relroPass": true
+    },
+    {
+      "library": "base/lib/arm64-v8a/libreactnative.so",
+      "loadAlignments": [
+        16384,
+        16384,
+        16384
+      ],
+      "loadAlignmentPass": true,
+      "relro": [
+        {
+          "vaddr": "0x579ab0",
+          "memsz": "0x24550",
+          "end": "0x59e000",
+          "aligned16KB": false,
+          "dedicatedLoad": true,
+          "subsequentWritableOverlap": false,
+          "pass": true
+        }
+      ],
+      "relroPass": true
+    },
+    {
+      "library": "base/lib/arm64-v8a/libstatic-webp.so",
+      "loadAlignments": [
+        16384,
+        16384,
+        16384
+      ],
+      "loadAlignmentPass": true,
+      "relro": [
+        {
+          "vaddr": "0x79b30",
+          "memsz": "0x44d0",
+          "end": "0x7e000",
+          "aligned16KB": false,
+          "dedicatedLoad": true,
+          "subsequentWritableOverlap": false,
+          "pass": true
+        }
+      ],
+      "relroPass": true
+    },
+    {
+      "library": "base/lib/x86_64/libc++_shared.so",
+      "loadAlignments": [
+        16384,
+        16384,
+        16384,
+        16384
+      ],
+      "loadAlignmentPass": true,
+      "relro": [
+        {
+          "vaddr": "0x12f450",
+          "memsz": "0x9bb0",
+          "end": "0x139000",
+          "aligned16KB": false,
+          "dedicatedLoad": true,
+          "subsequentWritableOverlap": false,
+          "pass": true
+        }
+      ],
+      "relroPass": true
+    },
+    {
+      "library": "base/lib/x86_64/libexpo-modules-core.so",
+      "loadAlignments": [
+        16384,
+        16384,
+        16384
+      ],
+      "loadAlignmentPass": true,
+      "relro": [
+        {
+          "vaddr": "0x119db0",
+          "memsz": "0x8250",
+          "end": "0x122000",
+          "aligned16KB": false,
+          "dedicatedLoad": true,
+          "subsequentWritableOverlap": false,
+          "pass": true
+        }
+      ],
+      "relroPass": true
+    },
+    {
+      "library": "base/lib/x86_64/libfbjni.so",
+      "loadAlignments": [
+        16384,
+        16384,
+        16384
+      ],
+      "loadAlignmentPass": true,
+      "relro": [
+        {
+          "vaddr": "0x2ccd0",
+          "memsz": "0x1330",
+          "end": "0x2e000",
+          "aligned16KB": false,
+          "dedicatedLoad": true,
+          "subsequentWritableOverlap": false,
+          "pass": true
+        }
+      ],
+      "relroPass": true
+    },
+    {
+      "library": "base/lib/x86_64/libgifimage.so",
+      "loadAlignments": [
+        16384,
+        16384,
+        16384
+      ],
+      "loadAlignmentPass": true,
+      "relro": [
+        {
+          "vaddr": "0x490c0",
+          "memsz": "0x4f40",
+          "end": "0x4e000",
+          "aligned16KB": false,
+          "dedicatedLoad": true,
+          "subsequentWritableOverlap": false,
+          "pass": true
+        }
+      ],
+      "relroPass": true
+    },
+    {
+      "library": "base/lib/x86_64/libhermes.so",
+      "loadAlignments": [
+        16384,
+        16384,
+        16384
+      ],
+      "loadAlignmentPass": true,
+      "relro": [
+        {
+          "vaddr": "0x219a60",
+          "memsz": "0x85a0",
+          "end": "0x222000",
+          "aligned16KB": false,
+          "dedicatedLoad": true,
+          "subsequentWritableOverlap": false,
+          "pass": true
+        }
+      ],
+      "relroPass": true
+    },
+    {
+      "library": "base/lib/x86_64/libhermestooling.so",
+      "loadAlignments": [
+        16384,
+        16384,
+        16384
+      ],
+      "loadAlignmentPass": true,
+      "relro": [
+        {
+          "vaddr": "0x22ce0",
+          "memsz": "0x2320",
+          "end": "0x25000",
+          "aligned16KB": false,
+          "dedicatedLoad": true,
+          "subsequentWritableOverlap": false,
+          "pass": true
+        }
+      ],
+      "relroPass": true
+    },
+    {
+      "library": "base/lib/x86_64/libimagepipeline.so",
+      "loadAlignments": [
+        16384,
+        16384,
+        16384
+      ],
+      "loadAlignmentPass": true,
+      "relro": [
+        {
+          "vaddr": "0x5600",
+          "memsz": "0xa00",
+          "end": "0x6000",
+          "aligned16KB": false,
+          "dedicatedLoad": true,
+          "subsequentWritableOverlap": false,
+          "pass": true
+        }
+      ],
+      "relroPass": true
+    },
+    {
+      "library": "base/lib/x86_64/libjsi.so",
+      "loadAlignments": [
+        16384,
+        16384,
+        16384
+      ],
+      "loadAlignmentPass": true,
+      "relro": [
+        {
+          "vaddr": "0x62610",
+          "memsz": "0x29f0",
+          "end": "0x65000",
+          "aligned16KB": false,
+          "dedicatedLoad": true,
+          "subsequentWritableOverlap": false,
+          "pass": true
+        }
+      ],
+      "relroPass": true
+    },
+    {
+      "library": "base/lib/x86_64/libnative-filters.so",
+      "loadAlignments": [
+        16384,
+        16384,
+        16384
+      ],
+      "loadAlignmentPass": true,
+      "relro": [
+        {
+          "vaddr": "0xac70",
+          "memsz": "0x390",
+          "end": "0xb000",
+          "aligned16KB": false,
+          "dedicatedLoad": true,
+          "subsequentWritableOverlap": false,
+          "pass": true
+        }
+      ],
+      "relroPass": true
+    },
+    {
+      "library": "base/lib/x86_64/libnative-imagetranscoder.so",
+      "loadAlignments": [
+        16384,
+        16384,
+        16384
+      ],
+      "loadAlignmentPass": true,
+      "relro": [
+        {
+          "vaddr": "0xaf410",
+          "memsz": "0x4bf0",
+          "end": "0xb4000",
+          "aligned16KB": true,
+          "dedicatedLoad": true,
+          "subsequentWritableOverlap": false,
+          "pass": true
+        }
+      ],
+      "relroPass": true
+    },
+    {
+      "library": "base/lib/x86_64/libreactnative.so",
+      "loadAlignments": [
+        16384,
+        16384,
+        16384
+      ],
+      "loadAlignmentPass": true,
+      "relro": [
+        {
+          "vaddr": "0x5b5920",
+          "memsz": "0x246e0",
+          "end": "0x5da000",
+          "aligned16KB": false,
+          "dedicatedLoad": true,
+          "subsequentWritableOverlap": false,
+          "pass": true
+        }
+      ],
+      "relroPass": true
+    },
+    {
+      "library": "base/lib/x86_64/libstatic-webp.so",
+      "loadAlignments": [
+        16384,
+        16384,
+        16384
+      ],
+      "loadAlignmentPass": true,
+      "relro": [
+        {
+          "vaddr": "0x88470",
+          "memsz": "0x4b90",
+          "end": "0x8d000",
+          "aligned16KB": false,
+          "dedicatedLoad": true,
+          "subsequentWritableOverlap": false,
+          "pass": true
+        }
+      ],
+      "relroPass": true
+    }
+  ]
+}

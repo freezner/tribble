@@ -1,0 +1,23 @@
+{
+  "artifact": "/Users/hyungjin/git-repo/tribble/timefit-trip/release/1.1.1/ios/tribble-1.1.1-35.ipa",
+  "sha256": "517e0d84cc4ddd9acaa54906b7fa0a2ff93b7b7b10d61250f15533dbb1fab722",
+  "bytes": 14248628,
+  "bundleId": "com.tribble.tribbleapp",
+  "version": "1.1.1",
+  "build": "35",
+  "minimumOSVersion": "15.1",
+  "sdk": "iphoneos26.2",
+  "deviceFamilies": [
+    1,
+    2
+  ],
+  "productionApiUrlPresent": true,
+  "oldValidationUrlAbsent": true,
+  "kakaoServerKeyAbsent": true,
+  "privacyMatchesSource": true,
+  "dateDisplayUpdatePresent": true,
+  "socialProfilesAndCardsPresent": true,
+  "codesignVerifyExit": 0,
+  "appStoreProvisioning": true,
+  "verifiedAt": "2026-10-29T07:48:05.756515+00:00"
+}

@@ -1,0 +1,101 @@
+{
+  "checkedAt": "2026-10-26T16:14:33.206689+00:00",
+  "buildId": "eb1d7f66-faae-407c-b98f-a4b2e296ab37",
+  "aab": {
+    "path": "/Users/hyungjin/git-repo/tribble/timefit-trip/release/1.1.0/android/tribble-1.1.0-6.aab",
+    "bytes": 29877384,
+    "sha256": "8054fa46f1edb35dec376de97ea66680a7a8255b5c8a389993e9a476bcd68239",
+    "expectedHashMatches": true,
+    "zipIntegrityPass": true
+  },
+  "apk": {
+    "path": "/Users/hyungjin/git-repo/tribble/timefit-trip/release/1.1.0/android/tribble-1.1.0-6.apk",
+    "bytes": 60353157,
+    "sha256": "3ed0f948669683540bed931424d237ce41dc7477b79c751d33f38961307b31db",
+    "zipIntegrityPass": true,
+    "universal": true
+  },
+  "manifest": {
+    "package": "com.tribble.tribbleapp",
+    "versionName": "1.1.0",
+    "versionCode": "6",
+    "minSdkVersion": "24",
+    "targetSdkVersion": "36",
+    "compileSdkVersion": "36",
+    "allowBackup": "true",
+    "extractNativeLibs": "false",
+    "permissions": [
+      "android.permission.INTERNET",
+      "android.permission.VIBRATE",
+      "com.tribble.tribbleapp.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+    ]
+  },
+  "signing": {
+    "certificateSha256": "A6:40:CE:E6:29:F9:78:26:FA:C8:F8:5F:C1:13:45:D1:28:EB:C2:ED:C7:D4:F7:C3:0A:6C:95:25:9B:17:A6:25",
+    "aabJarVerified": true,
+    "aabMatchesExistingUploadCertificate": true,
+    "apkMatchesAabCertificate": true,
+    "apkSignatureV2": true,
+    "apkSignatureV3": true,
+    "protectedSigningFileModesPass": true,
+    "jarsignerWarnings": {
+      "selfSigned": true,
+      "untrustedCertificateChain": true,
+      "noTimestamp": true,
+      "jarInputStreamManifestOrdering": true
+    }
+  },
+  "pageSize16KB": {
+    "bundleAlignment": "PAGE_ALIGNMENT_16K",
+    "elf64LibraryCount": 24,
+    "allLoadAlignmentsPass": true,
+    "allRelroPass": true,
+    "independentElfReview": {
+      "pass": true,
+      "loadSegmentCount": 74,
+      "relroSegmentCount": 24,
+      "relroAlignedEnds": 1,
+      "relroDedicatedLoadExceptions": 23,
+      "overlappingWritablePages": 0
+    },
+    "apkNativeLibraryCount": 48,
+    "apkNativeLibrariesUncompressed": true,
+    "apkNativeZipOffsetsAligned16KB": true,
+    "zipalignPass": true
+  },
+  "hermesBundle": {
+    "isHermes": true,
+    "markers": {
+      "provider-coverage": true,
+      "place-not-found": true,
+      "map.kakao.com/link/by/": true
+    }
+  },
+  "apkBundleMarkers": {
+    "provider-coverage": true,
+    "place-not-found": true,
+    "map.kakao.com/link/by/": true
+  },
+  "commandExitCodes": {
+    "aab": {
+      "bundle-validate": 0,
+      "manifest": 0,
+      "config": 0,
+      "jar-signature": 0,
+      "certificate": 0,
+      "elf": 0
+    },
+    "apk": {
+      "apk-signature": 0,
+      "apk-badging": 0,
+      "zipalign": 0
+    },
+    "buildApks": 0
+  },
+  "limitations": [
+    "No Android device/emulator execution or 16KB runtime test performed.",
+    "Google Play upload/processing acceptance has not been tested.",
+    "Jarsigner verification passes with self-signed certificate, trust-chain, timestamp, and JarInputStream manifest-order warnings."
+  ],
+  "allArtifactChecksPass": true
+}

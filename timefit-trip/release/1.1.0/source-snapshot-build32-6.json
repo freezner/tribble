@@ -1,0 +1,29 @@
+{
+  "appVersion": "1.1.0",
+  "iosBuild": {
+    "id": "51703739-ce73-4bde-81bd-6cc81e8953cc",
+    "number": "32"
+  },
+  "androidBuild": {
+    "id": "eb1d7f66-faae-407c-b98f-a4b2e296ab37",
+    "versionCode": 6
+  },
+  "sourceSha256": {
+    "src/services/googleApi.ts": "3e146423e18f89332ed141103901b2c62d34eeca9546e5f03343114a4539e57d",
+    "src/utils/externalMaps.ts": "69038c1ac3ae05490a2f44d5d3a396c7108ea457d9c3d656dc83c98edd48fca7",
+    "src/utils/storage.ts": "9ee609662317166686c7de35cff48a679e1831b77bc93e3cede49084caf7028a",
+    "src/utils/timeCalculator.ts": "9f84e9a1dded4522abc717a41a94895a0d6319dd4b62b6dcbe300ba1ff200ba2",
+    "src/stores/tripStore.ts": "4b6d001808472d98c5b6fe9b4e4d16ab3a8cad22f0f887cfdf7813d940b9433e",
+    "src/components/TransportModePicker.tsx": "545a3fbc96f722d17feb84491014b71ca63c5cfb6f4bfa20f9b356862f7e7ffe",
+    "src/components/TravelBadge.tsx": "60dfe1cc7c92de159181919aac28444ae8ba5e31978dcc95ed19829604d4d3cc",
+    "src/components/PlaceSearchInput.tsx": "f037c93a117290d1d93dbd19af02e59990ce27fcbc5f5e2f50399aeaabfed821",
+    "src/screens/TripPlannerScreen.tsx": "c912886838633ba04bae00b9c4c123ce988fa148923e850fc5d321426519e871",
+    "src/types/index.ts": "baa5aa87d7ef500f1995367d806303c0b30c0482351ab7bb07f8e71ef2e9faa4",
+    "src/i18n/index.ts": "d8006f64582c20794ec426ee4fca52a4b833982530134b326acf941b061a1ced"
+  },
+  "validation": {
+    "unitTestsPassed": 73,
+    "typescript": "passed",
+    "runtime": "iOS 26.2 Expo Go; external link handoff and manual duration/timeline verified; production runtime not verified"
+  }
+}

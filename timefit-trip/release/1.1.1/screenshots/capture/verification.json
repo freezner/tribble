@@ -1,0 +1,165 @@
+{
+  "recordedAt": "2026-10-30T00:40:18.116280+00:00",
+  "version": "1.1.1",
+  "sourceBuild": "39",
+  "method": "Direct xcrun simctl io screenshot --type=jpeg. No pixel editing, resizing, compositing or captions. Native UI interactions via CUA.",
+  "runtime": {
+    "simulatorApp": "/tmp/tribble-social-build/Build/Products/Debug-iphonesimulator/Tribble.app",
+    "javascript": "Current unmodified app source, Metro --no-dev --minify --max-workers 1, NODE_OPTIONS=--max-old-space-size=2048",
+    "nativeRebuild": false
+  },
+  "fixtures": {
+    "path": "capture/public-input-fixture.json",
+    "contains": "Public place examples and user-input settings only; initial route status pending and duration/distance null",
+    "personalSocialProfiles": false
+  },
+  "observedLiveRoute": {
+    "provider": "Kakao via production proxy",
+    "itinerary": "성수에서 보내는 오후",
+    "mode": "walking",
+    "legMinutes": [
+      27,
+      13,
+      10
+    ],
+    "totalTravelMinutes": 50,
+    "stayMinutes": 150,
+    "bufferMinutes": 30,
+    "totalMinutes": 230,
+    "remainingMinutes": 70,
+    "note": "Both devices fetched actual route results in app. These are estimates, not guaranteed future traffic or arrival."
+  },
+  "sourceIntegrity": {
+    "before": "capture/source-before.json",
+    "after": "capture/source-after.json",
+    "filesChecked": 41,
+    "unchanged": true,
+    "mismatches": []
+  },
+  "sequentialDeviceUse": true,
+  "allSimulatorsShutdown": true,
+  "captureMetroStopped": true,
+  "appStoreUploadStatus": "Separate parent-agent task; not asserted by capture verification",
+  "files": [
+    {
+      "path": "iphone/01-overview.jpg",
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "mode": "RGB",
+      "bytes": 207997,
+      "sha256": "ffb161217b29307c045735f8ea9b947de0e9532197c102eefefd4358d27f3fca",
+      "capturedAt": "2026-10-30T00:36:11.917439+00:00",
+      "visualReview": "passed: actual UI, no error/development overlay or system notification"
+    },
+    {
+      "path": "iphone/02-card-instagram.jpg",
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "mode": "RGB",
+      "bytes": 216716,
+      "sha256": "92e9dc40c54015ef34d7603d58c96d7828403842cbd0ce69446d010c30014bbd",
+      "capturedAt": "2026-10-30T00:36:30.589431+00:00",
+      "visualReview": "passed: actual UI, no error/development overlay or system notification"
+    },
+    {
+      "path": "iphone/03-transport.jpg",
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "mode": "RGB",
+      "bytes": 183160,
+      "sha256": "f2d8be79bc0e52922d283b4a7c27754e28872286b94879382023aa5de7f9923a",
+      "capturedAt": "2026-10-30T00:37:04.658084+00:00",
+      "visualReview": "passed: actual UI, no error/development overlay or system notification"
+    },
+    {
+      "path": "iphone/04-time-settings.jpg",
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "mode": "RGB",
+      "bytes": 197776,
+      "sha256": "d4d31182ce3f5f6f05a3750bd73f2af321d5cee68773c4d5fe1e795e5161864f",
+      "capturedAt": "2026-10-30T00:37:20.680205+00:00",
+      "visualReview": "passed: actual UI, no error/development overlay or system notification"
+    },
+    {
+      "path": "iphone/05-drafts.jpg",
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "mode": "RGB",
+      "bytes": 224531,
+      "sha256": "9e31386a27b9e5abded08a302fc1a4b075e64abeefb2a58ca6e5410a3a7aaf46",
+      "capturedAt": "2026-10-30T00:37:31.762895+00:00",
+      "visualReview": "passed: actual UI, no error/development overlay or system notification"
+    },
+    {
+      "path": "ipad/01-overview.jpg",
+      "dimensions": [
+        2064,
+        2752
+      ],
+      "mode": "RGB",
+      "bytes": 249053,
+      "sha256": "0480602e4f7885339e65a49d81e05f5d73bbdba7ee0aef48fac52f29f1c56b70",
+      "capturedAt": "2026-10-30T00:38:52.672051+00:00",
+      "visualReview": "passed: actual UI, no error/development overlay or system notification"
+    },
+    {
+      "path": "ipad/02-card-instagram.jpg",
+      "dimensions": [
+        2064,
+        2752
+      ],
+      "mode": "RGB",
+      "bytes": 254829,
+      "sha256": "84e7a0610486f5eb104b3c03526113da88edca0dbb301b4338a6077aa8bf017b",
+      "capturedAt": "2026-10-30T00:39:09.057929+00:00",
+      "visualReview": "passed: actual UI, no error/development overlay or system notification"
+    },
+    {
+      "path": "ipad/03-transport.jpg",
+      "dimensions": [
+        2064,
+        2752
+      ],
+      "mode": "RGB",
+      "bytes": 224079,
+      "sha256": "ccc90135cd742d4b0ab3bb29975fdd3f442645ed3d6fb71330211edfe5c9d1ec",
+      "capturedAt": "2026-10-30T00:39:24.736944+00:00",
+      "visualReview": "passed: actual UI, no error/development overlay or system notification"
+    },
+    {
+      "path": "ipad/04-time-settings.jpg",
+      "dimensions": [
+        2064,
+        2752
+      ],
+      "mode": "RGB",
+      "bytes": 261503,
+      "sha256": "ef3f358ca2394f2b679048da3933d149d63ef5a0661fde25641c2b36fad2ceef",
+      "capturedAt": "2026-10-30T00:39:40.918733+00:00",
+      "visualReview": "passed: actual UI, no error/development overlay or system notification"
+    },
+    {
+      "path": "ipad/05-drafts.jpg",
+      "dimensions": [
+        2064,
+        2752
+      ],
+      "mode": "RGB",
+      "bytes": 271040,
+      "sha256": "0cf5969f3f2f1460e2f9acc021743bc60710c8e67e2f7e611cbcedb2939af376",
+      "capturedAt": "2026-10-30T00:39:54.752714+00:00",
+      "visualReview": "passed: actual UI, no error/development overlay or system notification"
+    }
+  ]
+}

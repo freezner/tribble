@@ -1,6 +1,8 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { plannerResources } from './planner';
+import { socialResources } from './social';
 
 // 언어 리소스
 const resources = {
@@ -386,44 +388,406 @@ const resources = {
   }
 };
 
-// 언어 감지 및 저장
+// Planner and request-state copy. Existing translation keys stay compatible.
+const plannerTranslations = {
+  "ko": {
+    "plannerTab": "현재 일정",
+    "myTrips": "내 여행",
+    "renamePlace": "장소 이름 변경",
+    "movePlaceUp": "위로 이동",
+    "movePlaceDown": "아래로 이동",
+    "decreaseStay": "체류 시간 15분 줄이기",
+    "increaseStay": "체류 시간 15분 늘리기",
+    "departure": "출발",
+    "arrival": "도착",
+    "timeUnknown": "계산 후 표시",
+    "expectedRemaining": "예상 남는 시간",
+    "expectedOvertime": "예상 초과 시간",
+    "fitsExactly": "시간이 딱 맞아요",
+    "routePending": "이동 시간 계산 중",
+    "routeUnavailable": "이동 시간을 확인해 주세요",
+    "routeEstimated": "추정 이동 시간 포함",
+    "routeReady": "경로 기준 예상 시간",
+    "estimate": "추정",
+    "retry": "다시 계산",
+    "bufferTime": "이동·대기 여유",
+    "bufferIncluded": "계획에 포함",
+    "expectedEnd": "예상 종료",
+    "emptySummary": "장소를 추가하면 시간을 계산해요",
+    "changeTransport": "교통수단 변경",
+    "tripNameHint": "여행을 기억할 이름을 입력해 주세요",
+    "tripNamePlaceholder": "예: 성수동 반나절",
+    "close": "닫기",
+    "sharedWithTribble": "Tribble로 만든 여행 계획",
+    "routeEstimatedNotice": "일부 이동 시간은 추정치입니다",
+    "routeUnresolvedNotice": "아직 확인되지 않은 이동 구간이 있습니다",
+    "nextDay": "다음 날",
+    "editPlaceName": "이름 수정",
+    "manualTravelTime": "이동 시간 직접 입력",
+    "manualDurationHint": "자동 계산값을 조정하거나 조회 실패 시 사용할 시간을 입력하세요.",
+    "openKakaoRoute": "카카오맵에서 시간 확인",
+    "openGoogleRoute": "Google 지도에서 시간 확인",
+    "mapDepartureHint": "지도의 교통수단과 출발 시각도 이 일정에 맞춰 확인해 주세요.",
+    "mapOpenFailed": "지도를 열지 못했어요. 지도 앱에서 출발지와 도착지를 직접 검색해 주세요.",
+    "apply": "적용",
+    "invalidTravelDuration": "1~1440 사이의 분을 입력해 주세요",
+    "manualEntry": "직접 입력",
+    "routeUnavailableAction": "이동 시간을 불러오지 못했어요",
+    "confirmRemovePlace": "이 장소를 일정에서 삭제할까요?",
+    "departAt": "{{time}} 출발",
+    "arriveAt": "{{time}} 도착",
+    "estimatedDuration": "약 {{duration}}",
+    "expectedFinishAt": "{{time}} 종료 예상",
+    "fitExactlyHint": "지연에 대비한 여유를 더 확보해 보세요",
+    "searchLabel": "어디에 가고 싶나요?",
+    "searchHint": "장소 이름을 2글자 이상 입력하세요",
+    "searchEmpty": "검색 결과가 없어요. 다른 이름으로 찾아보세요.",
+    "searchRetry": "다시 검색",
+    "searching": "장소를 찾고 있어요",
+    "loadingPlace": "장소 정보를 확인하고 있어요",
+    "clearSearch": "검색어 지우기",
+    "addSelectedPlace": "{{name}} 일정에 추가",
+    "routeReason": {
+      "no-route": "이 구간의 경로를 찾지 못했어요. 장소나 이동 수단을 확인해 주세요.",
+      "provider-coverage": "선택한 지역과 이동 수단은 현재 경로 서비스에서 지원하지 않아요.",
+      "place-not-found": "출발지나 도착지를 확인하지 못했어요. 해당 장소를 다시 검색해 선택해 주세요.",
+      "auth": "지도 서비스 인증을 확인해야 해요.",
+      "quota": "지도 서비스 사용 한도에 도달했어요. 잠시 후 다시 시도해 주세요.",
+      "network": "네트워크에 연결할 수 없어요.",
+      "timeout": "응답이 늦어지고 있어요. 다시 시도해 주세요.",
+      "invalid-request": "요청한 장소나 시간을 확인해 주세요.",
+      "unknown": "지도 정보를 불러오지 못했어요. 다시 시도해 주세요.",
+      "missing-key": "장소 검색이 아직 연결되지 않았어요.",
+      "past-departure": "과거 출발 시각이라 평균 이동 시간으로 계산했어요.",
+      "traffic-unavailable": "해당 시각의 교통량을 확인할 수 없어 평균 시간을 사용했어요.",
+      "not-configured": "국내 경로 계산 서비스 연결이 아직 준비되지 않았어요.",
+      "current-traffic": "현재 교통 상황으로 계산한 예상 시간이에요. 예정된 출발 시각의 교통 상황과 다를 수 있어요.",
+      "departure-out-of-range": "이 출발 시각의 예측 경로를 제공하지 않아요. 날짜와 시간을 확인해 주세요.",
+      "predicted-traffic": "예정된 출발 시각의 예측 교통 정보를 반영한 시간이에요.",
+      "walking-route": "보행 경로를 기준으로 계산한 시간이에요. 걷는 속도와 신호 대기에 따라 달라질 수 있어요.",
+      "bicycling-route": "자전거 경로를 기준으로 계산한 시간이에요. 주행 속도와 도로 상황에 따라 달라질 수 있어요.",
+      "current-schedule": "조회 시점의 대중교통 경로로 계산한 예상 시간이에요. 일정의 출발 날짜·시각은 반영되지 않아요.",
+      "stale": "이동 시간이 오래되어 다시 확인이 필요해요. 다시 계산을 눌러 주세요."
+    },
+    "autoTravelTime": "자동 계산한 이동 시간",
+    "recalculateAutomatically": "자동으로 다시 계산",
+    "adjustTravelTime": "필요하면 시간 직접 조정",
+    "tmapAttribution": "경로 제공: TMAP",
+    "kakaoAttribution": "경로 제공: 카카오",
+    "koreanTimeZone": "한국 시간 (KST)",
+    "placeSearchProvider": "장소 정보 · 카카오",
+    "placeSearchDomesticHint": "대한민국 내 장소를 검색할 수 있어요."
+  },
+  "en": {
+    "plannerTab": "Current plan",
+    "myTrips": "My trips",
+    "renamePlace": "Rename place",
+    "movePlaceUp": "Move up",
+    "movePlaceDown": "Move down",
+    "decreaseStay": "Reduce stay by 15 minutes",
+    "increaseStay": "Add 15 minutes to stay",
+    "departure": "Departure",
+    "arrival": "Arrival",
+    "timeUnknown": "Pending calculation",
+    "expectedRemaining": "Estimated spare time",
+    "expectedOvertime": "Estimated overrun",
+    "fitsExactly": "Your time is fully allocated",
+    "routePending": "Calculating travel time",
+    "routeUnavailable": "Check the travel time",
+    "routeEstimated": "Includes estimated travel",
+    "routeReady": "Route-based estimate",
+    "estimate": "Estimate",
+    "retry": "Recalculate",
+    "bufferTime": "Travel and waiting buffer",
+    "bufferIncluded": "Included in the plan",
+    "expectedEnd": "Expected finish",
+    "emptySummary": "Add a place to calculate your schedule",
+    "changeTransport": "Change transport",
+    "tripNameHint": "Give this trip a memorable name",
+    "tripNamePlaceholder": "e.g. An afternoon in Seoul",
+    "close": "Close",
+    "sharedWithTribble": "Planned with Tribble",
+    "routeEstimatedNotice": "Some travel times are estimates",
+    "routeUnresolvedNotice": "Some travel legs remain unresolved",
+    "nextDay": "Next day",
+    "editPlaceName": "Edit name",
+    "manualTravelTime": "Enter travel time",
+    "manualDurationHint": "Adjust the calculated time, or enter one if the route request fails.",
+    "openKakaoRoute": "Check time in KakaoMap",
+    "openGoogleRoute": "Check time in Google Maps",
+    "mapDepartureHint": "Check that the map's transport mode and departure time match your plan.",
+    "mapOpenFailed": "Could not open the map. Search for the start and destination in your map app.",
+    "apply": "Apply",
+    "invalidTravelDuration": "Enter 1 to 1440 minutes",
+    "manualEntry": "Manual entry",
+    "routeUnavailableAction": "Could not load travel time",
+    "confirmRemovePlace": "Remove this place from the plan?",
+    "departAt": "Depart at {{time}}",
+    "arriveAt": "Arrive at {{time}}",
+    "estimatedDuration": "About {{duration}}",
+    "expectedFinishAt": "Expected finish: {{time}}",
+    "fitExactlyHint": "Allow extra time for delays",
+    "searchLabel": "Where would you like to go?",
+    "searchHint": "Enter at least two characters",
+    "searchEmpty": "No places found. Try another name.",
+    "searchRetry": "Try again",
+    "searching": "Searching for places",
+    "loadingPlace": "Loading place details",
+    "clearSearch": "Clear search",
+    "addSelectedPlace": "Add {{name}} to the plan",
+    "routeReason": {
+      "no-route": "No route was found. Check the places or transport mode.",
+      "provider-coverage": "The route service does not support this area and transport mode.",
+      "place-not-found": "The start or destination could not be identified. Search for and select the place again.",
+      "auth": "Map service authentication needs attention.",
+      "quota": "The map service limit was reached. Please try again later.",
+      "network": "Cannot connect to the network.",
+      "timeout": "The request timed out. Please try again.",
+      "invalid-request": "Check the requested place or time.",
+      "unknown": "Could not load map data. Please try again.",
+      "missing-key": "Place search has not been connected yet.",
+      "past-departure": "A past departure uses average travel time.",
+      "traffic-unavailable": "Traffic data is unavailable; average travel time is used.",
+      "not-configured": "The Korean routing service is not connected yet.",
+      "current-traffic": "Estimated using current traffic, which may differ at your planned departure time.",
+      "departure-out-of-range": "A predicted route is not available for this departure time. Check the date and time.",
+      "predicted-traffic": "Calculated using predicted traffic at your planned departure time.",
+      "walking-route": "Calculated from a pedestrian route. Walking pace and signal waits may change the actual time.",
+      "bicycling-route": "Calculated from a bicycle route. Riding speed and road conditions may change the actual time.",
+      "current-schedule": "Estimated from transit routes available when queried. Your planned departure date and time are not applied.",
+      "stale": "This travel time needs updating. Tap recalculate to check it again."
+    },
+    "autoTravelTime": "Automatically calculated travel time",
+    "recalculateAutomatically": "Recalculate automatically",
+    "adjustTravelTime": "Adjust the time if needed",
+    "tmapAttribution": "Routes by TMAP",
+    "kakaoAttribution": "Routes by Kakao",
+    "koreanTimeZone": "Korea time (KST)",
+    "placeSearchProvider": "Places · Kakao",
+    "placeSearchDomesticHint": "Search for places in South Korea."
+  },
+  "ja": {
+    "plannerTab": "現在の予定",
+    "myTrips": "マイトリップ",
+    "renamePlace": "場所名を変更",
+    "movePlaceUp": "上に移動",
+    "movePlaceDown": "下に移動",
+    "decreaseStay": "滞在時間を15分短縮",
+    "increaseStay": "滞在時間を15分延長",
+    "departure": "出発",
+    "arrival": "到着",
+    "timeUnknown": "計算後に表示",
+    "expectedRemaining": "予想余裕時間",
+    "expectedOvertime": "予想超過時間",
+    "fitsExactly": "予定時間ぴったりです",
+    "routePending": "移動時間を計算中",
+    "routeUnavailable": "移動時間をご確認ください",
+    "routeEstimated": "推定移動時間を含みます",
+    "routeReady": "経路に基づく予想時間",
+    "estimate": "推定",
+    "retry": "再計算",
+    "bufferTime": "移動・待ち時間の余裕",
+    "bufferIncluded": "予定に含まれます",
+    "expectedEnd": "終了予定",
+    "emptySummary": "場所を追加すると時間を計算します",
+    "changeTransport": "交通手段を変更",
+    "tripNameHint": "旅の名前を入力してください",
+    "tripNamePlaceholder": "例：ソウルの午後",
+    "close": "閉じる",
+    "sharedWithTribble": "Tribbleで作った旅行プラン",
+    "routeEstimatedNotice": "一部の移動時間は推定値です",
+    "routeUnresolvedNotice": "未確認の移動区間があります",
+    "nextDay": "翌日",
+    "editPlaceName": "名前を編集",
+    "manualTravelTime": "移動時間を入力",
+    "manualDurationHint": "計算結果を調整するか、経路取得に失敗した場合に時間を入力できます。",
+    "openKakaoRoute": "カカオマップで時間を確認",
+    "openGoogleRoute": "Google マップで時間を確認",
+    "mapDepartureHint": "地図の交通手段と出発時刻も、この予定に合わせて確認してください。",
+    "mapOpenFailed": "地図を開けませんでした。地図アプリで出発地と目的地を検索してください。",
+    "apply": "適用",
+    "invalidTravelDuration": "1〜1440分を入力してください",
+    "manualEntry": "手動入力",
+    "routeUnavailableAction": "移動時間を取得できませんでした",
+    "confirmRemovePlace": "この場所を予定から削除しますか？",
+    "departAt": "{{time}} 出発",
+    "arriveAt": "{{time}} 到着",
+    "estimatedDuration": "約{{duration}}",
+    "expectedFinishAt": "{{time}} 終了予定",
+    "fitExactlyHint": "遅延に備えて余裕を確保しましょう",
+    "searchLabel": "どこへ行きますか？",
+    "searchHint": "場所名を2文字以上入力",
+    "searchEmpty": "見つかりませんでした。別の名前で検索してください。",
+    "searchRetry": "再検索",
+    "searching": "場所を検索中",
+    "loadingPlace": "場所の情報を取得中",
+    "clearSearch": "検索語を消去",
+    "addSelectedPlace": "{{name}}を予定に追加",
+    "routeReason": {
+      "no-route": "経路が見つかりませんでした。場所や交通手段を確認してください。",
+      "provider-coverage": "この地域と交通手段は経路サービスの対応外です。",
+      "place-not-found": "出発地または目的地を確認できませんでした。場所を検索して選び直してください。",
+      "auth": "地図サービスの認証を確認してください。",
+      "quota": "地図サービスの利用上限に達しました。後ほどお試しください。",
+      "network": "ネットワークに接続できません。",
+      "timeout": "応答がタイムアウトしました。再度お試しください。",
+      "invalid-request": "指定した場所や時間を確認してください。",
+      "unknown": "地図情報を取得できませんでした。再度お試しください。",
+      "missing-key": "場所検索がまだ接続されていません。",
+      "past-departure": "過去の出発時刻のため平均移動時間を使用しています。",
+      "traffic-unavailable": "交通量を確認できないため平均時間を使用しています。",
+      "not-configured": "韓国の経路計算サービスはまだ接続されていません。",
+      "current-traffic": "現在の交通状況による予想時間です。予定した出発時刻の状況とは異なる場合があります。",
+      "departure-out-of-range": "この出発時刻の予測経路は利用できません。日時を確認してください。",
+      "predicted-traffic": "予定した出発時刻の予測交通情報を反映しています。",
+      "walking-route": "歩行経路による予想時間です。歩く速さや信号待ちで実際の時間は変わります。",
+      "bicycling-route": "自転車経路による予想時間です。走行速度や道路状況で変わる場合があります。",
+      "current-schedule": "検索時点の公共交通経路による予想時間です。予定の出発日時は反映されません。",
+      "stale": "移動時間が古くなっています。再計算して確認してください。"
+    },
+    "autoTravelTime": "自動計算した移動時間",
+    "recalculateAutomatically": "自動で再計算",
+    "adjustTravelTime": "必要に応じて時間を調整",
+    "tmapAttribution": "経路提供: TMAP",
+    "kakaoAttribution": "経路提供: Kakao",
+    "koreanTimeZone": "韓国時間（KST）",
+    "placeSearchProvider": "場所情報 · Kakao",
+    "placeSearchDomesticHint": "韓国内の場所を検索できます。"
+  },
+  "zh": {
+    "plannerTab": "当前行程",
+    "myTrips": "我的旅行",
+    "renamePlace": "修改地点名称",
+    "movePlaceUp": "上移",
+    "movePlaceDown": "下移",
+    "decreaseStay": "停留时间减少15分钟",
+    "increaseStay": "停留时间增加15分钟",
+    "departure": "出发",
+    "arrival": "到达",
+    "timeUnknown": "计算后显示",
+    "expectedRemaining": "预计剩余时间",
+    "expectedOvertime": "预计超出时间",
+    "fitsExactly": "时间刚刚好",
+    "routePending": "正在计算交通时间",
+    "routeUnavailable": "请确认交通时间",
+    "routeEstimated": "包含估算交通时间",
+    "routeReady": "基于路线的预计时间",
+    "estimate": "估算",
+    "retry": "重新计算",
+    "bufferTime": "交通和等候余量",
+    "bufferIncluded": "已计入行程",
+    "expectedEnd": "预计结束",
+    "emptySummary": "添加地点即可计算时间",
+    "changeTransport": "更改交通方式",
+    "tripNameHint": "给旅行起个好记的名字",
+    "tripNamePlaceholder": "例如：首尔半日游",
+    "close": "关闭",
+    "sharedWithTribble": "使用Tribble制作的旅行计划",
+    "routeEstimatedNotice": "部分交通时间为估算值",
+    "routeUnresolvedNotice": "部分路段尚未确认",
+    "nextDay": "次日",
+    "editPlaceName": "修改名称",
+    "manualTravelTime": "手动输入交通时间",
+    "manualDurationHint": "可调整自动计算的时间，或在路线查询失败时输入时间。",
+    "openKakaoRoute": "在KakaoMap中确认时间",
+    "openGoogleRoute": "在Google地图中确认时间",
+    "mapDepartureHint": "请同时确认地图中的交通方式和出发时间与行程一致。",
+    "mapOpenFailed": "无法打开地图。请在地图应用中搜索出发地和目的地。",
+    "apply": "应用",
+    "invalidTravelDuration": "请输入1至1440分钟",
+    "manualEntry": "手动输入",
+    "routeUnavailableAction": "无法加载交通时间",
+    "confirmRemovePlace": "从行程中删除此地点？",
+    "departAt": "{{time}} 出发",
+    "arriveAt": "{{time}} 到达",
+    "estimatedDuration": "约{{duration}}",
+    "expectedFinishAt": "预计{{time}}结束",
+    "fitExactlyHint": "建议预留更多时间以应对延误",
+    "searchLabel": "想去哪里？",
+    "searchHint": "请输入至少两个字符",
+    "searchEmpty": "未找到地点，请尝试其他名称。",
+    "searchRetry": "重新搜索",
+    "searching": "正在搜索地点",
+    "loadingPlace": "正在读取地点信息",
+    "clearSearch": "清除搜索",
+    "addSelectedPlace": "将{{name}}添加到行程",
+    "routeReason": {
+      "no-route": "未找到路线，请检查地点或交通方式。",
+      "provider-coverage": "路线服务暂不支持此地区和交通方式。",
+      "place-not-found": "无法确认出发地或目的地。请重新搜索并选择该地点。",
+      "auth": "请检查地图服务认证。",
+      "quota": "地图服务已达使用上限，请稍后重试。",
+      "network": "无法连接网络。",
+      "timeout": "请求超时，请重试。",
+      "invalid-request": "请检查地点或时间。",
+      "unknown": "无法读取地图信息，请重试。",
+      "missing-key": "地点搜索尚未连接。",
+      "past-departure": "过去的出发时间使用平均交通时间。",
+      "traffic-unavailable": "暂无该时刻路况，使用平均交通时间。",
+      "not-configured": "韩国路线计算服务尚未连接。",
+      "current-traffic": "根据当前路况估算，可能与计划出发时的路况不同。",
+      "departure-out-of-range": "无法提供此出发时间的预测路线，请检查日期和时间。",
+      "predicted-traffic": "根据计划出发时间的预测路况计算。",
+      "walking-route": "根据步行路线计算，实际用时会因步速和等候红绿灯而变化。",
+      "bicycling-route": "根据自行车路线估算，实际时间会随骑行速度和路况变化。",
+      "current-schedule": "根据查询时的公共交通路线估算，未使用计划出发的日期和时间。",
+      "stale": "交通时间需要更新，请点击重新计算。"
+    },
+    "autoTravelTime": "自动计算的交通时间",
+    "recalculateAutomatically": "重新自动计算",
+    "adjustTravelTime": "按需调整时间",
+    "tmapAttribution": "路线提供: TMAP",
+    "kakaoAttribution": "路线提供: Kakao",
+    "koreanTimeZone": "韩国时间（KST）",
+    "placeSearchProvider": "地点信息 · Kakao",
+    "placeSearchDomesticHint": "可搜索韩国境内的地点。"
+  }
+};
+(Object.keys(plannerTranslations) as Array<keyof typeof plannerTranslations>).forEach(language => {
+  Object.assign(resources[language].translation, plannerTranslations[language], { planner: plannerResources[language], social: socialResources[language] });
+});
+
+// Read the stored language before invoking the detector callback. Invoking the
+// callback with a default first would overwrite the stored choice via caching.
+export const SUPPORTED_LANGUAGES = ['ko', 'en', 'ja', 'zh'] as const;
+export type SupportedLanguage = typeof SUPPORTED_LANGUAGES[number];
+export const isSupportedLanguage = (value: string | null): value is SupportedLanguage =>
+  !!value && (SUPPORTED_LANGUAGES as readonly string[]).includes(value);
+
 const languageDetector = {
   type: 'languageDetector' as const,
   async: true,
   detect: async (callback: (lng: string) => void) => {
-    // 먼저 기본 언어를 반환
-    callback('ko');
-    
-    // 그 다음 AsyncStorage에서 언어를 확인하고 필요시 변경
+    let language: SupportedLanguage = 'ko';
     try {
       const savedLanguage = await AsyncStorage.getItem('user-language');
-      if (savedLanguage && savedLanguage !== 'ko') {
-        callback(savedLanguage);
-      }
-    } catch (error) {
-      console.error('언어 감지 오류:', error);
+      if (isSupportedLanguage(savedLanguage)) language = savedLanguage;
+    } catch {
+      // Storage may be unavailable; the fallback is still a supported language.
     }
+    callback(language);
   },
   init: () => {},
-  cacheUserLanguage: async (lng: string) => {
+  cacheUserLanguage: async (language: string) => {
+    if (!isSupportedLanguage(language)) return;
     try {
-      await AsyncStorage.setItem('user-language', lng);
-    } catch (error) {
-      console.error('언어 저장 오류:', error);
+      await AsyncStorage.setItem('user-language', language);
+    } catch {
+      // A storage failure must not prevent the app from rendering.
     }
-  }
+  },
 };
 
-i18n
+export const i18nReady = i18n
   .use(languageDetector)
   .use(initReactI18next)
   .init({
     resources,
     fallbackLng: 'ko',
-    debug: __DEV__,
-    interpolation: {
-      escapeValue: false,
-    },
+    supportedLngs: [...SUPPORTED_LANGUAGES],
+    debug: false,
+    react: { useSuspense: false },
+    interpolation: { escapeValue: false },
   });
 
 export default i18n;

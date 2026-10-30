@@ -1,0 +1,21 @@
+{
+  "description": "Places you want to visit. A plan that fits your day.\n\nTribble helps you plan a day out by combining the places you want to visit, the time you want to spend at each stop, and the time needed to get between them. Use it for day trips, an afternoon exploring, or an outing with several stops.\n\nStart with the time you have\nSet your trip date, start time, and deadline. Add a buffer for travel and waiting, then see your estimated finish time and how much time remains—or how far your plan runs over.\n\nMake the itinerary your own\nSearch for places and add them in order. Adjust each stay in 15-minute steps or set it to zero for a starting point or return destination. Change the order of your stops and have the itinerary recalculated.\n\nChoose how to travel between stops\nChoose walking, driving, public transit, or cycling for each leg. When a travel time cannot be checked automatically, open an external map and enter the time yourself. Legs in South Korea open KakaoMap; other legs open Google Maps. Driving times within South Korea are not calculated automatically. Match the transport mode and departure time in the map, then return to Tribble and enter the minutes. Route results, estimates, and manually entered times are labeled separately.\n\nKeep your drafts and share your plans\nDrafts are automatically kept on this device, so you can return to an earlier plan after starting a new one. Save your trips and share an image of your itinerary.\n\nNo account is required. Available in Korean, English, Japanese, and Chinese.\n\nTravel times are estimates for planning. Route availability varies by location and mode of transport. Estimates may not fully account for roads, transfers, parking, or waiting. Check opening hours and reservation availability separately. An internet connection is required for place searches and route requests.",
+  "promotionalText": "Plan a day that fits your time. Add stops, adjust stays, include a travel buffer, and see your estimated finish. Keep drafts and share your itinerary as an image.",
+  "whatsNew": "A refreshed way to plan your day out.\n\n• Set a trip date, start time, deadline, and buffer for travel and waiting.\n• See stays and travel combined into an estimated finish time, with time remaining or overtime.\n• Adjust stay durations and reorder your stops.\n• Clearer explanations and next steps when a travel time cannot be provided.\n• Open KakaoMap for legs in South Korea, or Google Maps elsewhere, then enter the travel time. Driving times within South Korea are not calculated automatically.\n• Check the map's transport mode and departure time before returning to Tribble to enter the minutes.\n• Your manual input is preserved when an automatic route response arrives.\n• Improved drafts, saving, recovery, and itinerary image sharing.\n• A refreshed itinerary screen, app icon, and launch screen.",
+  "screenshotCaptions": [
+    "A plan that fits your day",
+    "See your finish time and time to spare",
+    "Set your start, deadline, and buffer",
+    "Adjust your stays. Reorder your stops.",
+    "Check a map. Enter the travel time.",
+    "Your drafts and saved trips, together"
+  ],
+  "keywords": "trip,travel,itinerary,planner,day trip,route,travel time,stay duration,schedule",
+  "ipadScreenshotCaptions": {
+    "01-start.png": "A plan that fits your day",
+    "02-overview.png": "See your finish time and time to spare",
+    "03-schedule.png": "Set your start, deadline, and buffer",
+    "04-library.png": "Your drafts and saved trips, together",
+    "05-transport.png": "Check a map. Enter the travel time."
+  }
+}

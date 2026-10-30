@@ -1,748 +1,195 @@
-# Tribble 🗺️⏱️
+# Tribble
 
-여행 시간을 계획하는 똑똑한 타이머 앱입니다. 장소들을 순서대로 추가하면, 제한된 시간 안에 다 돌 수 있는지 즉시 확인할 수 있습니다.
+제한된 시간 안에 여러 장소를 방문할 수 있는지 확인하는 하루 여행 플래너입니다. 장소별 체류 시간과 이동 시간을 누적하고, 일정 전체의 여유 시간을 더해 마감 시각과 비교합니다.
 
-## 📱 주요 기능
+> 2026-10-27 개발 상태: 국내 장소 검색과 자동차·도보·대중교통·자전거 경로를 카카오 서버 프록시로 통합했습니다. 기존 Pastelinkers 서버에 배포해 공개 HTTPS 주소에서 장소 검색과 네 이동수단을 검증했습니다. 로컬 개발 및 EAS production 환경에 앱 서버 주소를 설정했습니다. iOS 1.1.1(33) 서명 빌드·IPA 검증·TestFlight 업로드·Apple 처리를 완료했고, 기존 내부 테스트 그룹에 연결했습니다. 새 빌드의 실기기 검증·정식 스토어 반영은 남아 있으며, 기존 iOS 1.1.0(32)에는 이 후속 변경이 포함되지 않습니다. Android 신규 빌드는 사용자 요청으로 보류했습니다.
 
-- **장소 검색** - Google Places API 자동완성
-- **이동 시간 자동 계산** - 교통 수단별 (자동차/도보/대중교통/자전거)
-- **실시간 시간 관리** - 체류 + 이동 = 총 소요 시간
-- **직관적인 요약** - 듀오링고 스타일 UI
-- **여정 저장/관리** - 로컬 저장소
-- **이미지 공유** - 카카오톡, 메시지로 공유
+> 2026-10-30 배포 상태: **iOS 1.1.1(39) TestFlight 처리와 App Store 심사 제출을 완료했습니다. 현재 심사 대기 중이며 승인 후 모든 사용자에게 자동 출시합니다.** 한국어·영어 스토어 문구, 최신 iPhone·iPad 스크린샷 각 5장과 연령 등급 설문을 반영했습니다. [빌드 39 배포 기록](release/1.1.1/TESTFLIGHT-build39.md)을 참고하세요.
 
-## 🛠️ 기술 스택
+## 현재 구현 범위
 
-- React Native + Expo (SDK 51)
-- TypeScript
-- Zustand (상태 관리)
-- AsyncStorage (로컬 저장)
-- Google Maps Platform API
-- axios, zod, dayjs
-- iOS 14.0+ (배포 타겟)
-- Xcode 16+ (iOS 18 SDK 지원)
+- 2026-10-29 후속 수정: 여행 카드의 대표 날짜는 초안 생성·최초 자동 보관 시점(`createdAt`)으로 고정하고, 여행일과 마지막 수정 시각을 구분합니다. 자동 경로 새로고침은 수정 시각을 변경하지 않습니다. iOS TestFlight 1.1.1(34) 업로드·Apple 처리·내부 테스트 그룹 연결을 완료했습니다. [빌드 34 기록](release/1.1.1/TESTFLIGHT-build34.md)을 참고하세요. 기존 빌드 33에는 이 날짜 수정이 포함되지 않습니다.
+- 2026-10-29 SNS 후속 구현: 설정의 로컬 SNS 프로필 등록과 피드·스토리 비율 여행 카드 미리보기·공유를 추가했습니다. **SNS 기능을 포함한 iOS TestFlight 1.1.1(35)의 업로드·Apple 처리·기존 내부 테스트 그룹 연결과 한국어 안내 저장을 완료했습니다.** [빌드 35 기록](release/1.1.1/TESTFLIGHT-build35.md)을 참고하세요. 이전 빌드 34에는 SNS 기능이 없습니다.
+- 2026-10-29 추가 개선 — **TestFlight 1.1.1(37)에 반영했습니다.** 전체 페이지 PNG 일괄 공유, iOS 공유창의 사진 저장을 위한 권한 안내, 로컬 카드 타이틀(닉네임), 카드의 ‘출발 시각’·‘도착 시각(설정)’ 구분과 저장된 여행의 ‘수정’ 동작을 추가했습니다. 빌드 35는 기존의 한 장씩 공유하는 버전입니다. 이번 변경은 자동 테스트 213개·타입 검사·iOS 시뮬레이터 빌드를 통과했으며 두 페이지 사진 저장을 확인했습니다. [후속 검증 기록](release/card-improvements/VALIDATION.md)을 참고하세요. [기존 SNS 검증 기록](release/social-sharing/VALIDATION.md)은 빌드 35 당시 기록입니다.
+- 2026-10-29 SNS별 이미지 최적화 — **TestFlight 1.1.1(37)에 반영했습니다.** 프로필 등록 없이 Instagram·X·Facebook·TikTok을 선택해 이미지 비율·해상도·페이지 구성을 바꿀 수 있습니다. 실제 공유 앱은 운영체제 공유창에서 선택합니다. 자동 테스트 259개와 타입 검사를 통과했으며, iOS 시뮬레이터에서 6가지 프리셋의 실제 PNG 13장에 대해 장수·해상도·파일 무결성을 확인했습니다. [규격 확인과 구현 프리셋](release/sns-card-presets/SPECIFICATIONS.md), [SNS 프리셋 검증 기록](release/sns-card-presets/VALIDATION.md)을 참고하세요. 위의 빌드 35 및 카드 개선 검증 기록과는 별도입니다. 빌드 37의 서명·Apple 처리·내부 테스트 그룹 연결·한국어 안내 저장을 완료했습니다. [배포 기록](release/1.1.1/TESTFLIGHT-build37.md)을 참고하세요.
+- 2026-10-29 카드 문구·장소 링크 개선 — **TestFlight 1.1.1(38)에 반영했습니다.** 카드 규격 중복 안내·KST·우측 상단 추정·하단 계획 안내·도착 시각의 “(설정)”을 제거하고 “여행 일자”를 추가했습니다. 일정의 장소명을 누르면 Google Maps에서 저장된 위치를 엽니다. 자동 테스트 262개·타입 검사·실제 PNG 두 장 출력·서명 IPA 검증과 Apple 처리·내부 그룹 연결·한국어 안내 저장을 완료했습니다. [빌드 38 배포 기록](release/1.1.1/TESTFLIGHT-build38.md)을 참고하세요.
+- 여행 날짜, 출발·마감 시각, 일정 전체의 여유 시간 설정
+- 장소 검색, 체류 시간 수정, 이름 수정, 장소 순서 변경
+- 구간별 자동차·도보·대중교통·자전거 선택
+- 도착·출발 타임라인, 예상 종료와 남는 시간/초과 시간
+- 경로 계산값·추정값·계산 불가 상태 구분 및 구간 재시도
+- 국내 장소 검색 및 네 가지 이동수단은 서버 중계형 카카오 API, 기존 해외 여행의 경로는 Google 호환 경로 유지
+- 외부 지도와 직접 시간 조정은 접힌 보조 기능으로 제공, 자동 재계산을 우선 노출
+- 홈 상단 이어서 계획하기, 작성 중인 초안/저장한 여행 분리, 빈 초안도 재개
+- 초안 보관 중/실패/완료 표시, 보관 실패 시 화면 이동 차단 및 재시도
+- 여행 카드 이미지 공유와 선택한 SNS 프로필 표시, 한국어·영어·일본어·중국어 언어 설정
 
----
+사용자가 직접 첫 장소와 돌아올 장소를 추가하는 방식입니다. 출발·귀환 장소는 체류 시간을 0분으로 설정할 수 있습니다. 별도 GPS 출발지 자동 선택이나 귀환 구간 자동 추가 기능은 없습니다.
 
-## 🚀 빠른 시작
+영업시간·예약·대기열·주차 시간을 자동으로 확인하지 않습니다. 여유 시간은 일정 전체의 안전 여유이며 개별 구간 대기시간 예측이 아닙니다. 현재 입력 UI는 같은 날의 출발과 마감을 다루며, 여러 날 여행·자동 경로 최적화·실행 중 타이머·계정 동기화는 구현하지 않았습니다.
 
-### 1. 패키지 설치
+## SNS 프로필과 여행 카드 공유
 
-```bash
-cd timefit-trip
-npm install --legacy-peer-deps
-```
+설정에서 Instagram·X·Facebook·TikTok의 공개 사용자 이름 또는 프로필 주소를 등록·수정·삭제할 수 있습니다. 서비스명·사용자 이름·정규화한 프로필 URL만 별도의 기기 저장소에 보관합니다. 입력 형식만 검사하며 계정의 존재나 소유권을 확인하지 않습니다. 비밀번호·로그인 토큰을 받지 않고 OAuth 로그인이나 SNS 계정 연결·자동 게시를 하지 않습니다. 프로필 열기는 사용자가 누른 공개 URL을 외부 앱이나 브라우저에서 여는 동작입니다.
 
-### 2. Google API 키 설정
+설정의 ‘카드 이미지 타이틀’에서 카드 상단에 표시할 이름을 지정할 수 있습니다. 앞뒤 공백을 제거하고 최대 40자(TextInput과 같은 UTF-16 길이)로 제한하며, 빈값을 저장하면 `tribble`을 표시합니다. 이 이름은 SNS 프로필과도 별도인 로컬 설정이며, SNS 계정이나 여행 이름을 바꾸지 않습니다.
 
-`src/constants/index.ts` 파일에서:
+일정의 공유 버튼을 누르면 먼저 미적용 시간 설정을 검사·적용하고, 그 시점의 일정을 복사해 카드 미리보기를 엽니다. SNS 프로필을 등록하지 않아도 Instagram·X·Facebook·TikTok 중 출력할 이미지의 기준을 선택할 수 있습니다. Instagram·Facebook은 게시물/스토리를 선택하고, X는 게시물, TikTok은 사진 프리셋을 사용합니다.
 
-```typescript
-export const GOOGLE_API_KEY = 'YOUR_API_KEY_HERE';
-```
+| 선택 | PNG 해상도 (가로×세로) | 비율 |
+| --- | --- | --- |
+| Instagram 게시물 | 1080×1440 | 3:4 |
+| Instagram 스토리 | 1080×1920 | 9:16 |
+| Facebook 게시물 | 1440×1800 | 4:5 |
+| Facebook 스토리 | 1080×1920 | 9:16 |
+| X 게시물 | 1200×1200 | 1:1 |
+| TikTok 사진 | 1080×1920 | 9:16 |
 
-**Google Cloud Console에서 다음 API 활성화 필요:**
-- Places API
-- Distance Matrix API
-- Directions API
+프리셋별 캔버스와 여백에 맞춰 한 장에 담는 장소 수와 전체 페이지 수를 자동 조정하며, 장소·순서·전체 타임라인은 모두 유지합니다. 긴 일정은 여러 카드로 나누며 페이지 이동으로 미리 본 뒤 **전체 페이지를 순서대로 한 번의 공유창에 전달**합니다. 한 페이지라도 이미지 생성에 실패하면 일부만 공유하지 않고 오류를 표시합니다. X는 게시물당 4장, TikTok은 35장을 넘는 경우 여러 게시물로 나누라는 안내를 표시하되, 전체 이미지 생성·공유·저장을 막거나 페이지를 버리지 않습니다.
 
-👉 [Google Cloud Console](https://console.cloud.google.com)
+출력 기준 SNS 선택과 이미지에 표시할 SNS 프로필 선택은 독립적입니다. 선택한 프로필은 서비스명·`@사용자 이름`을 이미지에 표시하며, 실제 공유 대상 앱이나 로그인 계정을 선택하지 않습니다. 실제 앱은 이후 운영체제 공유창에서 고릅니다. 이 프리셋은 공식적으로 절대 최적인 해상도를 보장하지 않습니다. 공식 확인 범위와 앱 선택값은 [프리셋 근거](release/sns-card-presets/SPECIFICATIONS.md)에 구분해 기록했습니다.
 
-### 3. 앱 실행
+카드에는 ‘출발 시각’과 ‘도착 시각(설정)’을 따로 표시합니다. 설정한 도착 시각은 여행의 마감 기준이며 경로 계산으로 나온 예상 도착 시각이 아닙니다. 저장된 여행을 다시 열면 우측 상단 버튼이 ‘수정’으로 바뀌고 같은 여행의 변경 내용을 저장합니다.
 
-```bash
+기존 `react-native-view-shot`으로 임시 이미지를 만들고 `react-native-share` 12.3.1로 운영체제 공유창을 엽니다. `expo-sharing`은 제거했습니다. 새 네이티브 모듈이므로 기존 빌드 35나 Expo Go에 JavaScript만 반영해 확인할 수 없으며 새 네이티브 빌드가 필요합니다. 사용자가 대상 앱을 고른 뒤 해당 앱에서 계정과 공개 범위를 확인하고 게시합니다. Tribble은 SNS 로그인 상태나 게시 성공 여부를 확인하지 않으며, 공유창을 닫거나 취소한 것을 게시 완료로 표시하지 않습니다. 여러 이미지를 받는 방식과 표시되는 공유 대상은 기기·대상 앱에 따라 달라집니다. 현재 웹에서는 이 로컬 이미지 공유를 제공하지 않습니다.
+
+iOS 공유창에서 사용자가 사진 저장을 선택할 수 있도록 `NSPhotoLibraryAddUsageDescription`을 추가했습니다. 필요할 때 운영체제가 사진 추가 권한을 요청하며, 기존 사진을 읽는 `NSPhotoLibraryUsageDescription`이나 사진 선택·탐색 기능은 추가하지 않았습니다. 미리보기를 열거나 공유 버튼을 누르는 것만으로 사진 보관함에 자동 저장하지 않습니다. iOS 시뮬레이터에서 사진 2장 저장과 새 닉네임의 네이티브 동작을 확인했습니다. 실제 기기의 SNS별 게시 동작은 별도 확인 대상입니다.
+
+공유 미리보기를 연 뒤 도착한 경로 응답이나 여행 편집은 이미 열린 카드에 반영되지 않습니다. 최신 결과가 필요하면 미리보기를 닫고 다시 엽니다. 계산 중·미확인·추정·직접 입력 시간은 카드에도 구분해 표시합니다. 임시 파일은 iOS에서 공유창 종료 후 정리를 시도하고, Android에서는 수신 앱의 지연 읽기를 위해 캡처 라이브러리의 정리에 맡깁니다. 사용자가 다른 앱에 전달하거나 저장한 이미지에는 여행 정보와 선택한 프로필 표시가 남을 수 있습니다.
+
+## 개발 환경과 실행
+
+기반: Expo SDK 54, React Native 0.81.5, React 19.1, TypeScript, Zustand, AsyncStorage. 스토어 SDK 제출 요구사항에 맞춰 기존 SDK 51 네이티브 프로젝트를 SDK 54 템플릿과 대조해 갱신했습니다. Hermes와 기존 아키텍처(`newArchEnabled: false`)를 유지합니다.
+
+```sh
+npm ci
 npm start
 ```
 
-- **i**: iOS 시뮬레이터
-- **a**: Android 에뮬레이터
-- **w**: 웹 브라우저
+네이티브 개발 빌드:
 
----
-
-## 📁 프로젝트 구조
-
-```
-timefit-trip/
-├── src/
-│   ├── components/          # UI 컴포넌트
-│   │   ├── PlaceCard.tsx           # 장소 카드
-│   │   ├── PlaceSearchInput.tsx    # 장소 검색
-│   │   ├── TripSummaryCard.tsx     # 요약 카드
-│   │   ├── TravelBadge.tsx         # 이동 정보 뱃지
-│   │   ├── TransportModePicker.tsx # 교통수단 선택
-│   │   ├── TripNameDialog.tsx      # 여정 이름 입력
-│   │   └── TripShareCard.tsx       # 공유용 카드
-│   ├── screens/             # 화면
-│   │   ├── TripPlannerScreen.tsx   # 여정 편집
-│   │   └── SavedTripsScreen.tsx    # 저장된 목록
-│   ├── stores/              # 상태 관리
-│   │   └── tripStore.ts            # Zustand 스토어
-│   ├── services/            # API
-│   │   └── googleApi.ts            # Google Maps API
-│   ├── utils/               # 유틸리티
-│   │   ├── timeCalculator.ts       # 시간 계산
-│   │   ├── storage.ts              # AsyncStorage
-│   │   └── shareTrip.ts            # 이미지 공유
-│   ├── types/               # TypeScript 타입
-│   │   └── index.ts
-│   └── constants/           # 상수
-│       └── index.ts
-├── App.tsx                  # 앱 진입점
-├── app.json                 # Expo 설정
-├── eas.json                 # EAS Build 설정
-└── package.json
-```
-
----
-
-## 🔧 개발 가이드
-
-### 로컬 개발
-
-```bash
-# 개발 서버 시작
-npm start
-
-# iOS 시뮬레이터
+```sh
 npm run ios
-
-# Android 에뮬레이터
 npm run android
-
-# 캐시 정리
-npx expo start --clear
 ```
 
-### 주요 컴포넌트
+Node.js 20.19.4 이상과 플랫폼 개발 도구가 필요합니다. iOS 최소 지원 버전은 15.1이며 iPhone·iPad를 지원합니다. Android 최소 SDK는 24, compile/target SDK는 36입니다. 네이티브 프로젝트를 직접 관리하므로 `app.json`의 네이티브 설정 변경은 `ios/`·`android/`에도 반영해야 합니다. Expo Go는 기존 아키텍처 설정을 검증하는 환경이 아니므로 프로젝트에 맞는 네이티브 개발 빌드를 사용하세요.
 
-#### TripStore (상태 관리)
-```typescript
-const {
-  currentTrip,        // 현재 여정
-  savedTrips,         // 저장된 여정들
-  summary,            // 시간 요약
-  addPlace,           // 장소 추가
-  removePlace,        // 장소 삭제
-  recalculateTravelTimes, // 이동 시간 재계산
-} = useTripStore();
+프로덕션 EAS 빌드는 Node.js 20.19.4와 `macos-sequoia-15.6-xcode-26.2` 이미지를 사용합니다. Apple은 2026년 4월 28일부터 Xcode 26 이상과 iOS 26 SDK 이상으로 빌드한 제출물을 요구합니다. SDK 54는 이 요구사항을 충족하는 빌드 환경을 사용할 수 있지만, 제출 성공과 실제 기기 동작은 빌드 결과로 별도 확인해야 합니다.
+
+- [Apple 제출 요구사항](https://developer.apple.com/news/upcoming-requirements/?id=04282026a)
+- [Expo의 iOS 26 SDK 제출 안내](https://expo.dev/blog/app-store-connect-minimum-sdk-26)
+- [Expo SDK 54 변경사항](https://expo.dev/changelog/sdk-54)
+
+## 카카오 API 설정
+
+앱에는 공개 서버 주소만 설정합니다. `.env.example`을 참고해 Git에서 제외되는 `.env.local`에 입력합니다.
+
+```dotenv
+EXPO_PUBLIC_KAKAO_API_URL=https://pastelinkers.com/tribble/api
 ```
 
-#### 이동 시간 계산
-- Google Distance Matrix API 우선 사용
-- API 실패 시 직선 거리 기반 추정 (Haversine formula)
-- 교통 수단별 속도: 자동차(25km/h), 도보(4.5km/h), 대중교통(20km/h), 자전거(15km/h)
+서버 환경변수에는 `KAKAO_REST_API_KEY`를 설정합니다. **공급자 키를 `EXPO_PUBLIC_` 환경변수나 앱 소스에 넣지 않습니다.** `/api/places`는 검색어만, `/api/route`는 두 좌표·이동수단·출발 시각만 받아 필요한 카카오 API를 호출합니다. 이름·전체 여행·Google 장소 ID는 경로 요청에 전달하지 않습니다. [서버 실행·배포 가이드](server/README.md)를 따르세요.
 
----
+2026-10-27 위 주소의 공개 HTTPS 배포를 완료했습니다. `tribble-api` systemd 서비스는 자동 시작이 활성화되어 있고, Node는 `127.0.0.1:8787`에서 기존 Nginx의 `/tribble/` 경로를 통해 요청을 받습니다. `GET https://pastelinkers.com/tribble/healthz`는 API 쿼터 없이 프로세스 생존을 확인합니다. 로컬 `.env.local`과 EAS 프로젝트 `@freezner/tribble`의 production 환경에 공개 주소를 설정했으며, 이미 설치된 앱에는 소급 적용되지 않습니다.
 
-## 🐛 문제 해결
+공개 환경변수를 바꾼 뒤에는 `npx expo start --clear` 또는 `npx expo export --clear`로 Metro 캐시를 초기화합니다. 이번 검증에서는 캐시를 유지한 첫 번들에 이전 검증용 주소가 남아 있었고, 캐시 초기화 후 두 플랫폼 모두 운영 주소가 들어갔음을 번들에서 확인했습니다. 환경변수 등록 성공만으로 기존 번들의 주소가 바뀌었다고 판단하지 않습니다.
 
-### npm 설치 오류
+- 장소 검색: 카카오맵 키워드 검색 결과의 이름·주소·좌표를 바로 선택하며 별도 Google 상세 조회를 하지 않습니다. 현재 검색 범위는 대한민국입니다.
+- 국내 자동차: 기본은 현재 교통 기준 경로입니다. 예정 출발 시각과 계산 기준이 다르면 추정값임을 표시합니다. 미래 교통 예측은 이용 승인을 확인하고 서버에서 `KAKAO_FUTURE_DRIVING_ENABLED=true`로 명시적으로 켠 경우에만 사용합니다. API 실패 시 다른 기준으로 조용히 대체하지 않습니다.
+- 국내 도보·자전거: 각 이동수단의 실제 경로 소요 시간을 사용합니다.
+- 국내 대중교통: 현재 공개 API에는 출발 날짜·시각 입력이 없어 `estimated/current-schedule`로 표시합니다. 예정 날짜의 시간표를 반영했다고 표시하지 않습니다.
+- 국내 구간 판별: 국가 코드가 있으면 이를 사용하고, 이전 초안에 국가 코드가 없을 때만 국내 범위 좌표를 공급자 선택 힌트로 사용합니다. 경로의 존재 여부는 API 응답으로 판단합니다.
 
-**증상**: `EACCES: permission denied`
+카카오맵 도보·대중교통·자전거는 [2026-07-21 공개 개편](https://devtalk.kakao.com/t/api-4/150764) 대상입니다. 무료 쿼터는 계정의 첫 활성화 앱에 적용되며 실제 앱의 적용 여부를 확인해야 합니다. 유료 사용은 이 코드 변경만으로 활성화되지 않습니다. 자동차는 카카오모빌리티의 별도 API이며 [미래 경로의 상업 이용 공식 안내](https://devtalk.kakao.com/t/future-directions-api-v1-future-directions/151611)에 따라 실제 출시 전 서비스의 이용 조건을 확인해야 합니다. 무료 제공량만으로 상업 이용 조건을 확정하지 않습니다.
 
-**해결:**
-```bash
-sudo chown -R $(whoami) ~/.npm
-npm cache clean --force
-npm install --legacy-peer-deps
+콘솔의 미사용 앱 `moonlgalu`(415072)를 사용자 확인 후 `Tribble`로 변경했고, 기존 카카오맵 무료 쿼터와 활성화 상태를 유지했습니다. 유료 카카오맵 API는 `사용 안 함`이며 비즈월렛을 연결하지 않았습니다. REST 키는 Git 제외 `server/.env`에 권한 0600으로 설정했습니다. 키를 문서·앱 번들에 복사하지 않습니다.
+
+2026-10-27 로컬 서버와 공개 HTTPS 주소에서 실제 공급자를 연결해 **초당순두부마을→부산역 자동차**, **부산역→초량역 도보·자전거**, **부산역→서면역 대중교통** 성공 응답을 확인했습니다. 다음 날 출발을 지정한 기본 자동차 요청이 현재 교통 기준 추정으로 표시되는 것도 확인했습니다. 미래 교통 예측 API는 활성화하거나 호출하지 않았습니다. 자동화 테스트의 시간은 여전히 모의 데이터이며, 실 API 확인과 구분합니다. 새 앱의 실제 기기 검증, 공개 개인정보 문서·스토어 개인정보 갱신은 출시 전에 필요합니다.
+
+기존 해외 여행을 유지하기 위한 Google 경로 호환 코드는 남아 있습니다. 필요한 경우 기존 `EXPO_PUBLIC_GOOGLE_MAPS_API_KEY`를 사용하며 이는 앱에서 읽을 수 있는 공개 설정입니다. 국내 검색과 국내 네 가지 이동수단은 이 키 없이 카카오 프록시를 사용합니다. Google 키 회전과 해외 Legacy API 교체는 이 변경에 포함하지 않습니다.
+
+외부 지도 버튼은 국내 구간에 카카오맵, 그 외에는 Google Maps를 엽니다. 직접 시간 조정과 함께 접힌 보조 기능으로 유지하며, 자동 계산을 기본 흐름으로 제공합니다.
+
+## 이동 시간의 의미
+
+| 상태 | 의미 | 전체 일정 표시 |
+| --- | --- | --- |
+| `pending` | 계산 대기/진행 | 완료될 때까지 가능 여부를 확정하지 않음 |
+| `ready` | API가 경로와 예상 소요 시간을 반환 | 경로 기반 예상 시간 |
+| `estimated` | 출발 시각과 다른 교통 기준, 평균 교통시간 또는 직접 입력 | 추정/직접 입력 출처 표시 |
+| `unavailable` | 제공자 지원 제한, 경로 확인 실패, 인증·할당량 문제 등 | 해결 전 전체 시간 판정 보류 |
+
+경로 없음·인증·할당량·네트워크·시간초과를 정상 이동 시간으로 바꾸지 않습니다. 직선거리와 고정 속도로 이동 시간을 대신 만드는 경로는 제거했습니다. 과거 `straight-line` 결과는 초안 재개 시 실제 API로 다시 계산하며 직접 입력한 시간은 보존합니다.
+
+자동 계산값은 여행을 다시 열거나 앱이 활성화될 때 만료 여부를 확인합니다. 활성 화면에서 오래된 값을 표시하지 않되 화면을 켜 둔 것만으로 주기적인 API 요청을 반복하지 않습니다. 재개·다시 계산·관련 입력 변경 시 필요한 구간을 조회합니다. 카카오 도보·자전거는 같은 세션에서 출발·도착지와 이동수단이 유지되면 날짜·시간 변화만으로 재조회하지 않습니다. 과거 TMAP 결과의 24시간 사용 제한과 수동 시간 보존은 유지합니다.
+
+카카오 자동 경로의 시간·거리·성공 계산시각은 여행 저장소에 영구 저장하지 않습니다. 초안에는 장소와 사용자 설정을 보관하고 앱 재실행 후 다시 계산합니다. 같은 세션의 화면에서는 현재 계산 결과를 사용하며, 저장 직후 요약을 없애지 않습니다. 사용자가 공유한 이미지에는 해당 시점에 표시된 결과가 남을 수 있습니다. 과거/현재 교통 기반 추정과 예정 출발 시각의 예측을 구분하고 API 예상값이 실제 도착을 보장하지 않음을 표시합니다.
+
+모든 장소의 국가 코드가 `KR`이면 한국 시간(KST)으로 출발 시각을 계산하고 화면에 표시합니다. 국가가 확인되지 않은 이전 기록이나 해외·혼합 일정은 기존 기기 시간대 기준을 유지합니다.
+
+**출시 전 이용 범위 확인이 필요합니다.** [2026-10-20 카카오맵 답변](https://devtalk.kakao.com/t/api/152264/2)은 실시간 조회와 출처 표시를 전제로 하며 응답 임시 캐시 재사용을 허용하지 않고, 장소 ID·URL 저장을 명시적으로 허용합니다. 현재 여행의 장소명·주소·좌표 저장 및 같은 편집 화면의 결과 유지가 허용되는지는 Tribble의 동작을 설명해 확인해야 합니다. 경로 결과를 디스크에서 제거한 것만으로 전체 이용조건을 충족했다고 간주하지 않습니다.
+
+검색은 350ms 디바운스, 요청 취소와 최신 응답 검증을 사용합니다. 네트워크 오류와 검색 결과 없음을 구분하고 재시도할 수 있습니다. 일정 계산은 변경된 입력을 기준으로 결과를 반영하며, 이전 요청이 새 일정이나 편집 내용을 덮어쓰지 않도록 보호합니다.
+
+## 저장 및 데이터
+
+사용자 계정 없이 기기의 AsyncStorage에 여행, 초안, 언어 설정, 선택적으로 등록한 SNS 프로필과 카드 타이틀을 저장합니다. SNS 프로필과 카드 타이틀은 각각 별도 저장 키를 사용하며 여행 전체 삭제로 지워지지 않습니다. SNS 프로필은 해당 편집 화면에서 따로 삭제하고, 카드 타이틀은 입력란을 비운 뒤 저장하면 기본값으로 돌아갑니다. 카드 설정의 읽기·저장 실패는 오류로 안내하며 손상된 데이터를 빈값으로 덮어쓰지 않습니다.
+
+국내 검색어와 경로 요청은 중계 서버를 통해 카카오에서 처리됩니다. 서버는 검색어·좌표·경로를 자체 영구 저장하지 않으며, 요청 제한을 위한 IP 처리와 호스팅 및 API 제공자의 통신 기록은 별도로 구분합니다. 카카오 자동 경로 결과를 여행 저장소에서 제외하는 정책과 공유 이미지에 현재 결과가 표시되는 동작도 구별합니다. 로컬 [privacy.md](privacy.md)와 [SUPPORT.md](SUPPORT.md)는 현재 소스에 맞춰 갱신했습니다. 공개 원격 문서와 스토어 개인정보 항목의 반영·검증은 별도 작업입니다.
+
+이동 구간은 장소에 붙은 숫자 대신 `TravelLeg`로 구분합니다. 각 구간에 출발/도착 장소, 교통수단, 상태, 시간·거리, 출처, 계산시각이 있습니다. 장소 삭제/재정렬 때 구간을 다시 연결하고, 해결되지 않은 이동 시간은 0분으로 합산하지 않습니다.
+
+저장 형식은 버전 2이며, 기존 `trips` 형식의 데이터는 읽을 때 변환합니다. 기존 이동 시간은 검증된 경로로 간주하지 않습니다. 저장 작업을 순서대로 처리하고 실패를 호출자에게 전달해 실패한 저장을 성공으로 표시하지 않습니다. 저장소를 읽지 못할 때 빈 목록으로 덮어쓰지 않습니다.
+
+초안은 새 여행을 시작해도 유지되며 별도 목록에서 다시 엽니다. 화면 이동 전 `flushDrafts()`가 보관 실패한 초안을 포함해 저장을 재시도하고, 실패하면 입력 화면에 남습니다. 아직 적용하지 않은 시간 설정은 적용/입력 취소/계속 편집 중 선택합니다. 앱 강제 종료 전에 한 번도 기기에 저장되지 않은 과거 기록을 복구하는 기능은 아닙니다.
+
+## 검사
+
+```sh
+node --test tests/*.test.cjs
+./node_modules/.bin/tsc --noEmit
+npm --prefix server test
 ```
 
-### "too many open files" 오류
+회귀 테스트는 TypeScript를 메모리에서 변환하고 AsyncStorage 및 Google·카카오 API를 모의 처리합니다. 실제 제공자 API를 호출하거나 요금을 발생시키지 않습니다. 핵심 검증 대상은 계산 중 편집/화면 전환, 구간 재연결, 미확인 시간 처리, 저장 실패·순차 저장·이전 형식 변환, 경로 실패 분류, 출발 시각 전달, 만료값 제거, 초안 재개, 언어 설정 복원입니다. SNS 후속 테스트에는 프로필 입력·저장 실패, 카드 분할·일정 스냅샷, 공유 취소·오류와 플랫폼별 임시 파일 정리가 포함됩니다.
 
-**해결:**
-```bash
-# Watchman 설치
-brew install watchman
+실제 기기에서의 키보드·접근성·긴 일정 공유, 실제 Google·카카오 응답 및 비용, 스토어 빌드/제출은 별도 검증 대상입니다. 자동화 테스트 통과는 실 API나 네이티브 릴리스 검증을 대신하지 않습니다.
+
+2026-10-27 확인: 앱 회귀 테스트 137개, 서버 테스트 46개, TypeScript 검사 통과. 서버 테스트는 배포 대상 Node 22.22.2에서도 통과했습니다. 운영 서버 주소로 iOS·Android Hermes 번들을 캐시 초기화 후 생성했고, 두 번들에 실제 API 주소가 포함되고 이전 검증용 주소와 카카오 서버 키가 포함되지 않은 것을 확인했습니다. 검증 출력은 `/tmp/tribble-kakao-live-clean-20261027`입니다. 이는 서명된 네이티브 빌드나 스토어 배포 완료를 뜻하지 않습니다.
+
+## 구조
+
+```text
+App.tsx                     화면 전환과 초기화
+src/screens/                내 여행, 일정, 설정
+src/components/             장소/구간/요약/공유/검색 UI
+src/constants/theme.ts      색상·간격·타이포그래피
+src/stores/tripStore.ts     편집 상태, 초안, 계산 요청 관리
+src/stores/socialStore.ts   기기 내 SNS 프로필 저장·복원
+src/stores/cardPreferencesStore.ts 카드 타이틀 별도 저장·복원
+src/utils/timeCalculator.ts 일정·타임라인 계산
+src/utils/storage.ts        저장 큐와 버전 변환
+src/utils/socialProfiles.ts 공개 SNS 프로필 형식 검사
+src/utils/tripShareLayout.ts 공유 카드 비율·페이지 구성
+src/utils/shareTrip.ts      PNG 캡처와 운영체제 공유창
+src/services/googleApi.ts   해외 호환 경로 및 국내 카카오 분기
+src/services/koreanRouting.ts 국내 네 가지 이동수단 응답 검증
+src/services/placesApi.ts    카카오 장소 검색 프록시
+src/services/mapsProxy.ts    공개 서버 주소 검증
+server/                     카카오 키 보호·검색/경로 정규화·요청 제한
+src/i18n/                   언어 리소스와 초기화
+tests/                      모의 API/저장소 기반 회귀 테스트
 ```
 
-### Google API 오류
+## 배포 시 확인할 부분
 
-**증상**: `REQUEST_DENIED`
+기존 iOS TestFlight 빌드 1.1.1(33)과 날짜 수정 빌드 1.1.1(34)의 진행 기록은 위 링크를 참고하세요. **SNS 프로필·새 카드 공유 기능은 TestFlight 1.1.1(35)에 포함됐습니다.** [빌드 35 기록](release/1.1.1/TESTFLIGHT-build35.md)을 참고하세요. EAS 설정은 `appVersionSource: remote`와 프로덕션 `autoIncrement: true`를 사용하므로 iOS 빌드 번호는 원격 값을 기준으로 증가합니다. `production` 환경의 `EXPO_PUBLIC_KAKAO_API_URL`이 배포된 서버를 가리켜야 국내 검색·경로가 동작합니다. 서버에는 카카오 REST 키를 별도로 공급해야 합니다. Android 네이티브 버전은 기존 1.1.0으로 유지하며 이번에는 빌드하지 않았습니다.
 
-**해결:**
-1. Google Cloud Console에서 API 활성화
-   - Places API
-   - Distance Matrix API
-   - Directions API
-2. 청구 계정 연결 (매달 $200 무료)
-3. API 키를 `src/constants/index.ts`에 입력
+전체 PNG 일괄 공유·사진 권한 안내·카드 타이틀·출발/설정 도착 라벨·저장된 여행 수정 표시와 SNS별 이미지 프리셋은 **TestFlight 1.1.1(37)**에 포함됐습니다. 빌드 36의 Apple 사진 접근 목적 설명 누락 오류를 보완해 빌드 37의 처리·기존 내부 그룹 연결까지 완료했습니다. [빌드 37 기록](release/1.1.1/TESTFLIGHT-build37.md)을 참고하세요. 실제 iPhone의 SNS 수신·게시 검증은 별도로 진행합니다. 후속 빌드 39의 App Store 심사 제출과 공개 지원·개인정보 문서 및 스토어 문구 반영은 2026-10-30 완료했습니다. [최종 제출 기록](release/1.1.1/store-20261030-submission.json)을 참고하세요.
 
-### 이동 시간 미계산
+1.1.1(33) IPA에서 버전·서명·App Store 프로비저닝·SDK 26.2·운영 API 주소 포함과 카카오 서버 키 미포함을 확인했습니다. [TestFlight 진행 기록](release/1.1.1/TESTFLIGHT.md)과 [IPA 검증 근거](release/1.1.1/ios/build-33-verification.json)를 참고하세요. TestFlight 업로드와 정식 App Store 심사 제출은 별도 단계입니다.
 
-**원인**: API가 ZERO_RESULTS 반환
+현재 iOS 프로덕션 빌드는 `credentialsSource: local`로 설정되어 있습니다. 프로젝트 루트의 Git 제외 `credentials.json`이 저장소 밖의 P12 인증서와 App Store 프로비저닝 프로파일을 참조하며, 이 파일에는 P12 암호가 포함되므로 권한을 `0600`으로 유지합니다. 서명 파일은 사용자 전용 `~/.config/tribble/signing/` 아래에 보관합니다. 다른 기기/CI에서는 해당 자료와 로컬 설정을 안전하게 공급해야 합니다. EAS 클라우드 빌드에도 이 로컬 자료가 작업별로 전달되지만 원격 관리 자격증명으로 자동 등록되지는 않습니다.
 
-**자동 해결**: 직선 거리 기반 추정값으로 폴백됨
-
-**로그 확인:**
-```
-⚠️ API ZERO_RESULTS, walking 모드로 직선 거리 추정 사용
-⚠️ 추정 계산 (walking): 직선거리 2000m → 실제거리 2400m, 속도 4.5km/h → 32분
-```
-
-### iOS SDK 버전 오류
-
-**증상**: `SDK version issue. This app was built with the iOS 17.5 SDK`
-
-**해결:**
-1. **Xcode 업데이트**: Xcode 16 이상 필요
-2. **배포 타겟 설정**: iOS 14.0 이상
-3. **CocoaPods 재설치**:
-   ```bash
-   cd ios
-   rm -rf Pods Podfile.lock
-   pod install
-   ```
-4. **EAS 빌드 설정 업데이트**:
-   ```json
-   {
-     "ios": {
-       "xcodeVersion": "16.0",
-       "image": "latest"
-     }
-   }
-   ```
-
-**Apple 요구사항**: 2025년 4월 24일부터 iOS 18 SDK 필수
-👉 [Expo 공식 안내](https://expo.dev/blog/apple-sdk-minimum-requirements)
-
----
-
-## 📱 아이폰 설치
-
-### Expo Go 사용 (가장 쉬움)
-
-1. App Store에서 **Expo Go** 설치
-2. 터미널: `npm start`
-3. 아이폰 카메라로 QR 코드 스캔
-
-### 다른 네트워크에서
-
-```bash
-npx expo start --tunnel
-```
-
----
-
-## 🚀 App Store 배포
-
-### 1. Bundle ID 설정
-
-`app.json` 파일에서:
-```json
-"bundleIdentifier": "com.yourname.tribble"
-```
-
-### 2. iOS SDK 요구사항 확인
-
-**중요**: Apple은 2025년 4월 24일부터 iOS 18 SDK 필수 요구
-👉 [Expo 공식 안내](https://expo.dev/blog/apple-sdk-minimum-requirements)
-
-- **Xcode**: 16.0+ 설치 필요
-- **iOS 배포 타겟**: 14.0+ 설정
-- **빌드 환경**: iOS 18 SDK 사용
-
-### 3. EAS 빌드
-
-```bash
-# EAS CLI 설치
-npm install -g eas-cli
-
-# 로그인
-eas login
-
-# 프로젝트 설정
-eas build:configure
-
-# iOS 빌드 (캐시 클리어 권장)
-eas build --platform ios --profile production --clear-cache
-```
-
-**소요 시간**: 20-30분
-
-### 4. App Store Connect 설정
-
-1. [App Store Connect](https://appstoreconnect.apple.com) 접속
-2. 새 앱 만들기
-3. App ID 확인 (10자리 숫자)
-4. `eas.json`에서 `ascAppId` 수정
-5. 제출:
-   ```bash
-   eas submit --platform ios --latest
-   ```
-
-### 5. 스크린샷 및 정보 입력
-
-- 스크린샷: 최소 3개 (1290 x 2796)
-- 설명, 키워드 입력
-- 연령 등급 설정 (4+)
-
-### 6. 심사 제출
-
-- **"심사를 위해 제출"** 클릭
-- 심사 기간: 1-3일
-
----
-
-## 🔑 환경 변수
-
-### Google API 키
-
-**필수**: Google Cloud Console에서 발급
-- Places API
-- Distance Matrix API  
-- Directions API
-
-**설정 위치**: `src/constants/index.ts`
-
-**청구 계정**: 연결 필수 (매달 $200 무료 크레딧)
-
----
-
-## 🎨 UI 디자인
-
-### 듀오링고 스타일
-
-```typescript
-export const DUOLINGO_COLORS = {
-  green: '#58CC02',      // 성공, 저장
-  red: '#FF4B4B',        // 시간 초과, 삭제
-  blue: '#1CB0F6',       // 액션, 강조
-  gray: '#777777',       // 텍스트
-  lightGray: '#E5E5E5',  // 배경
-};
-```
-
-### 컴포넌트 구성
-
-- **PlaceCard**: 장소 정보 (이름, 주소, 체류 시간)
-- **TravelBadge**: 카드 사이 이동 정보 (교통수단, 시간, 거리)
-- **TripSummaryCard**: 총 소요 vs 가능 시간 비교
-
----
-
-## 📤 공유 기능
-
-### 이미지 캡처 및 공유
-
-```typescript
-import { shareTripAsImage } from '../utils/shareTrip';
-
-// 여정을 이미지로 공유
-await shareTripAsImage(viewRef, tripName);
-```
-
-**공유 가능 앱**: 카카오톡, 메시지, 이메일, SNS 등
-
-**이미지 내용**:
-- 여정 이름 및 요약
-- 전체 장소 목록
-- 이동 수단 및 시간
-- 워터마크
-
----
-
-## 🧪 테스트
-
-### 기본 테스트 흐름
-
-1. **장소 검색**: "경복궁" 입력
-2. **장소 선택**: 자동완성 결과 클릭
-3. **두 번째 장소**: "인사동" 추가 → 이동 수단 선택 (🚶 도보)
-4. **이동 시간 확인**: 자동 계산 (15분 · 1.2km)
-5. **요약 확인**: 총 소요 시간 vs 가능 시간
-6. **저장**: 여정 이름 입력 후 저장
-7. **공유**: 📤 버튼으로 이미지 공유
-
-### 콘솔 로그 확인
-
-```
-✅ Google Places API 응답: {"status": "OK"}
-✅ 장소 추가: 경복궁
-✅ 이동 시간 계산 시작: 2개 장소
-✅ Distance Matrix API 호출
-⚠️ API ZERO_RESULTS, walking 모드로 직선 거리 추정
-✅ 계산 완료: 15분, 1200m
-```
-
----
-
-## 📊 데이터 구조
-
-### Trip (여정)
-
-```typescript
-interface Trip {
-  id: string;
-  name: string;
-  places: PlaceWithDuration[];
-  totalAvailableTime: number;  // 가용 시간 (분)
-  transportMode: TransportMode; // 기본 교통수단
-  createdAt: Date;
-  updatedAt: Date;
-}
-```
-
-### PlaceWithDuration (장소)
-
-```typescript
-interface PlaceWithDuration {
-  id: string;
-  name: string;
-  address: string;
-  latitude: number;
-  longitude: number;
-  placeId?: string;
-  stayDuration: number;           // 체류 시간
-  travelTimeToNext?: number;      // 다음 장소까지 이동 시간
-  travelDistance?: number;        // 다음 장소까지 거리
-  transportModeToNext?: TransportMode; // 다음 장소까지 교통수단
-}
-```
-
----
-
-## 🔄 업데이트 배포
-
-### 배포 전 버전 업데이트
-
-배포하기 전에 다음 파일들의 버전을 일관되게 업데이트해야 합니다:
-
-#### 1. `package.json`
-```json
-{
-  "version": "1.0.4" → "1.0.5"
-}
-```
-
-#### 2. `app.json`
-```json
-{
-  "expo": {
-    "version": "1.0.4" → "1.0.5",
-    "ios": {
-      "buildNumber": "5" → "6"  // iOS는 매번 증가 필요
-    },
-    "android": {
-      "versionCode": 1 → 2  // Android는 매번 증가 필요
-    }
-  }
-}
-```
-
-#### 3. `android/app/build.gradle`
-```gradle
-defaultConfig {
-    versionCode 1 → 2
-    versionName "1.0.4" → "1.0.5"
-}
-```
-
-#### 4. `src/screens/SettingsScreen.tsx`
-```typescript
-// 화면에 표시되는 버전도 업데이트
-<Text style={styles.appVersion}>{t('appVersion')} 1.0.5</Text>
-```
-
-### 버전 번호 규칙
-
-- **Major.Minor.Patch** 형식 사용 (예: `1.0.5`)
-  - **Major**: 큰 기능 변경, 호환성 깨짐
-  - **Minor**: 새로운 기능 추가
-  - **Patch**: 버그 수정, 작은 개선
-
-### 버전 업데이트 체크리스트
-
-배포 전 확인:
-- [ ] `package.json`의 `version` 업데이트
-- [ ] `app.json`의 `version` 업데이트
-- [ ] `app.json`의 iOS `buildNumber` 증가
-- [ ] `app.json`의 Android `versionCode` 증가
-- [ ] `android/app/build.gradle`의 `versionName` 업데이트
-- [ ] `android/app/build.gradle`의 `versionCode` 증가
-- [ ] `SettingsScreen.tsx`의 표시 버전 업데이트
-- [ ] `ios/Tribble/Info.plist`의 <string>{{version}}</string> 증가
-
-### 새 빌드 및 제출
-
-```bash
-# 1. 버전 업데이트 완료 후 빌드
-eas build --platform ios --profile production --clear-cache
-
-# 2. App Store 제출
-eas submit --platform ios --latest
-```
-
-### Android 배포
-
-```bash
-# Android 빌드
-eas build --platform android --profile production
-
-# Google Play Console 제출
-eas submit --platform android --latest
-```
-
----
-
-## 💡 개발 팁
-
-### 빠른 개발
-
-```bash
-# Hot Reload 활성화 (Expo Go)
-npm start
-
-# 코드 변경 → 자동 새로고침
-```
-
-### 디버깅
-
-```bash
-# 상세 로그 확인
-npx expo start --dev-client
-
-# React DevTools
-npx expo start --devtools
-```
-
-### 성능 최적화
-
-- 이동 시간 계산은 비동기로 처리
-- 장소 추가/삭제 시 자동 재계산
-- AsyncStorage로 빠른 로컬 저장
-
----
-
-## 📚 주요 파일 설명
-
-### `src/stores/tripStore.ts`
-- Zustand 기반 전역 상태 관리
-- 장소 추가/삭제/수정
-- 이동 시간 계산 로직
-- 저장/불러오기
-
-### `src/services/googleApi.ts`
-- Google Places Autocomplete
-- Distance Matrix (이동 시간 계산)
-- Directions (경로 정보)
-- 폴백 로직 (직선 거리 추정)
-
-### `src/utils/timeCalculator.ts`
-- 여정 요약 계산
-- 시간 포맷팅
-- 직선 거리 계산 (Haversine)
-
-### `src/components/TravelBadge.tsx`
-- 카드 사이 이동 정보 표시
-- 교통 수단 아이콘 + 시간 + 거리
-- 터치하여 교통수단 변경
-
----
-
-## 🌐 Google API 설정
-
-### 필수 API
-
-1. **Places API** - 장소 검색
-2. **Distance Matrix API** - 이동 시간 계산
-3. **Directions API** - 경로 정보
-
-### 설정 방법
-
-1. [Google Cloud Console](https://console.cloud.google.com) 접속
-2. 프로젝트 생성
-3. "API 및 서비스" → "라이브러리"
-4. 위 3개 API 검색하여 "사용 설정"
-5. "사용자 인증 정보" → API 키 생성
-6. **청구 계정 연결** (필수!)
-7. API 키를 `src/constants/index.ts`에 입력
-
-**무료 크레딧**: 매달 $200 (일반 사용은 무료)
-
----
-
-## 🐛 디버깅 가이드
-
-### 장소 검색 안 됨
-
-**확인사항:**
-1. Google API 키 설정 확인
-2. Places API 활성화 확인
-3. 청구 계정 연결 확인
-4. 콘솔 로그 확인: `Google Places API 응답`
-
-### 이동 시간 미계산
-
-**자동 폴백**: API 실패 시 직선 거리로 추정
-
-**콘솔 로그:**
-```
-⚠️ 추정 계산 (walking): 직선거리 2000m → 실제거리 2400m
-```
-
-**정확도 개선:**
-- Distance Matrix API 활성화
-- API 키 권한 확인
-
-### 저장 안 됨
-
-**확인:**
-1. 장소 1개 이상 추가
-2. 여정 이름 입력
-3. AsyncStorage 오류 로그 확인
-
----
-
-## 📤 배포 명령어 모음
-
-### 개발
-
-```bash
-# Expo Go로 테스트
-npm start
-
-# iOS 시뮬레이터
-npm run ios
-```
-
-### 빌드
-
-```bash
-# iOS Production 빌드
-eas build --platform ios --profile production
-
-# 캐시 없이 빌드
-eas build --platform ios --clear-cache
-
-# 빌드 상태 확인
-eas build:list
-```
-
-### 제출
-
-```bash
-# App Store 제출
-eas submit --platform ios --latest
-
-# 특정 빌드 제출
-eas submit --platform ios --id BUILD_ID
-```
-
-### 업데이트
-
-```bash
-# 1. app.json에서 version 증가
-# 2. 빌드
-eas build --platform ios
-
-# 3. 제출
-eas submit --platform ios --latest
-```
-
----
-
-## ⚙️ 환경 설정
-
-### 필수 도구
-
-- **Node.js**: v18+
-- **npm**: v9+
-- **Watchman**: `brew install watchman`
-- **Expo CLI**: `npm install -g expo-cli`
-- **EAS CLI**: `npm install -g eas-cli`
-
-### iOS 개발 도구
-
-- **Xcode**: 16.0+ (iOS 18 SDK 포함)
-- **macOS**: Sequoia 15.4.1+ (Xcode 16 요구사항)
-- **iOS 배포 타겟**: 14.0+
-- **CocoaPods**: 최신 버전
-
-### Android 개발 도구
-
-- **Android Studio**: 최신 버전
-- **Android SDK**: API 33+
-
----
-
-## 🔐 보안
-
-### API 키 관리
-
-⚠️ **주의**: Google API 키를 Git에 커밋하지 마세요!
-
-**프로덕션 환경:**
-- 환경 변수 사용 권장
-- API 키 제한 설정 (iOS Bundle ID)
-
-### 데이터 저장
-
-- **로컬 전용**: AsyncStorage 사용
-- **서버 전송 없음**: 모든 데이터는 기기에만 저장
-- **개인정보 미수집**: 계정 시스템 없음
-
----
-
-## 📈 성능
-
-### 최적화된 부분
-
-- **비동기 계산**: 이동 시간 계산 중에도 UI 반응
-- **로컬 저장**: 빠른 저장/불러오기
-- **스마트 캐싱**: Google API 호출 최소화
-- **폴백 시스템**: API 실패해도 추정치 제공
-
-### 개선 여지
-
-- 배치 API 호출 (다수 장소 동시 계산)
-- 캐시된 이동 시간 재사용
-- 이미지 캐싱
-
----
-
-## 🎯 향후 개발 계획
-
-- [ ] 드래그 앤 드롭으로 장소 순서 변경
-- [ ] 지도에 경로 표시 (Polyline)
-- [ ] 체류 시간 슬라이더
-- [ ] 가용 시간 설정 UI
-- [ ] 멀티데이 여행 지원
-- [ ] 최적 경로 제안 (TSP)
-- [ ] 계정 및 클라우드 동기화
-
----
-
-## 📞 지원
-
-### 문의
-
-- GitHub Issues
-- Expo 커뮤니티
-- React Native Discord
-
-### 참고 자료
-
-- [Expo 문서](https://docs.expo.dev/)
-- [React Native 문서](https://reactnative.dev/)
-- [Google Maps Platform](https://developers.google.com/maps)
-- [Zustand 문서](https://github.com/pmndrs/zustand)
-- [Apple iOS 18 SDK 요구사항](https://expo.dev/blog/apple-sdk-minimum-requirements)
-
----
-
-## 📄 라이선스
-
-MIT License
-
----
-
-## 🙏 감사
-
-- Google Maps Platform (장소 검색 및 경로 계산)
-- Expo (React Native 개발 환경)
-- Duolingo (UI 디자인 영감)
-
----
-
-**Happy Coding! 🎉**
+네이티브 bundle ID, EAS 프로젝트 ID, iPad 지원과 기존 서명 식별자를 유지했습니다. 실제 프로덕션 서명·App Store Connect 업로드·심사 상태는 EAS/Apple 결과에서 확인하세요. 카카오 실 API 검증은 공개 HTTPS 연결까지 완료했고, EAS production의 공개 API 주소도 등록했습니다. Google 키 교체는 수행하지 않았습니다. SDK 54는 기존 아키텍처를 지원하는 마지막 Expo SDK이므로 다음 SDK 업그레이드에서는 새 아키텍처 전환을 함께 검증해야 합니다.

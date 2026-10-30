@@ -1,0 +1,31 @@
+{
+  "buildId": "51703739-ce73-4bde-81bd-6cc81e8953cc",
+  "easSubmissionId": "1f3dc913-13bd-4cae-8d5f-ac490074b606",
+  "easStatus": "FINISHED",
+  "appStoreBuildId": "48a39854-8cb2-458f-b1f5-f680e3fe81e3",
+  "version": "1.1.0",
+  "build": "32",
+  "appleProcessing": "complete",
+  "release": "automatic after approval",
+  "appStoreReviewStatus": "WAITING_FOR_REVIEW",
+  "appStoreReviewId": "e3d73a32-2821-4aed-9fe6-33215e41ed73",
+  "submittedAtKST": "2026-10-27 01:33",
+  "proof": "../proof/submission-build32-screenshots.jpg",
+  "previousReviewId": "e791affc-3118-4784-9897-011d95ba08c6",
+  "previousReviewCancelled": true,
+  "reviewHistory": [
+    {
+      "id": "99310202-a9d5-4b57-9ff6-abc46aa87ca0",
+      "submittedAtKST": "2026-10-27 01:12",
+      "status": "cancelled to update screenshots"
+    }
+  ],
+  "screenshots": {
+    "iphone": 6,
+    "ipad": 5,
+    "processing": "complete",
+    "visuallyVerified": true,
+    "iphoneTransportReplaced": true,
+    "ipadTransportAdded": true
+  }
+}

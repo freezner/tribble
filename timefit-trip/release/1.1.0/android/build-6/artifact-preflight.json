@@ -1,0 +1,19 @@
+{
+  "buildId": "eb1d7f66-faae-407c-b98f-a4b2e296ab37",
+  "aab": {
+    "path": "/Users/hyungjin/git-repo/tribble/timefit-trip/release/1.1.0/android/tribble-1.1.0-6.aab",
+    "bytes": 29877384,
+    "sha256": "8054fa46f1edb35dec376de97ea66680a7a8255b5c8a389993e9a476bcd68239",
+    "expectedHashMatches": true,
+    "zipIntegrityPass": true
+  },
+  "hermesBundle": {
+    "isHermes": true,
+    "markers": {
+      "provider-coverage": true,
+      "place-not-found": true,
+      "map.kakao.com/link/by/": true
+    }
+  },
+  "protectedSigningFileModesPass": true
+}

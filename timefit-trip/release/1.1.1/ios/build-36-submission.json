@@ -1,0 +1,17 @@
+{
+  "buildId": "e5ee104f-97a8-46d0-9647-dc4ef1699379",
+  "easSubmissionId": "b3588a97-c5d9-435b-9baa-416bdba01095",
+  "version": "1.1.1",
+  "build": "36",
+  "easStatus": "FINISHED",
+  "appleProcessing": "failed",
+  "scope": "TestFlight internal testing only",
+  "appStoreReviewSubmitted": false,
+  "androidBuilt": false,
+  "uploadedAt": "2026-10-29T08:58:28.842590+00:00",
+  "appStoreBuildId": "902abf8f-0360-40cd-9a3c-80d78a33ecb1",
+  "appleErrorCode": "90683",
+  "appleError": "Missing NSPhotoLibraryUsageDescription required by referenced library APIs.",
+  "processingVerifiedAt": "2026-10-29T08:59:18.606452+00:00",
+  "internalGroupLinked": false
+}

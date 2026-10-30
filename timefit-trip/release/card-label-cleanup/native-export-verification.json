@@ -1,0 +1,18 @@
+{
+  "instagram-feed": [
+    {
+      "file": "instagram-feed-1.png",
+      "width": 1080,
+      "height": 1440,
+      "bytes": 140450,
+      "sha256": "4f12b6a86eaddd73e76126e4f3eb9ad92b95ada076a802678d151918ef5e34c1"
+    },
+    {
+      "file": "instagram-feed-2.png",
+      "width": 1080,
+      "height": 1440,
+      "bytes": 123300,
+      "sha256": "d7d448843b7ba83468cae493e9d69e742e9112b18f7ec7ba608b770c73c4ad9c"
+    }
+  ]
+}

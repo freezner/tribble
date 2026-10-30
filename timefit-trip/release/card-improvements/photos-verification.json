@@ -1,0 +1,20 @@
+[
+  {
+    "card": "feed-1.png",
+    "savedFile": "100APPLE/IMG_0007.PNG",
+    "sha256": "fd7c82287ff91200ac18679b01f39347198078812ed5589b87a1d6eaeb753b7c",
+    "size": [
+      1080,
+      1350
+    ]
+  },
+  {
+    "card": "feed-2.png",
+    "savedFile": "100APPLE/IMG_0008.PNG",
+    "sha256": "5ee2bd2658d64b806adf09efa1a35d1c8300e4dae0e3788df5e0d9b15c853b6e",
+    "size": [
+      1080,
+      1350
+    ]
+  }
+]

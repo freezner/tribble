@@ -1,0 +1,13 @@
+{
+  "capturedAt": "2026-10-30T00:39:24.736944+00:00",
+  "deviceName": "Tribble Store39 iPad",
+  "udid": "5E96885B-87A4-42BC-9FAB-AFBF924C3FEE",
+  "filename": "03-transport.jpg",
+  "dimensions": [
+    2064,
+    2752
+  ],
+  "mode": "RGB",
+  "sha256": "ccc90135cd742d4b0ab3bb29975fdd3f442645ed3d6fb71330211edfe5c9d1ec",
+  "method": "xcrun simctl io screenshot --type=jpeg; no image editing"
+}

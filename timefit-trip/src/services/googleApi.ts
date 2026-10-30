@@ -1,295 +1,224 @@
 import axios from 'axios';
 import { GOOGLE_API_KEY } from '../constants';
-import { GooglePlaceAutocomplete, GooglePlaceDetails, RouteStep, TransportMode } from '../types';
+import { GooglePlaceAutocomplete, GooglePlaceDetails, RouteStep, TransportMode, TravelEstimate } from '../types';
+import { calculateKoreanRoute, usesKoreanRouting } from './koreanRouting';
 
 const PLACES_API_BASE = 'https://maps.googleapis.com/maps/api/place';
 const DIRECTIONS_API_BASE = 'https://maps.googleapis.com/maps/api/directions';
 const DISTANCE_MATRIX_API_BASE = 'https://maps.googleapis.com/maps/api/distancematrix';
+export const REQUEST_TIMEOUT_MS = 10000;
 
-/**
- * 두 좌표 간 직선 거리를 계산 (Haversine formula)
- */
-export const calculateStraightDistance = (
-  lat1: number,
-  lng1: number,
-  lat2: number,
-  lng2: number
-): number => {
-  const R = 6371000; // 지구 반지름 (미터)
+export type GoogleApiErrorCode = 'no-route' | 'place-not-found' | 'provider-coverage' | 'auth' | 'quota' | 'network' | 'timeout' | 'invalid-request' | 'unknown' | 'missing-key' | 'cancelled';
+
+export class GoogleApiError extends Error {
+  constructor(public readonly code: GoogleApiErrorCode) {
+    super(code);
+    this.name = 'GoogleApiError';
+  }
+}
+
+interface RequestOptions {
+  signal?: AbortSignal;
+  language?: string;
+}
+
+interface Coordinate {
+  lat: number;
+  lng: number;
+  placeId?: string;
+  countryCode?: string;
+}
+
+const statusError = (status: unknown): GoogleApiError => {
+  if (status === 'REQUEST_DENIED') return new GoogleApiError('auth');
+  if (status === 'OVER_QUERY_LIMIT' || status === 'OVER_DAILY_LIMIT') return new GoogleApiError('quota');
+  if (status === 'ZERO_RESULTS') return new GoogleApiError('no-route');
+  if (status === 'NOT_FOUND') return new GoogleApiError('place-not-found');
+  if (status === 'INVALID_REQUEST' || status === 'MAX_ROUTE_LENGTH_EXCEEDED' || status === 'MAX_ELEMENTS_EXCEEDED') {
+    return new GoogleApiError('invalid-request');
+  }
+  return new GoogleApiError('unknown');
+};
+
+const requestError = (error: unknown): GoogleApiError => {
+  if (error instanceof GoogleApiError) return error;
+  if (axios.isCancel(error)) return new GoogleApiError('cancelled');
+  if (axios.isAxiosError(error)) {
+    if (error.code === 'ECONNABORTED' || error.code === 'ETIMEDOUT') return new GoogleApiError('timeout');
+    if (error.response?.status === 401 || error.response?.status === 403) return new GoogleApiError('auth');
+    if (error.response?.status === 429) return new GoogleApiError('quota');
+    if (error.response?.status === 400) return new GoogleApiError('invalid-request');
+    return new GoogleApiError('network');
+  }
+  return new GoogleApiError('unknown');
+};
+
+const assertKey = () => {
+  if (!GOOGLE_API_KEY.trim()) throw new GoogleApiError('missing-key');
+};
+
+const isCoordinate = (point: Coordinate) => Number.isFinite(point.lat) && Number.isFinite(point.lng)
+  && Math.abs(point.lat) <= 90 && Math.abs(point.lng) <= 180;
+
+const isNonnegativeNumber = (value: unknown): value is number =>
+  typeof value === 'number' && Number.isFinite(value) && value >= 0;
+
+const countryCodeOf = (value: unknown): string | undefined =>
+  typeof value === 'string' && /^[a-z]{2}$/i.test(value) ? value.toUpperCase() : undefined;
+
+const googleRoutePoint = (point: Coordinate): string => point.placeId && !point.placeId.startsWith('kakao:')
+  ? `place_id:${point.placeId}` : `${point.lat},${point.lng}`;
+
+/** Great-circle distance only; this does not establish that a route exists. */
+export const calculateStraightDistance = (lat1: number, lng1: number, lat2: number, lng2: number): number => {
   const dLat = ((lat2 - lat1) * Math.PI) / 180;
   const dLng = ((lng2 - lng1) * Math.PI) / 180;
-  const a =
-    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    Math.cos((lat1 * Math.PI) / 180) *
-      Math.cos((lat2 * Math.PI) / 180) *
-      Math.sin(dLng / 2) *
-      Math.sin(dLng / 2);
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  return R * c; // 거리 (미터)
+  const a = Math.sin(dLat / 2) ** 2 + Math.cos(lat1 * Math.PI / 180)
+    * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLng / 2) ** 2;
+  return 6371000 * 2 * Math.atan2(Math.sqrt(Math.min(1, a)), Math.sqrt(Math.max(0, 1 - a)));
 };
 
-/**
- * 직선 거리를 기반으로 이동 시간 추정
- */
-const estimateTravelTime = (
-  distance: number,
-  mode: TransportMode
-): { duration: number; distance: number } => {
-  // 교통 수단별 거리 계수 (직선 거리 대비 실제 이동 거리)
-  const distanceFactors = {
-    driving: 1.4,    // 자동차는 도로를 따라 우회
-    walking: 1.2,    // 도보는 지름길 가능
-    transit: 1.5,    // 대중교통은 노선을 따라 이동
-    bicycling: 1.3,  // 자전거는 차도보다 유연
-  };
-  
-  // 교통 수단별 평균 속도 (km/h) - 더 현실적으로 조정
-  const speeds = {
-    driving: 25,     // 도심 평균 (신호, 정체 고려)
-    walking: 4.5,    // 일반적인 걷기 속도
-    transit: 20,     // 대중교통 (대기 시간 포함)
-    bicycling: 15,   // 자전거 평균 속도
-  };
-  
-  const actualDistance = Math.round(distance * distanceFactors[mode]);
-  const speedKmh = speeds[mode];
-  const durationMinutes = Math.ceil((actualDistance / 1000 / speedKmh) * 60);
-  
-  console.log(`⚠️ 추정 계산 (${mode}): 직선거리 ${Math.round(distance)}m → 실제거리 ${actualDistance}m, 속도 ${speedKmh}km/h → ${durationMinutes}분`);
-  
-  return {
-    duration: durationMinutes,
-    distance: actualDistance,
-  };
-};
-
-/**
- * 장소 자동완성 검색
- */
-export const searchPlaces = async (input: string): Promise<GooglePlaceAutocomplete[]> => {
+/** Searches distinguish an empty result from an operational failure. */
+export const searchPlaces = async (input: string, options: RequestOptions = {}): Promise<GooglePlaceAutocomplete[]> => {
+  if (input.trim().length < 2) return [];
   try {
-    console.log('Google Places API 호출:', input);
+    assertKey();
     const response = await axios.get(`${PLACES_API_BASE}/autocomplete/json`, {
-      params: {
-        input,
-        key: GOOGLE_API_KEY,
-        language: 'ko',
-      },
+      timeout: REQUEST_TIMEOUT_MS,
+      signal: options.signal,
+      params: { input: input.trim(), key: GOOGLE_API_KEY, language: options.language || 'ko' },
     });
-
-    console.log('Google Places API 응답:', response.data);
-    
-    if (response.data.status !== 'OK' && response.data.status !== 'ZERO_RESULTS') {
-      console.error('Google Places API 오류:', response.data.status, response.data.error_message);
-    }
-
-    return response.data.predictions || [];
+    if (response.data.status === 'ZERO_RESULTS') return [];
+    if (response.data.status !== 'OK') throw statusError(response.data.status);
+    if (!Array.isArray(response.data.predictions)) throw new GoogleApiError('unknown');
+    return response.data.predictions.filter((item: GooglePlaceAutocomplete) =>
+      item && typeof item.place_id === 'string' && typeof item.structured_formatting?.main_text === 'string');
   } catch (error) {
-    console.error('Error searching places:', error);
-    if (axios.isAxiosError(error)) {
-      console.error('API 오류 상세:', error.response?.data);
-    }
-    return [];
+    throw requestError(error);
   }
 };
 
-/**
- * 장소 상세 정보 조회
- */
-export const getPlaceDetails = async (placeId: string): Promise<GooglePlaceDetails | null> => {
+export const getPlaceDetails = async (placeId: string, options: RequestOptions = {}): Promise<GooglePlaceDetails> => {
   try {
-    console.log('Google Place Details API 호출:', placeId);
+    assertKey();
+    if (!placeId) throw new GoogleApiError('invalid-request');
     const response = await axios.get(`${PLACES_API_BASE}/details/json`, {
+      timeout: REQUEST_TIMEOUT_MS,
+      signal: options.signal,
       params: {
-        place_id: placeId,
-        key: GOOGLE_API_KEY,
-        fields: 'place_id,name,formatted_address,geometry',
-        language: 'ko',
+        place_id: placeId, key: GOOGLE_API_KEY,
+        fields: 'place_id,name,formatted_address,geometry,address_components', language: options.language || 'ko',
       },
     });
-
-    console.log('Google Place Details API 응답:', response.data);
-    
-    if (response.data.status !== 'OK') {
-      console.error('Google Place Details API 오류:', response.data.status, response.data.error_message);
+    if (response.data.status !== 'OK') throw statusError(response.data.status);
+    const result = response.data.result;
+    if (!result || typeof result.place_id !== 'string' || typeof result.name !== 'string'
+      || !result.geometry?.location || !isCoordinate(result.geometry.location)) {
+      throw new GoogleApiError('unknown');
     }
-
-    return response.data.result || null;
+    const country = Array.isArray(result.address_components) ? result.address_components.find(
+      (component: { types?: unknown }) => Array.isArray(component?.types) && component.types.includes('country'),
+    ) : undefined;
+    return { ...result, formatted_address: result.formatted_address || '', countryCode: countryCodeOf(country?.short_name) };
   } catch (error) {
-    console.error('Error getting place details:', error);
-    if (axios.isAxiosError(error)) {
-      console.error('API 오류 상세:', error.response?.data);
-    }
-    return null;
+    throw requestError(error);
   }
 };
 
-/**
- * 두 지점 간 이동 시간 및 거리 계산
- */
+/** A real route, a clearly marked estimate, or an unresolved leg. */
 export const calculateDistance = async (
-  origin: { lat: number; lng: number; placeId?: string },
-  destination: { lat: number; lng: number; placeId?: string },
-  mode: TransportMode = 'walking'
-): Promise<{ duration: number; distance: number } | null> => {
+  origin: Coordinate,
+  destination: Coordinate,
+  mode: TransportMode = 'walking',
+  departureAt?: string | Date,
+): Promise<TravelEstimate> => {
+  const date = departureAt ? new Date(departureAt) : undefined;
+  const validDate = !date || Number.isFinite(date.getTime());
+  const metadata = {
+    calculatedAt: new Date().toISOString(),
+    ...(date && validDate ? { departureAt: date.toISOString() } : {}),
+  };
+  const unavailable = (reason: string): TravelEstimate => ({
+    status: 'unavailable', duration: null, distance: null, source: 'none', reason, ...metadata,
+  });
+  // Coverage metadata explains an actual empty response; it never prevents a request
+  // or replaces a successful route. Coordinates and region bias do not establish country.
+  const routeFailure = (status: unknown): TravelEstimate => unavailable(
+    status === 'ZERO_RESULTS' && countryCodeOf(origin.countryCode) === 'KR'
+      && countryCodeOf(destination.countryCode) === 'KR' && ['driving', 'walking', 'bicycling'].includes(mode)
+      ? 'provider-coverage' : statusError(status).code,
+  );
+  if (!isCoordinate(origin) || !isCoordinate(destination) || !validDate
+    || !['driving', 'walking', 'transit', 'bicycling'].includes(mode)) {
+    return unavailable('invalid-request');
+  }
+
+  // Korea needs a provider with domestic road and pedestrian coverage. Old drafts
+  // can lack country metadata; the routing selector also handles those coordinates.
+  if (usesKoreanRouting(origin, destination, mode)) {
+    return calculateKoreanRoute(origin, destination, mode, metadata.departureAt);
+  }
+
   try {
-    // place_id를 우선 사용, 없으면 좌표 사용
-    const originParam = origin.placeId ? `place_id:${origin.placeId}` : `${origin.lat},${origin.lng}`;
-    const destParam = destination.placeId ? `place_id:${destination.placeId}` : `${destination.lat},${destination.lng}`;
-    
-    console.log('Distance Matrix API 호출:', { 
-      origin: originParam, 
-      destination: destParam, 
-      mode 
-    });
-    
+    assertKey();
+    // Driving only accepts present/future departures. Walking/cycling have no
+    // time-dependent duration in this API.
+    const pastDriving = mode === 'driving' && !!date && date.getTime() < Date.now();
+    const usesDeparture = !!date && (mode === 'transit' || (mode === 'driving' && !pastDriving));
     const response = await axios.get(`${DISTANCE_MATRIX_API_BASE}/json`, {
+      timeout: REQUEST_TIMEOUT_MS,
       params: {
-        origins: originParam,
-        destinations: destParam,
-        mode,
-        key: GOOGLE_API_KEY,
-        language: 'ko',
-        region: 'kr',  // 한국 지역 최적화
+        origins: googleRoutePoint(origin),
+        destinations: googleRoutePoint(destination),
+        mode, key: GOOGLE_API_KEY, language: 'ko', region: 'kr',
+        ...(usesDeparture && date ? { departure_time: Math.floor(date.getTime() / 1000) } : {}),
       },
     });
-
-    console.log('Distance Matrix API 응답:', JSON.stringify(response.data, null, 2));
-
+    if (response.data.status !== 'OK') return routeFailure(response.data.status);
     const element = response.data.rows?.[0]?.elements?.[0];
-    console.log('Element 상세:', JSON.stringify(element, null, 2));
-    
-    if (element && element.status === 'OK') {
-      const result = {
-        duration: Math.ceil(element.duration.value / 60), // 초를 분으로 변환
-        distance: element.distance.value, // 미터
-      };
-      console.log('✅ 이동 시간 계산 완료:', `${result.duration}분, ${result.distance}m`);
-      return result;
-    }
-
-    if (response.data.status !== 'OK') {
-      console.error('❌ Distance Matrix API 오류:', response.data.status, response.data.error_message);
-    }
-    
-    if (element) {
-      if (element.status !== 'OK') {
-        console.error('❌ Distance Matrix 요소 오류:', element.status);
-        
-        // ZERO_RESULTS인 경우
-        if (element.status === 'ZERO_RESULTS') {
-          // place_id에서 좌표로 재시도 (한 번만)
-          if (origin.placeId || destination.placeId) {
-            console.log('🔄 좌표로 재시도...');
-            return calculateDistance(
-              { lat: origin.lat, lng: origin.lng },
-              { lat: destination.lat, lng: destination.lng },
-              mode
-            );
-          }
-          
-          // 좌표로도 실패하면 바로 추정치 사용 (요청한 교통수단으로)
-          console.log(`⚠️ API ZERO_RESULTS, ${mode} 모드로 직선 거리 추정 사용`);
-          const straightDistance = calculateStraightDistance(
-            origin.lat,
-            origin.lng,
-            destination.lat,
-            destination.lng
-          );
-          const estimated = estimateTravelTime(straightDistance, mode);
-          return estimated;
-        }
-      }
-    } else {
-      console.error('❌ Element가 없습니다');
-    }
-
-    // 최후의 수단: 직선 거리로 추정
-    console.log('⚠️ 모든 시도 실패, 직선 거리로 추정...');
-    const straightDistance = calculateStraightDistance(
-      origin.lat,
-      origin.lng,
-      destination.lat,
-      destination.lng
-    );
-    const estimated = estimateTravelTime(straightDistance, mode);
-    console.log(`📏 추정 결과: ${estimated.duration}분, ${estimated.distance}m`);
-    return estimated;
+    if (!element || element.status !== 'OK') return routeFailure(element?.status);
+    const trafficDuration = element.duration_in_traffic?.value;
+    const hasTraffic = mode === 'driving' && usesDeparture && isNonnegativeNumber(trafficDuration);
+    const seconds = hasTraffic ? trafficDuration : element.duration?.value;
+    if (!isNonnegativeNumber(seconds) || !isNonnegativeNumber(element.distance?.value)) return unavailable('unknown');
+    const reason = pastDriving ? 'past-departure'
+      : mode === 'driving' && !hasTraffic ? 'traffic-unavailable' : undefined;
+    return {
+      status: reason ? 'estimated' : 'ready', duration: Math.ceil(seconds / 60),
+      distance: element.distance.value, source: 'google', ...(reason ? { reason } : {}), ...metadata,
+    };
   } catch (error) {
-    console.error('Error calculating distance:', error);
-    if (axios.isAxiosError(error)) {
-      console.error('API 오류 상세:', error.response?.data);
-    }
-    
-    // 오류 발생 시에도 추정치 반환
-    console.log('⚠️ API 오류 발생, 직선 거리로 추정...');
-    const straightDistance = calculateStraightDistance(
-      origin.lat,
-      origin.lng,
-      destination.lat,
-      destination.lng
-    );
-    const estimated = estimateTravelTime(straightDistance, mode);
-    console.log(`📏 추정 결과: ${estimated.duration}분, ${estimated.distance}m`);
-    return estimated;
+    const failure = requestError(error);
+    return unavailable(failure.code);
   }
 };
 
-/**
- * 경로 정보 조회
- */
+/** Optional route geometry, not currently used by the planner. */
 export const getDirections = async (
-  waypoints: Array<{ lat: number; lng: number }>,
-  mode: TransportMode = 'driving'
+  waypoints: Array<{ lat: number; lng: number }>, mode: TransportMode = 'driving',
 ): Promise<RouteStep[] | null> => {
+  if (waypoints.length < 2 || !waypoints.every(isCoordinate)) return null;
   try {
-    if (waypoints.length < 2) {
-      return null;
-    }
-
+    assertKey();
     const origin = waypoints[0];
     const destination = waypoints[waypoints.length - 1];
     const intermediate = waypoints.slice(1, -1);
-
-    const params: any = {
-      origin: `${origin.lat},${origin.lng}`,
-      destination: `${destination.lat},${destination.lng}`,
-      mode,
-      key: GOOGLE_API_KEY,
-      language: 'ko',
-    };
-
-    if (intermediate.length > 0) {
-      params.waypoints = intermediate
-        .map((wp) => `${wp.lat},${wp.lng}`)
-        .join('|');
-    }
-
-    const response = await axios.get(`${DIRECTIONS_API_BASE}/json`, { params });
-
-    const route = response.data.routes?.[0];
-    if (!route) {
-      return null;
-    }
-
-    const steps: RouteStep[] = [];
-    route.legs.forEach((leg: any) => {
-      leg.steps.forEach((step: any) => {
-        steps.push({
-          startLocation: step.start_location,
-          endLocation: step.end_location,
-          distance: step.distance,
-          duration: step.duration,
-          polyline: step.polyline.points,
-        });
-      });
+    const response = await axios.get(`${DIRECTIONS_API_BASE}/json`, {
+      timeout: REQUEST_TIMEOUT_MS,
+      params: {
+        origin: `${origin.lat},${origin.lng}`, destination: `${destination.lat},${destination.lng}`,
+        mode, key: GOOGLE_API_KEY, language: 'ko',
+        ...(intermediate.length ? { waypoints: intermediate.map(p => `${p.lat},${p.lng}`).join('|') } : {}),
+      },
     });
-
-    return steps;
-  } catch (error) {
-    console.error('Error getting directions:', error);
+    if (response.data.status !== 'OK') return null;
+    const route = response.data.routes?.[0];
+    if (!route) return null;
+    return route.legs.flatMap((leg: any) => leg.steps.map((step: any) => ({
+      startLocation: step.start_location, endLocation: step.end_location,
+      distance: step.distance, duration: step.duration, polyline: step.polyline.points,
+    })));
+  } catch {
     return null;
   }
 };
-
-

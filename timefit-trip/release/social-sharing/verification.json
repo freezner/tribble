@@ -1,0 +1,31 @@
+{
+  "date": "2026-10-29",
+  "status": "testflight-internal-testing",
+  "testsPassed": 191,
+  "typecheck": "passed",
+  "nativeBuild": "Xcode 26.2 Debug arm64 iOS Simulator succeeded",
+  "device": "iPhone 16e iOS 26.2",
+  "proofs": [
+    {
+      "file": "proof/feed-1.png",
+      "width": 1080,
+      "height": 1350,
+      "sha256": "c4bbe98039703b19ddff3448b5d95fd9464ecec981d89c850063f0c35dd9174a"
+    },
+    {
+      "file": "proof/feed-2.png",
+      "width": 1080,
+      "height": 1350,
+      "sha256": "5a0132321d69931dd74bbd525d0e2eec2080785288ed32ecb35064be16acdc4c"
+    },
+    {
+      "file": "proof/story.png",
+      "width": 1080,
+      "height": 1920,
+      "sha256": "b3120bdf6c48e55dd8d2f2edc578dc541a1b2cb4c2480715ad99d5440e2735f5"
+    }
+  ],
+  "testFlightVersion": "1.1.1",
+  "testFlightBuild": "35",
+  "releaseRecord": "../1.1.1/TESTFLIGHT-build35.md"
+}

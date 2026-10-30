@@ -1,0 +1,13 @@
+{
+  "capturedAt": "2026-10-30T00:39:09.057929+00:00",
+  "deviceName": "Tribble Store39 iPad",
+  "udid": "5E96885B-87A4-42BC-9FAB-AFBF924C3FEE",
+  "filename": "02-card-instagram.jpg",
+  "dimensions": [
+    2064,
+    2752
+  ],
+  "mode": "RGB",
+  "sha256": "84e7a0610486f5eb104b3c03526113da88edca0dbb301b4338a6077aa8bf017b",
+  "method": "xcrun simctl io screenshot --type=jpeg; no image editing"
+}

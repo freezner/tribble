@@ -1,0 +1,38 @@
+{
+  "capturedAtKST": "2026-10-27",
+  "source": "Expo Go SDK54, iOS26.2, unchanged production components rendered with static route fixture",
+  "fixture": "capture/StoreCapture.tsx.txt",
+  "indexRestored": true,
+  "indexSha256": "5c157f4d44972d9c84415e1e4bda595b3abcd8cf733f8a9cd20935bec3eccc42",
+  "routingSourceMatchesSubmittedBuild32": true,
+  "screenshots": {
+    "iphone/05-transport.png": {
+      "size": [
+        1206,
+        2622
+      ],
+      "mode": "RGB",
+      "sha256": "228339fab9deb77b84021760e0b67c241e67e33ef361084bc3f368d2208c7961"
+    },
+    "ipad/05-transport.png": {
+      "size": [
+        2064,
+        2752
+      ],
+      "mode": "RGB",
+      "sha256": "57c64d9745c13dc9e3cd5a0796d390f30e77b89096f9e7a2c8a3eb2dc01269c7"
+    }
+  },
+  "appStoreUpload": {
+    "iphoneAssetId": "2a000019-2911-85a5-8f2d-1ef2a10db806",
+    "iphonePosition": 5,
+    "ipadAssetId": "63000019-2911-85a5-8f10-87f86886f7c9",
+    "ipadPosition": 5,
+    "processing": "complete",
+    "descriptionMatches": true,
+    "whatsNewMatches": true,
+    "visuallyVerified": true,
+    "iphoneAssetLibraryId": "f1c00019-2911-85a5-8017-2c953f8197f5",
+    "ipadAssetLibraryId": "d4c00019-2911-85a5-801b-0f420bfa0789"
+  }
+}

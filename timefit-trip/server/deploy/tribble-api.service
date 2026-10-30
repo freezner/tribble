@@ -1,0 +1,28 @@
+[Unit]
+Description=Tribble Kakao routing and places API
+Wants=network-online.target
+After=network-online.target
+StartLimitIntervalSec=60
+StartLimitBurst=5
+
+[Service]
+Type=simple
+User=pastelinkers
+Group=pastelinkers
+WorkingDirectory=/home/pastelinkers/tribble/current
+Environment=NODE_ENV=production
+EnvironmentFile=/home/pastelinkers/tribble/shared/server.env
+ExecStart=/usr/bin/node src/dev.mjs
+Restart=on-failure
+RestartSec=3s
+TimeoutStopSec=15s
+KillSignal=SIGTERM
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=read-only
+MemoryMax=256M
+
+[Install]
+WantedBy=multi-user.target

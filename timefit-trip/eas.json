@@ -24,7 +24,15 @@
         "resourceClass": "m-medium",
         "buildConfiguration": "Release",
         "simulator": false,
-        "image": "latest"
+        "image": "macos-sequoia-15.6-xcode-26.2",
+        "credentialsSource": "local"
+      },
+      "environment": "production",
+      "node": "20.19.4",
+      "android": {
+        "buildType": "app-bundle",
+        "credentialsSource": "local",
+        "image": "ubuntu-24.04-jdk-17-ndk-r27b"
       }
     }
   },

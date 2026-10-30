@@ -1,0 +1,105 @@
+{
+  "instagram-feed": [
+    {
+      "file": "instagram-feed-1.png",
+      "width": 1080,
+      "height": 1440,
+      "bytes": 148122,
+      "sha256": "f54d957f667607c96475326537620686573dbf01cff67938043f99c15134b38c"
+    },
+    {
+      "file": "instagram-feed-2.png",
+      "width": 1080,
+      "height": 1440,
+      "bytes": 130963,
+      "sha256": "d57bc6ec007c958a439c139a518706ee3ca79aee7788690650006e53a013021e"
+    }
+  ],
+  "x-post": [
+    {
+      "file": "x-post-1.png",
+      "width": 1200,
+      "height": 1200,
+      "bytes": 128420,
+      "sha256": "f2186c597f8a7ba8e574c6a2d70615fa1effc6d797ad0d343939fc2d1d6169cb"
+    },
+    {
+      "file": "x-post-2.png",
+      "width": 1200,
+      "height": 1200,
+      "bytes": 135205,
+      "sha256": "e346f8f82e6d3b07d06563cb0692cdfd21048e5fb7aa3f034e07fbd5881d25a7"
+    },
+    {
+      "file": "x-post-3.png",
+      "width": 1200,
+      "height": 1200,
+      "bytes": 109817,
+      "sha256": "b4b235c6c0c67d3bba638969fb7bba3299ecefbdbfad29a3ed596230b83577ea"
+    }
+  ],
+  "facebook-feed": [
+    {
+      "file": "facebook-feed-1.png",
+      "width": 1440,
+      "height": 1800,
+      "bytes": 327839,
+      "sha256": "bc7338e37bfe2c00f2465a50755a01a1cd523671a9d25623baaf04769b08e4f9"
+    },
+    {
+      "file": "facebook-feed-2.png",
+      "width": 1440,
+      "height": 1800,
+      "bytes": 289233,
+      "sha256": "4504b6f35bc886b432b633f9ffc75b7163c7d32e00a7dc795afd113e4cfd2653"
+    }
+  ],
+  "facebook-story": [
+    {
+      "file": "facebook-story-1.png",
+      "width": 1080,
+      "height": 1920,
+      "bytes": 180469,
+      "sha256": "193b713b34178a7568a5725da0e57b80c6a984031a3ffebce65b8488bdd91382"
+    },
+    {
+      "file": "facebook-story-2.png",
+      "width": 1080,
+      "height": 1920,
+      "bytes": 123041,
+      "sha256": "fae43001e707c7283220d186f76bc1b09e7fcc6522659d1cda3d6cb5aec0ba32"
+    }
+  ],
+  "tiktok-photo": [
+    {
+      "file": "tiktok-photo-1.png",
+      "width": 1080,
+      "height": 1920,
+      "bytes": 181192,
+      "sha256": "48b79e0c31f20627851caccd4377898c9324a1bf5aeb1031a916f9b907b94c31"
+    },
+    {
+      "file": "tiktok-photo-2.png",
+      "width": 1080,
+      "height": 1920,
+      "bytes": 123425,
+      "sha256": "11e875a2b654964e2581e94d878b7422ec45bf20c3577cc2c4473eb5b7032ea9"
+    }
+  ],
+  "instagram-story": [
+    {
+      "file": "instagram-story-1.png",
+      "width": 1080,
+      "height": 1920,
+      "bytes": 180469,
+      "sha256": "193b713b34178a7568a5725da0e57b80c6a984031a3ffebce65b8488bdd91382"
+    },
+    {
+      "file": "instagram-story-2.png",
+      "width": 1080,
+      "height": 1920,
+      "bytes": 123041,
+      "sha256": "fae43001e707c7283220d186f76bc1b09e7fcc6522659d1cda3d6cb5aec0ba32"
+    }
+  ]
+}

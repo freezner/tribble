@@ -19,7 +19,7 @@
     <key>CFBundlePackageType</key>
     <string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
     <key>CFBundleShortVersionString</key>
-    <string>1.0.6</string>
+    <string>1.1.1</string>
     <key>CFBundleSignature</key>
     <string>????</string>
     <key>CFBundleURLTypes</key>
@@ -32,9 +32,11 @@
       </dict>
     </array>
     <key>CFBundleVersion</key>
-    <string>3</string>
+    <string>25</string>
     <key>ITSAppUsesNonExemptEncryption</key>
     <false/>
+    <key>LSMinimumSystemVersion</key>
+    <string>12.0</string>
     <key>LSRequiresIPhoneOS</key>
     <true/>
     <key>NSAppTransportSecurity</key>
@@ -44,16 +46,8 @@
       <key>NSAllowsLocalNetworking</key>
       <true/>
     </dict>
-    <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-    <string>Allow $(PRODUCT_NAME) to access your location</string>
-    <key>NSLocationAlwaysUsageDescription</key>
-    <string>Allow $(PRODUCT_NAME) to access your location</string>
-    <key>NSLocationWhenInUseUsageDescription</key>
-    <string>여행 장소를 지도에서 확인하기 위해 위치 권한이 필요합니다.</string>
-    <key>NSPhotoLibraryAddUsageDescription</key>
-    <string>Allow $(PRODUCT_NAME) to save photos</string>
-    <key>NSPhotoLibraryUsageDescription</key>
-    <string>여정 이미지를 저장하고 공유하기 위해 사진 라이브러리 접근이 필요합니다.</string>
+    <key>RCTNewArchEnabled</key>
+    <false/>
     <key>UILaunchStoryboardName</key>
     <string>SplashScreen</string>
     <key>UIRequiredDeviceCapabilities</key>
@@ -80,5 +74,9 @@
     <string>Light</string>
     <key>UIViewControllerBasedStatusBarAppearance</key>
     <false/>
+    <key>NSPhotoLibraryAddUsageDescription</key>
+    <string>여행 카드 이미지를 사진 보관함에 저장합니다.</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>여행 카드 이미지를 사진 보관함에 저장하고 공유하기 위해 사진에 접근합니다.</string>
   </dict>
 </plist>

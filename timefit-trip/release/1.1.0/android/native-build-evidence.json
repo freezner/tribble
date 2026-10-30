@@ -1,0 +1,12 @@
+{
+  "buildId": "ae5f16f2-f28f-400b-b4af-3356e56ae48a",
+  "status": "FINISHED",
+  "completedAt": "2026-10-26T14:35:29.166Z",
+  "evidence": [
+    "> Task :app:compileReleaseKotlin",
+    "> Task :app:packageReleaseBundle",
+    "> Task :app:signReleaseBundle",
+    "> Task :app:bundleRelease",
+    "BUILD SUCCESSFUL in 5m 11s"
+  ]
+}

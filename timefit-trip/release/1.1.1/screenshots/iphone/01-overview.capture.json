@@ -1,0 +1,13 @@
+{
+  "capturedAt": "2026-10-30T00:36:11.917439+00:00",
+  "deviceName": "Tribble Store39 iPhone",
+  "udid": "DAF2D8B1-8C71-4FDD-83A7-5A96725F8E20",
+  "filename": "01-overview.jpg",
+  "dimensions": [
+    1206,
+    2622
+  ],
+  "mode": "RGB",
+  "sha256": "ffb161217b29307c045735f8ea9b947de0e9532197c102eefefd4358d27f3fca",
+  "method": "xcrun simctl io screenshot --type=jpeg; no image editing"
+}

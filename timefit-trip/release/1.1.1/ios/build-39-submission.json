@@ -1,0 +1,20 @@
+{
+  "buildId": "52537252-c866-4aeb-b9e1-e2db697a85d9",
+  "easSubmissionId": "aac6be84-5b95-46b0-bee6-323e9e94ce3c",
+  "ascBuildId": "a2c6e375-4b9b-4064-a588-ba9383510112",
+  "version": "1.1.1",
+  "build": "39",
+  "easStatus": "FINISHED",
+  "appleProcessing": "COMPLETE",
+  "internalGroup": "테스터",
+  "internalTesterCount": 1,
+  "whatToTestSaved": true,
+  "scope": "TestFlight and App Store review with automatic release after approval",
+  "appStoreReviewSubmitted": true,
+  "androidBuilt": false,
+  "verifiedAt": "2026-10-30T00:45:13.090652+00:00",
+  "reviewState": "WAITING_FOR_REVIEW",
+  "appStoreReviewSubmissionId": "26658670-677a-496e-b368-dc9f6da2c188",
+  "appStoreReviewUrl": "https://appstoreconnect.apple.com/apps/6753949093/distribution/reviewsubmissions/details/26658670-677a-496e-b368-dc9f6da2c188",
+  "automaticReleaseAfterApproval": true
+}

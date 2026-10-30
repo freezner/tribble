@@ -1,0 +1,12 @@
+{
+  "iphone": {
+    "name": "Tribble Store39 iPhone",
+    "udid": "DAF2D8B1-8C71-4FDD-83A7-5A96725F8E20",
+    "deviceType": "com.apple.CoreSimulator.SimDeviceType.iPhone-17-Pro"
+  },
+  "ipad": {
+    "name": "Tribble Store39 iPad",
+    "udid": "5E96885B-87A4-42BC-9FAB-AFBF924C3FEE",
+    "deviceType": "com.apple.CoreSimulator.SimDeviceType.iPad-Pro-13-inch-M5-12GB"
+  }
+}

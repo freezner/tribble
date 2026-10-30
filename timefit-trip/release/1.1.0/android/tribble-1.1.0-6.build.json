@@ -1,0 +1,13 @@
+{
+  "id": "eb1d7f66-faae-407c-b98f-a4b2e296ab37",
+  "status": "FINISHED",
+  "platform": "ANDROID",
+  "appVersion": "1.1.0",
+  "appBuildVersion": "6",
+  "createdAt": "2026-10-26T16:01:06.146Z",
+  "completedAt": "2026-10-26T16:06:51.713Z",
+  "path": "/Users/hyungjin/git-repo/tribble/timefit-trip/release/1.1.0/android/tribble-1.1.0-6.aab",
+  "bytes": 29877384,
+  "sha256": "8054fa46f1edb35dec376de97ea66680a7a8255b5c8a389993e9a476bcd68239",
+  "zipValid": true
+}

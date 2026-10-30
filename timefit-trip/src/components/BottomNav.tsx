@@ -1,122 +1,52 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
-import { DUOLINGO_COLORS } from '../constants';
+import { colors, radii, typography } from '../constants/theme';
 
+type Screen = 'home' | 'planner' | 'settings';
 interface Props {
-  activeScreen: 'home' | 'planner' | 'settings';
-  onNavigate: (screen: 'home' | 'planner' | 'settings') => void;
-  onCreateNew: () => void;
+  activeScreen: Screen;
+  onNavigate: (screen: Screen) => void;
 }
 
-export const BottomNav: React.FC<Props> = ({ activeScreen, onNavigate, onCreateNew }) => {
+export const BottomNav: React.FC<Props> = ({ activeScreen, onNavigate }) => {
   const { t } = useTranslation();
+  const insets = useSafeAreaInsets();
+  const items: { screen: Screen; icon: React.ComponentProps<typeof MaterialIcons>['name']; label: string }[] = [
+    { screen: 'home', icon: 'bookmark-border', label: t('myTrips', { defaultValue: '내 여행' }) },
+    { screen: 'planner', icon: 'route', label: t('plannerTab', { defaultValue: '현재 일정' }) },
+    { screen: 'settings', icon: 'settings', label: t('settings') },
+  ];
   return (
-    <View style={styles.container}>
-      {/* 홈 버튼 */}
-      <TouchableOpacity
-        style={styles.navItem}
-        onPress={() => onNavigate('home')}
-      >
-        <MaterialIcons 
-          name="home" 
-          size={30} 
-          color={activeScreen === 'home' ? '#000' : '#999'}
-          style={{ marginBottom: 4 }}
-        />
-      </TouchableOpacity>
-
-      {/* 중앙 새 여행 버튼 */}
-      <TouchableOpacity
-        style={styles.centerButton}
-        onPress={onCreateNew}
-        activeOpacity={0.8}
-      >
-        <View style={styles.centerButtonInner}>
-          <MaterialIcons 
-            name="search" 
-            size={30} 
-            color="#fff" 
-          />
-        </View>
-      </TouchableOpacity>
-
-      {/* 설정 버튼 */}
-      <TouchableOpacity
-        style={styles.navItem}
-        onPress={() => onNavigate('settings')}
-      >
-        <MaterialIcons 
-          name="settings" 
-          size={30} 
-          color={activeScreen === 'settings' ? '#000' : '#999'}
-          style={{ marginBottom: 4 }}
-        />
-      </TouchableOpacity>
+    <View style={[styles.container, { paddingBottom: Math.max(insets.bottom, 10) }]}>
+      <View style={styles.content}>
+        {items.map(({ screen, icon, label }) => {
+          const selected = activeScreen === screen;
+          return (
+            <Pressable key={screen} accessibilityRole="tab" accessibilityLabel={label}
+              accessibilityState={{ selected }} onPress={() => onNavigate(screen)}
+              style={({ pressed }) => [styles.item, pressed && styles.pressed]}>
+              <View style={[styles.icon, selected && styles.selectedIcon]}>
+                <MaterialIcons name={icon} size={23} color={selected ? colors.primary : colors.textSecondary} />
+              </View>
+              <Text style={[styles.label, selected && styles.selectedLabel]}>{label}</Text>
+            </Pressable>
+          );
+        })}
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    backgroundColor: '#fff',
-    borderTopWidth: 1,
-    borderTopColor: DUOLINGO_COLORS.lightGray,
-    paddingBottom: 10,
-    paddingTop: 0,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: -2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 8,
-  },
-  navItem: {
-    flex: 1,
-    alignItems: 'center',
-    paddingTop: 25,
-  },
-  navIcon: {
-    fontSize: 30,
-    opacity: 0.5,
-  },
-  navIconActive: {
-    opacity: 1,
-  },
-  navLabel: {
-    fontSize: 13,
-    color: DUOLINGO_COLORS.gray,
-    fontWeight: '500',
-  },
-  navLabelActive: {
-    color: DUOLINGO_COLORS.gray,
-    fontWeight: '700',
-  },
-  centerButton: {
-    flex: 1,
-    alignItems: 'center',
-    marginTop: 12,
-  },
-  centerButtonInner: {
-    width: 56,
-    height: 56,
-    borderRadius: 28,
-    backgroundColor: DUOLINGO_COLORS.red,
-    justifyContent: 'center',
-    alignItems: 'center',
-    shadowColor: DUOLINGO_COLORS.gray,
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.4,
-    shadowRadius: 8,
-    elevation: 8,
-    marginBottom: 4,
-  },
-  centerButtonText: {
-    fontSize: 32,
-    color: '#fff',
-    fontWeight: '700',
-    lineHeight: 32,
-  },
+  container: { backgroundColor: colors.surface, borderTopWidth: 1, borderTopColor: colors.border, paddingTop: 8 },
+  content: { width: '100%', maxWidth: 720, alignSelf: 'center', flexDirection: 'row', paddingHorizontal: 12 },
+  item: { flex: 1, minHeight: 56, alignItems: 'center', justifyContent: 'center', gap: 3, borderRadius: radii.md },
+  icon: { minWidth: 52, paddingVertical: 4, alignItems: 'center', borderRadius: radii.pill },
+  selectedIcon: { backgroundColor: colors.primarySoft },
+  label: { ...typography.caption, color: colors.textSecondary, textAlign: 'center' },
+  selectedLabel: { color: colors.primary, fontWeight: '600' },
+  pressed: { backgroundColor: colors.surfaceMuted },
 });
-

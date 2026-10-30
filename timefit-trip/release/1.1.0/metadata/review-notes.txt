@@ -1,0 +1,7 @@
+No sign-in is required. Create a trip, set the date and start/end times, and search for places to add them. Stay durations and stop order are editable. Trips and drafts are stored on the device.
+
+Version 1.1.0 redesigns the itinerary, adds schedule and buffer controls, and improves draft recovery and time calculations. Build 32 also clarifies route-provider limitations and adds external map links for manually checking a travel duration. The Google service used by this app has limited driving-route coverage in South Korea. The app does not claim to provide automatic Korean driving durations.
+
+To try this flow, add Chodang Sundubu Village in Gangneung and Busan Station, tap the travel segment, and choose Driving. The app explains the coverage limitation and offers to open Kakao Maps with the two selected places and driving mode. Return to Tribble and enter the duration in minutes, then tap Apply. This updates the itinerary and its total time. Users should check the departure time in the external map; the app does not import its result automatically. Other regions link to Google Maps.
+
+Estimates and manual entries are labeled. Unresolved routes do not produce a feasibility verdict. The app does not request GPS or photo-library access. An external map opens only after the user taps its labeled button; no Kakao SDK or Kakao API key is embedded. Updated support and privacy information are available through the URLs on this version's product page and the app's Settings screen.

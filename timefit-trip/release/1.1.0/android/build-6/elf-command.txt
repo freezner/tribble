@@ -1,0 +1,1 @@
+{"bundle": "/Users/hyungjin/git-repo/tribble/timefit-trip/release/1.1.0/android/tribble-1.1.0-6.aab", "libraryCount64Bit": 24, "allLoadAlignmentsPass": true, "allRelroPass": true}

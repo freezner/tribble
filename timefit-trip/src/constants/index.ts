@@ -1,9 +1,10 @@
 // 상수 정의
 
-export const GOOGLE_API_KEY = 'AIzaSyAqTWePZSU1f5vwGRZ6g44EGdXRRqQ-6A8'; // TODO: 환경 변수로 이동
+// Public client configuration: this value remains visible in the app bundle.
+export const GOOGLE_API_KEY = process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY || '';
 
 export const DEFAULT_STAY_DURATION = 60; // 기본 체류 시간 (분)
-export const MIN_STAY_DURATION = 15; // 최소 체류 시간 (분)
+export const MIN_STAY_DURATION = 0; // 출발지·귀환지는 체류 없이 사용할 수 있습니다
 export const MAX_STAY_DURATION = 480; // 최대 체류 시간 (8시간)
 
 export const DEFAULT_TRIP_DURATION = 480; // 기본 여행 시간 (8시간)

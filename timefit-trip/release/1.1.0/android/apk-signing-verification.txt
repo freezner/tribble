@@ -1,0 +1,17 @@
+Verifies
+Verified using v1 scheme (JAR signing): false
+Verified using v2 scheme (APK Signature Scheme v2): true
+Verified using v3 scheme (APK Signature Scheme v3): true
+Verified using v3.1 scheme (APK Signature Scheme v3.1): false
+Verified using v4 scheme (APK Signature Scheme v4): false
+Verified for SourceStamp: false
+Number of signers: 1
+Signer #1 certificate DN: CN=Tribble Android Upload
+Signer #1 certificate SHA-256 digest: a640cee629f97826fac8f85fc11345d128ebc2edc7d4f7c30a6c95259b17a625
+Signer #1 certificate SHA-1 digest: 33722866316b3bfd077b6fac909c00296cffa2d6
+Signer #1 certificate MD5 digest: 826220c96e0511a0e337aea114b5537a
+Signer #1 key algorithm: RSA
+Signer #1 key size (bits): 2048
+Signer #1 public key SHA-256 digest: 192c3967c7bc879375ae39c8721d0238597758d9f7f88516133bf08d08e557a6
+Signer #1 public key SHA-1 digest: 721dd14809a4dae50194bf6e28c5172a595b32c4
+Signer #1 public key MD5 digest: 743dbc254eb45cbaadb12b6800ba7a83

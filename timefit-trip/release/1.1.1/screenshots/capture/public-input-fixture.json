@@ -1,0 +1,238 @@
+{
+  "version": 2,
+  "savedTrips": [
+    {
+      "id": "capture39-seongsu",
+      "name": "성수에서 보내는 오후",
+      "places": [
+        {
+          "id": "capture39-seongsu-0",
+          "name": "뚝섬역",
+          "address": "서울 성동구 아차산로 18",
+          "latitude": 37.54724,
+          "longitude": 127.04737,
+          "countryCode": "KR",
+          "stayDuration": 0
+        },
+        {
+          "id": "capture39-seongsu-1",
+          "name": "서울숲",
+          "address": "서울 성동구 뚝섬로 273",
+          "latitude": 37.5445,
+          "longitude": 127.0374,
+          "countryCode": "KR",
+          "stayDuration": 90
+        },
+        {
+          "id": "capture39-seongsu-2",
+          "name": "서울숲 카페거리",
+          "address": "서울 성동구 서울숲길",
+          "latitude": 37.5471,
+          "longitude": 127.0434,
+          "countryCode": "KR",
+          "stayDuration": 60
+        },
+        {
+          "id": "capture39-seongsu-3",
+          "name": "뚝섬역",
+          "address": "서울 성동구 아차산로 18",
+          "latitude": 37.54724,
+          "longitude": 127.04737,
+          "countryCode": "KR",
+          "stayDuration": 0
+        }
+      ],
+      "totalAvailableTime": 300,
+      "transportMode": "walking",
+      "createdAt": "2026-10-30T00:29:03.192636+00:00",
+      "updatedAt": "2026-10-30T00:29:03.192636+00:00",
+      "date": "2026-10-31",
+      "startTimeMinutes": 780,
+      "bufferMinutes": 30,
+      "legs": [
+        {
+          "id": "leg:capture39-seongsu-0:capture39-seongsu-1",
+          "fromPlaceId": "capture39-seongsu-0",
+          "toPlaceId": "capture39-seongsu-1",
+          "mode": "walking",
+          "status": "pending",
+          "duration": null,
+          "distance": null,
+          "departureAt": null
+        },
+        {
+          "id": "leg:capture39-seongsu-1:capture39-seongsu-2",
+          "fromPlaceId": "capture39-seongsu-1",
+          "toPlaceId": "capture39-seongsu-2",
+          "mode": "walking",
+          "status": "pending",
+          "duration": null,
+          "distance": null,
+          "departureAt": null
+        },
+        {
+          "id": "leg:capture39-seongsu-2:capture39-seongsu-3",
+          "fromPlaceId": "capture39-seongsu-2",
+          "toPlaceId": "capture39-seongsu-3",
+          "mode": "walking",
+          "status": "pending",
+          "duration": null,
+          "distance": null,
+          "departureAt": null
+        }
+      ],
+      "revision": 1,
+      "schemaVersion": 2
+    }
+  ],
+  "drafts": [
+    {
+      "id": "capture39-seongsu",
+      "name": "성수에서 보내는 오후",
+      "places": [
+        {
+          "id": "capture39-seongsu-0",
+          "name": "뚝섬역",
+          "address": "서울 성동구 아차산로 18",
+          "latitude": 37.54724,
+          "longitude": 127.04737,
+          "countryCode": "KR",
+          "stayDuration": 0
+        },
+        {
+          "id": "capture39-seongsu-1",
+          "name": "서울숲",
+          "address": "서울 성동구 뚝섬로 273",
+          "latitude": 37.5445,
+          "longitude": 127.0374,
+          "countryCode": "KR",
+          "stayDuration": 90
+        },
+        {
+          "id": "capture39-seongsu-2",
+          "name": "서울숲 카페거리",
+          "address": "서울 성동구 서울숲길",
+          "latitude": 37.5471,
+          "longitude": 127.0434,
+          "countryCode": "KR",
+          "stayDuration": 60
+        },
+        {
+          "id": "capture39-seongsu-3",
+          "name": "뚝섬역",
+          "address": "서울 성동구 아차산로 18",
+          "latitude": 37.54724,
+          "longitude": 127.04737,
+          "countryCode": "KR",
+          "stayDuration": 0
+        }
+      ],
+      "totalAvailableTime": 300,
+      "transportMode": "walking",
+      "createdAt": "2026-10-30T00:29:03.192636+00:00",
+      "updatedAt": "2026-10-30T00:29:03.192636+00:00",
+      "date": "2026-10-31",
+      "startTimeMinutes": 780,
+      "bufferMinutes": 30,
+      "legs": [
+        {
+          "id": "leg:capture39-seongsu-0:capture39-seongsu-1",
+          "fromPlaceId": "capture39-seongsu-0",
+          "toPlaceId": "capture39-seongsu-1",
+          "mode": "walking",
+          "status": "pending",
+          "duration": null,
+          "distance": null,
+          "departureAt": null
+        },
+        {
+          "id": "leg:capture39-seongsu-1:capture39-seongsu-2",
+          "fromPlaceId": "capture39-seongsu-1",
+          "toPlaceId": "capture39-seongsu-2",
+          "mode": "walking",
+          "status": "pending",
+          "duration": null,
+          "distance": null,
+          "departureAt": null
+        },
+        {
+          "id": "leg:capture39-seongsu-2:capture39-seongsu-3",
+          "fromPlaceId": "capture39-seongsu-2",
+          "toPlaceId": "capture39-seongsu-3",
+          "mode": "walking",
+          "status": "pending",
+          "duration": null,
+          "distance": null,
+          "departureAt": null
+        }
+      ],
+      "revision": 1,
+      "schemaVersion": 2
+    },
+    {
+      "id": "capture39-bukchon",
+      "name": "북촌 골목을 천천히",
+      "places": [
+        {
+          "id": "capture39-bukchon-0",
+          "name": "안국역",
+          "address": "서울 종로구 율곡로 62",
+          "latitude": 37.5765,
+          "longitude": 126.9855,
+          "countryCode": "KR",
+          "stayDuration": 0
+        },
+        {
+          "id": "capture39-bukchon-1",
+          "name": "북촌한옥마을",
+          "address": "서울 종로구 계동길 37",
+          "latitude": 37.5826,
+          "longitude": 126.983,
+          "countryCode": "KR",
+          "stayDuration": 90
+        },
+        {
+          "id": "capture39-bukchon-2",
+          "name": "안국역",
+          "address": "서울 종로구 율곡로 62",
+          "latitude": 37.5765,
+          "longitude": 126.9855,
+          "countryCode": "KR",
+          "stayDuration": 0
+        }
+      ],
+      "totalAvailableTime": 300,
+      "transportMode": "walking",
+      "createdAt": "2026-10-30T00:29:03.192636+00:00",
+      "updatedAt": "2026-10-30T00:29:03.192636+00:00",
+      "date": "2026-10-31",
+      "startTimeMinutes": 780,
+      "bufferMinutes": 30,
+      "legs": [
+        {
+          "id": "leg:capture39-bukchon-0:capture39-bukchon-1",
+          "fromPlaceId": "capture39-bukchon-0",
+          "toPlaceId": "capture39-bukchon-1",
+          "mode": "walking",
+          "status": "pending",
+          "duration": null,
+          "distance": null,
+          "departureAt": null
+        },
+        {
+          "id": "leg:capture39-bukchon-1:capture39-bukchon-2",
+          "fromPlaceId": "capture39-bukchon-1",
+          "toPlaceId": "capture39-bukchon-2",
+          "mode": "walking",
+          "status": "pending",
+          "duration": null,
+          "distance": null,
+          "departureAt": null
+        }
+      ],
+      "revision": 1,
+      "schemaVersion": 2
+    }
+  ],
+  "activeTripId": "capture39-seongsu"
+}

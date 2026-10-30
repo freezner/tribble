@@ -1,0 +1,165 @@
+{
+  "version": "1.1.1",
+  "locale": "ko-KR",
+  "preparedAtKST": "2026-10-30",
+  "status": "Saved in App Store Connect and submitted for review with iOS 1.1.1 (39) on 2026-10-30. Waiting for Review; automatic release after approval.",
+  "description": "가고 싶은 곳을, 내 시간 안에.\n\nTribble은 하루 동안 들를 장소와 머무를 시간을 정하고, 내 시간 안에 가능한 일정인지 살펴보는 여행 플래너입니다. 당일치기 여행과 반나절 나들이를 계획하고, 완성한 동선을 나만의 여행 카드로 만들어 보세요.\n\n내 시간에 맞춰 계획하기\n여행 날짜와 출발·마감 시각을 정하세요. 장소별 체류 시간, 구간별 이동 시간, 미리 확보할 이동·대기 여유를 더해 예상 종료 시각과 남는 시간 또는 초과 시간을 확인할 수 있습니다. 장소의 방문 순서를 바꾸고 체류 시간을 조절하며 계획을 다듬어 보세요.\n\n국내 장소 검색과 이동 시간 확인\n카카오 기반으로 국내 장소를 검색하고 자동차·도보·대중교통·자전거 이동 시간을 조회할 수 있습니다. 이동 방법은 구간마다 다르게 선택할 수 있어요. 자동으로 시간을 확인하지 못한 구간은 다시 조회하거나, 외부 지도에서 확인한 시간을 직접 입력해 보완하세요. 일정의 장소명을 누르면 Google Maps에서 저장된 위치를 열 수 있습니다.\n\n만들던 여행을 이어서 완성하기\n작성 중인 일정은 이 기기에 초안으로 보관됩니다. 홈의 ‘이어서 계획하기’와 초안 목록에서 중단했던 여행을 다시 열어 보세요. 새 여행을 시작해도 이전 초안은 남아 있습니다. 완성한 여행은 저장하고, 다시 열어 수정할 수 있습니다.\n\n‘카드 생성’으로 동선을 이미지에 담기\n일정 화면에서 ‘카드 생성’을 눌러 여행 카드를 미리 보세요. Instagram·Facebook의 게시물과 스토리, X 게시물, TikTok 사진에 맞춘 카드 형식을 선택할 수 있습니다. 긴 일정은 장소 순서대로 여러 장에 담깁니다. 휴대전화 공유창에서 카드를 저장하거나 다른 앱으로 공유하세요.\n\n내 이름과 SNS 프로필 표시하기\n카드 상단에 표시할 이름을 정하고, SNS 프로필을 카드에 더해 보세요. 공개 사용자 이름이나 프로필 주소는 이 기기에 보관됩니다. SNS 로그인이나 자동 게시 없이 카드를 만들고 공유할 수 있어요. 게시할 계정과 공개 범위는 해당 SNS에서 직접 선택해 주세요.\n\n계정 없이 시작할 수 있으며 한국어·영어·일본어·중국어를 지원합니다. 여행과 초안은 기기에 보관되며 계정 간 동기화는 제공하지 않습니다.\n\n이동 시간은 계획을 돕기 위한 예상값이며, 실제 교통·환승·운행 상황과 다를 수 있습니다. 영업시간과 예약 가능 여부는 별도로 확인해 주세요. 출발지와 돌아올 장소는 직접 추가하며, 장소 검색과 경로 조회에는 인터넷 연결이 필요합니다. 공유 대상과 여러 이미지의 수신 방식은 기기와 설치된 앱에 따라 달라질 수 있습니다.",
+  "promotionalText": "내 시간에 맞는 하루 여행을 계획하고, ‘카드 생성’으로 동선을 이미지에 담아 보세요. 국내 카카오 경로 조회, 초안 이어쓰기, SNS별 카드 형식을 한곳에서 이용할 수 있어요.",
+  "whatsNew": "계획한 동선을 카드로 만들고 공유하는 흐름을 다듬었습니다.\n\n• 일정 화면의 ‘카드 생성’ 버튼을 더 쉽게 찾을 수 있게 했어요.\n• Instagram·Facebook·X·TikTok용 카드 형식과 여러 장의 카드를 함께 공유하는 기능을 추가했어요.\n• 카드 상단 이름을 설정하고, 기기에 등록한 SNS 프로필을 카드에 표시할 수 있어요. SNS 로그인이나 자동 게시 기능은 아니에요.\n• 국내 장소 검색과 자동차·도보·대중교통·자전거 이동 시간 조회를 카카오 기반으로 개선했어요. 자동으로 확인하지 못한 시간은 직접 입력해 보완할 수 있어요.\n• 홈의 ‘이어서 계획하기’와 초안 목록에서 만들던 여행을 다시 열 수 있어요.\n• 여행의 최초 보관일·여행일·수정 시각을 구분하고, 저장한 여행의 수정 흐름을 다듬었어요.\n• 장소명을 눌러 Google Maps에서 위치를 확인할 수 있어요.\n• 카드의 여행 일자와 출발·도착 시각 표시를 정리했어요.",
+  "reviewNotes": "Tribble 1.1.1은 하루 여행 일정 작성, 국내 이동 시간 조회, 기기 내 초안 재개와 여행 카드 이미지 생성·공유를 제공하는 업데이트입니다. 회원가입, 로그인, 심사용 계정이 필요하지 않습니다. 장소 검색과 경로 조회에는 인터넷 연결이 필요합니다.\n\n확인 방법\n1. ‘새 여행’을 만들고 날짜와 출발·마감 시각을 설정합니다. 예: ‘서울숲’과 ‘성수동 카페거리’를 검색해 추가합니다. 각 장소의 체류 시간과 방문 순서를 조절할 수 있습니다.\n2. 두 장소 사이 이동 구간을 누르면 자동차·도보·대중교통·자전거를 선택하고 자동 경로를 다시 조회할 수 있습니다. 국내 장소 검색과 경로 조회는 카카오 기반입니다. 조회하지 못한 구간은 미확인 상태로 표시하며, 접힌 직접 입력 기능에서 외부 지도 확인 후 분 단위로 입력할 수 있습니다. 외부 지도 결과를 자동으로 가져오는 기능은 아닙니다. 이동 시간은 제공자 정보 기준의 예상값이며 미래 시각의 실제 교통·운행을 보장하지 않습니다.\n3. 홈으로 돌아오면 ‘이어서 계획하기’와 ‘작성 중인 초안’에서 해당 일정을 재개할 수 있습니다. 장소가 없는 초안도 보관됩니다. 완성한 여행은 저장하고 다시 열어 같은 여행을 수정할 수 있습니다.\n4. 일정 화면 우측의 강조된 ‘카드 생성’을 누릅니다. Instagram·Facebook·X·TikTok을 선택해 이미지 형식을 바꾸고, 여러 페이지를 미리 본 뒤 전체 PNG 이미지를 운영체제 공유창에 전달할 수 있습니다. 선택한 SNS는 출력 형식이며 공유 대상 앱이나 로그인 계정을 자동으로 선택하지 않습니다. 사진 저장 또는 게시 대상은 공유창과 해당 앱에서 사용자가 선택합니다.\n5. 설정에서 ‘카드 이미지 타이틀’과 SNS 프로필을 등록할 수 있습니다. SNS 프로필 등록은 사용자 이름 또는 공개 프로필 URL을 기기에 저장하는 기능입니다. OAuth 로그인, SNS 계정 소유권 확인, 비밀번호 수집, 자동 게시 기능이 아닙니다. 프로필 등록 없이도 카드 생성과 이미지 형식 선택을 사용할 수 있습니다.\n\n데이터와 권한\n여행·초안·SNS 프로필·카드 타이틀은 기기에 보관됩니다. 검색과 경로 조회에 필요한 검색어·장소 좌표 등은 해당 지도 서비스 요청에 사용됩니다. 앱은 GPS 현재 위치를 직접 요청하지 않습니다. 사용자가 공유창에서 사진 저장을 선택하면 운영체제가 저장에 필요한 권한을 요청할 수 있습니다. 앱이 기존 사진을 읽거나 사진 보관함을 탐색하는 기능은 없으며, 미리보기나 공유창을 여는 것만으로 사진에 자동 저장하지 않습니다.\n\n카드의 상단 ‘도착 시각’은 사용자가 설정한 일정 마감 시각이며, 각 장소의 도착 시각과 전체 예상 종료는 체류·이동 시간으로 계산합니다. 경로 미확인 상태에서는 전체 소요 시간을 확정하지 않습니다. 공유 카드는 미리보기를 연 시점의 일정으로 생성됩니다. 최신 경로 결과가 필요하면 미리보기를 닫고 다시 열어 주세요. 공유창 종료를 SNS 게시 성공으로 표시하지 않습니다.",
+  "characterCounts": {
+    "description": {
+      "characters": 1270,
+      "utf16Units": 1270,
+      "limit": 4000
+    },
+    "promotionalText": {
+      "characters": 99,
+      "utf16Units": 99,
+      "limit": 170
+    },
+    "whatsNew": {
+      "characters": 473,
+      "utf16Units": 473,
+      "limit": 4000
+    },
+    "reviewNotes": {
+      "characters": 1466,
+      "utf16Units": 1466,
+      "limit": 4000
+    }
+  },
+  "screenshotAudit": {
+    "basis": "로컬 소스·출시 기록·보관 이미지 검토. App Store Connect 현재 화면은 조회하지 않았음.",
+    "lastRecordedStoreScreenshots": {
+      "version": "1.1.0",
+      "build": "32",
+      "registeredDateKST": "2026-10-27",
+      "iphoneCount": 6,
+      "ipadCount": 5,
+      "predatesBuild35": true,
+      "note": "기존 9장 유지, iPhone 05 교체 및 iPad 05 추가 기록. 1.1.1 자료에서는 새 App Store 스크린샷 등록 기록을 찾지 못함.",
+      "manifest": "release/1.1.0/screenshots/README.md",
+      "verification": "release/1.1.0/screenshots/capture/verification.json"
+    },
+    "existingCaptureFixture": {
+      "path": "release/1.1.0/screenshots/capture/StoreCapture.tsx.txt",
+      "description": "실제 프로덕션 화면을 사용하는 초당순두부마을→부산역 합성 fixture. source=google, reason=provider-coverage, duration=null이며 빌드 32의 수동 입력 안내를 재현함.",
+      "reuseCaution": "현재 카카오 자동 계산 결과를 보여주는 fixture가 아니므로 그대로 재촬영하면 새 기능을 잘못 설명함. 최신 프로덕션 컴포넌트와 현재 상태에 맞는 예시 데이터를 사용해야 함.",
+      "newerFixtureEvidence": "release/sns-card-presets/VALIDATION.md에는 실제 API를 호출하지 않는 5개 장소·수동 이동 시간 예시와 닉네임 느긋한 여행자 사용이 기록돼 있음. 해당 기록 안에는 별도 fixture 소스 경로가 없음."
+    },
+    "visualChecks": [
+      {
+        "path": "release/1.1.0/screenshots/iphone/05-transport.png",
+        "format": "PNG",
+        "size": [
+          1206,
+          2622
+        ],
+        "finding": "직접 확인: 한국 Google 지원 제한과 지도 확인·직접 입력이 주 안내. 카카오 자동 경로를 제공하는 현 버전 설명과 맞지 않아 교체 필요."
+      },
+      {
+        "path": "release/card-button-emphasis/proof/planner-card-button.png",
+        "format": "JPEG despite .png extension",
+        "size": [
+          818,
+          1730
+        ],
+        "finding": "직접 확인: 최신 카드 생성 강조 버튼과 낮은 강조의 수정 버튼. 시뮬레이터 창·기기 프레임이 포함돼 있어 스토어용 앱 화면 원본 재촬영 필요."
+      },
+      {
+        "path": "release/card-label-cleanup/proof/instagram-feed-preview.png",
+        "format": "JPEG despite .png extension",
+        "size": [
+          818,
+          1730
+        ],
+        "finding": "직접 확인: 최신 SNS 선택·여행 일자·출발/도착 시각·여러 카드 공유 버튼. 시뮬레이터 창·기기 프레임 포함, 스토어용 화면 규격 아님."
+      }
+    ],
+    "replacementPlan": [
+      {
+        "priority": "required",
+        "targets": [
+          "iphone/05-transport.png",
+          "ipad/05-transport.png"
+        ],
+        "capture": "국내 카카오 자동 경로 결과와 교통수단 선택, 필요할 때 열 수 있는 직접 입력 보조 기능",
+        "caption": "국내 이동 시간을 확인하고 계획에 반영"
+      },
+      {
+        "priority": "required",
+        "targets": [
+          "iphone/02-overview.png",
+          "ipad/02-overview.png"
+        ],
+        "capture": "최신 카드 생성 강조 버튼·저장/수정 보조 버튼과 일정 요약",
+        "caption": "내 시간에 맞춘 동선을 카드로"
+      },
+      {
+        "priority": "required",
+        "targets": [
+          "iphone/06-library.png",
+          "ipad/04-library.png"
+        ],
+        "capture": "홈의 이어서 계획하기와 작성 중인 초안 목록",
+        "caption": "만들던 여행을 이어서 완성"
+      },
+      {
+        "priority": "add",
+        "targets": [
+          "new-card-preview-iphone",
+          "new-card-preview-ipad"
+        ],
+        "capture": "카드 생성 화면의 SNS 선택·페이지 미리보기·전체 이미지 공유 버튼",
+        "caption": "내 여행을 SNS별 카드로 공유"
+      },
+      {
+        "priority": "check-and-refresh",
+        "targets": [
+          "iphone/01-start.png",
+          "iphone/03-schedule.png",
+          "iphone/04-timeline.png",
+          "ipad/01-start.png",
+          "ipad/03-schedule.png"
+        ],
+        "capture": "이전 헤더·목록·검색 제공자 문구를 현재 빌드와 대조 후 다시 촬영",
+        "caption": null
+      }
+    ],
+    "doNotReuseAsCurrent": [
+      "release/social-sharing/proof/*: 빌드 35 당시 4:5/9:16 및 한 장씩 공유 검증 이미지",
+      "release/card-improvements/proof/* 및 release/sns-card-presets/proof/*: 문구 정리 전 카드가 포함될 수 있어 최신 UI 스크린샷으로 직접 재사용하지 않음"
+    ],
+    "currentCardExportReference": {
+      "path": "release/card-label-cleanup/proof/instagram-feed-1.png",
+      "format": "PNG",
+      "size": [
+        1080,
+        1440
+      ],
+      "note": "실제 출력 카드 PNG 참고자료이며 앱 화면 스크린샷을 대체하지 않음"
+    },
+    "uploadStatus": "이 작업에서는 촬영·파일 변형·스토어 업로드를 수행하지 않았음"
+  },
+  "sourceReferences": [
+    "src/screens/TripPlannerScreen.tsx",
+    "src/screens/SavedTripsScreen.tsx",
+    "src/services/placesApi.ts",
+    "src/services/koreanRouting.ts",
+    "server/src/route.mjs",
+    "src/components/TripShareSheet.tsx",
+    "src/components/TripShareCard.tsx",
+    "src/components/SocialProfilesSection.tsx",
+    "src/components/CardPreferencesSection.tsx",
+    "src/utils/socialSharePresets.ts",
+    "src/utils/shareTrip.ts",
+    "release/1.1.0/metadata/ko-KR.json",
+    "release/1.1.0/metadata/review-notes.txt",
+    "release/1.1.1/TESTFLIGHT-build35.md",
+    "release/1.1.1/TESTFLIGHT-build38.md",
+    "release/card-button-emphasis/VALIDATION.md",
+    "release/card-label-cleanup/VALIDATION.md"
+  ],
+  "submissionRecord": "store-20261030-submission.json"
+}

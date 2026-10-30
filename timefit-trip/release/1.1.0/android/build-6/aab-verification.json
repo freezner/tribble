@@ -1,0 +1,37 @@
+{
+  "manifest": {
+    "package": "com.tribble.tribbleapp",
+    "versionName": "1.1.0",
+    "versionCode": "6",
+    "minSdkVersion": "24",
+    "targetSdkVersion": "36",
+    "compileSdkVersion": "36",
+    "allowBackup": "true",
+    "extractNativeLibs": "false",
+    "permissions": [
+      "android.permission.INTERNET",
+      "android.permission.VIBRATE",
+      "com.tribble.tribbleapp.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+    ]
+  },
+  "bundleAlignment": {
+    "optimizations.uncompressNativeLibraries.alignment": "PAGE_ALIGNMENT_16K"
+  },
+  "aabSigning": {
+    "sha256": "A6:40:CE:E6:29:F9:78:26:FA:C8:F8:5F:C1:13:45:D1:28:EB:C2:ED:C7:D4:F7:C3:0A:6C:95:25:9B:17:A6:25",
+    "matchesExistingUploadKey": true,
+    "jarVerified": true,
+    "warnings": {
+      "selfSigned": true,
+      "untrustedCertificateChain": true,
+      "noTimestamp": true,
+      "jarInputStreamManifestOrdering": true
+    }
+  },
+  "elf": {
+    "bundle": "/Users/hyungjin/git-repo/tribble/timefit-trip/release/1.1.0/android/tribble-1.1.0-6.aab",
+    "libraryCount64Bit": 24,
+    "allLoadAlignmentsPass": true,
+    "allRelroPass": true
+  }
+}

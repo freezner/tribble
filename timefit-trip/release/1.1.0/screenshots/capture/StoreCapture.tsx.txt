@@ -1,0 +1,17 @@
+import React, { useEffect, useState } from 'react';
+import { View } from 'react-native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { StatusBar } from 'expo-status-bar';
+import { TripPlannerScreen } from './src/screens/TripPlannerScreen';
+import { BottomNav, TransportModePicker } from './src/components';
+import { useTripStore } from './src/stores/tripStore';
+import { calculateTripSummary } from './src/utils/timeCalculator';
+import { colors } from './src/constants/theme';
+import { i18nReady } from './src/i18n';
+const trip = {"id": "store-korean-driving", "name": "강릉에서 부산으로", "places": [{"id": "chodang", "name": "초당순두부마을", "address": "강원특별자치도 강릉시 초당동", "latitude": 37.7925599, "longitude": 128.9170172, "countryCode": "KR", "stayDuration": 0}, {"id": "busan", "name": "부산역", "address": "부산광역시 동구 중앙대로 206", "latitude": 35.114495, "longitude": 129.03933, "countryCode": "KR", "stayDuration": 60}], "transportMode": "driving", "totalAvailableTime": 600, "date": "2026-10-27", "startTimeMinutes": 780, "bufferMinutes": 30, "createdAt": "2026-10-27T00:00:00.000Z", "updatedAt": "2026-10-27T00:00:00.000Z", "legs": [{"id": "leg:chodang:busan", "fromPlaceId": "chodang", "toPlaceId": "busan", "mode": "driving", "status": "unavailable", "duration": null, "distance": null, "source": "google", "reason": "provider-coverage", "calculatedAt": "2026-10-27T00:00:00.000Z", "departureAt": "2026-10-27T04:00:00.000Z"}], "revision": 1, "schemaVersion": 2};
+const noop = () => {};
+export default function StoreCapture() {
+ const [ready,setReady]=useState(false);
+ useEffect(()=>{void i18nReady.then(()=>{useTripStore.setState({initialized:true,currentTrip:trip,summary:calculateTripSummary(trip),isLoading:false,isDirty:true,error:null});setReady(true);});},[]);
+ return <SafeAreaProvider><StatusBar style="dark" />{ready && <View style={{flex:1,backgroundColor:colors.background}}><View style={{flex:1}}><TripPlannerScreen onBack={noop}/></View><BottomNav activeScreen="planner" onNavigate={noop}/><TransportModePicker visible selectedMode="driving" origin={trip.places[0]} destination={trip.places[1]} destinationName={trip.places[1].name} reason="provider-coverage" travelTime={null} onSelect={noop} onClose={noop} onManualDuration={noop} onRetry={noop}/></View>}</SafeAreaProvider>;
+}

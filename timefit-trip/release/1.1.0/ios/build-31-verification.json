@@ -1,0 +1,35 @@
+{
+  "buildId": "695bd5b6-eacf-4c04-821c-7ea73b24636f",
+  "status": "FINISHED",
+  "nativeEvidence": "** ARCHIVE SUCCEEDED **",
+  "ipaBytes": 14201059,
+  "ipaSha256": "a0ae128f73914bb860c9aa9541746116b929b90adff2dcf5e1cda3dac2cd06d6",
+  "bundleIdentifier": "com.tribble.tribbleapp",
+  "version": "1.1.0",
+  "buildNumber": "31",
+  "collectedDataTypesMatchSource": true,
+  "dataTypes": [
+    "NSPrivacyCollectedDataTypeSearchHistory",
+    "NSPrivacyCollectedDataTypeOtherUsageData",
+    "NSPrivacyCollectedDataTypeOtherDiagnosticData",
+    "NSPrivacyCollectedDataTypeCoarseLocation"
+  ],
+  "requiredApiCategories": [
+    "NSPrivacyAccessedAPICategoryUserDefaults",
+    "NSPrivacyAccessedAPICategoryFileTimestamp",
+    "NSPrivacyAccessedAPICategoryDiskSpace",
+    "NSPrivacyAccessedAPICategorySystemBootTime"
+  ],
+  "submission": {
+    "id": "43823e90-6e44-4baf-9a23-ad11a3249f50",
+    "status": "FINISHED",
+    "error": null,
+    "ascAppId": "6753949093",
+    "checkedAt": "2026-10-26T14:42:08.085687+00:00"
+  },
+  "ascProcessing": {
+    "status": "Ready to Submit",
+    "appleBuildId": "7a812b98-73c6-451a-a80e-34d808d0f1c6",
+    "evidence": "Parent agent verified TestFlight UI"
+  }
+}

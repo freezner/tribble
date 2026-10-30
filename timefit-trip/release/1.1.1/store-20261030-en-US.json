@@ -1,0 +1,47 @@
+{
+  "version": "1.1.1",
+  "locale": "en-US",
+  "preparedAtKST": "2026-10-30",
+  "status": "Saved in App Store Connect and submitted for review with iOS 1.1.1 (39) on 2026-10-30. Waiting for Review; automatic release after approval.",
+  "description": "Places you want to visit. A plan that fits your day.\n\nTribble helps you plan a day out around the places you want to visit and the time you have. Build an itinerary, check how it fits your day, and turn it into a trip card to keep or share.\n\nPlan around your time\nSet your travel date, start time, and deadline. Add stays, travel between stops, and a buffer for travel and waiting. See your estimated finish time and how much time remains, or how far your plan runs over. Adjust stays and reorder stops as you go.\n\nFind places and check travel times in South Korea\nUse Kakao-powered place search and travel time estimates for driving, walking, public transit, and cycling. Choose a different mode for each leg. If a travel time is unavailable, retry or check an external map and enter the minutes yourself. Tap a place name to open its saved location in Google Maps.\n\nPick up where you left off\nYour work is kept as a draft on this device. Use Continue planning and the draft list to reopen an unfinished trip, even after starting a new one. Save completed plans and reopen them to make changes.\n\nTurn your itinerary into a card\nTap Create card to preview your trip. Choose a format for Instagram or Facebook posts and stories, X posts, or TikTok photos. Longer itineraries span several cards, keeping your stops in order. Save the cards or share them with another app through your device's share sheet.\n\nMake it yours\nSet the name shown at the top of your cards and add a social profile as a signature. Public usernames and profile links are saved on this device. No social login or automatic posting is involved. Choose the posting account and audience in your social app.\n\nNo account is required. Available in Korean, English, Japanese, and Chinese. Trips and drafts stay on this device; account-based syncing is not available.\n\nTravel times are estimates for planning and may differ from actual traffic, transfers, and services. Check opening hours and reservations separately. Add your starting point and return destination yourself. An internet connection is required for place searches and route requests. Sharing options and the number of images accepted depend on your device and installed apps.",
+  "promotionalText": "Plan your day, resume a draft, and turn your itinerary into cards to save or share. Check travel times in South Korea and choose a format for your social posts.",
+  "whatsNew": "Turn your plans into trip cards with an improved creation and sharing flow.\n\n• Find the highlighted Create card button on your itinerary.\n• Choose card formats for Instagram, Facebook, X, and TikTok, and share multiple cards together.\n• Customize your card's display name and add a social profile saved on your device. No social login or automatic posting is involved.\n• Search places and check driving, walking, transit, and cycling times in South Korea with Kakao. Enter a time manually when an automatic result is unavailable.\n• Reopen unfinished trips from Continue planning and the draft list.\n• See separate first-saved, travel, and last-edited dates, with an improved flow for editing saved trips.\n• Tap a place name to view its location in Google Maps.\n• Read clearer travel date, departure time, and arrival time labels on cards.",
+  "keywords": "trip,travel,itinerary,planner,day trip,route,travel time,stay duration,schedule,trip card",
+  "reviewNotes": "Tribble 1.1.1 adds itinerary card creation and sharing, South Korean route estimates, and on-device draft resumption. No registration, login, or review credentials are required. Place searches and route requests need an internet connection.\n\nReview steps\n1. Create a new trip and set its date, start time, and deadline. Search for 서울숲 (Seoul Forest) and 성수동 카페거리 (Seongsu-dong Cafe Street) and add them. Adjust stays or reorder stops.\n2. Tap a travel leg to choose driving, walking, transit, or cycling and retry an automatic route request. South Korean place search and routing use Kakao. Unavailable times remain unknown. Expand manual time entry to check an external map and enter minutes; external map results are not imported automatically. Provider estimates do not guarantee traffic or services at a future departure time.\n3. Return home and use Continue planning or the draft list to reopen the trip. Drafts with no places are also retained. Save a trip, reopen it, and edit the same trip.\n4. Tap the highlighted Create card button in the itinerary header. Select Instagram, Facebook, X, or TikTok to change the image format, preview the pages, then send all PNG images to the native share sheet. A platform selection controls image format only; it does not select an app or logged-in account. The user chooses Save Images or a sharing app, and completes any post in that app.\n5. In Settings, use Card image title and Social profiles. A profile is a public username or profile URL stored on this device. This is not OAuth authentication, account linking, or ownership verification. The app does not collect social passwords or post automatically. Profiles are optional; card creation and format selection work without them.\n\nData and permissions\nTrips, drafts, social profiles, and card titles are stored on this device. Search terms, place coordinates, and other information needed for map requests are sent to the relevant services. The app does not request the user's GPS location. If the user chooses to save images, iOS may request the permission needed to save them. The app has no feature for reading existing photos or browsing the photo library. Opening a preview or share sheet does not automatically save to Photos.\n\nThe card header's Arrival time is the deadline set by the user. Individual stop arrival times and the estimated finish are calculated from stays and travel times. Unknown route times are not treated as a confirmed total. Cards use a snapshot taken when the preview opens; close and reopen it to include newer route results. Dismissing the share sheet is not reported as a successful social post.",
+  "characterCounts": {
+    "description": {
+      "characters": 2204,
+      "utf16Units": 2204,
+      "limit": 4000
+    },
+    "promotionalText": {
+      "characters": 160,
+      "utf16Units": 160,
+      "limit": 170
+    },
+    "whatsNew": {
+      "characters": 838,
+      "utf16Units": 838,
+      "limit": 4000
+    },
+    "keywords": {
+      "characters": 89,
+      "utf16Units": 89,
+      "limit": 100
+    },
+    "reviewNotes": {
+      "characters": 2631,
+      "utf16Units": 2631,
+      "limit": 4000
+    }
+  },
+  "localizationNotes": "The name Tribble was unavailable for a new en-US localization. App Information saved the distinct name Tribble: Day Trip Planner; Korean name remains Tribble and no subtitle was added.",
+  "sourceReferences": [
+    "release/1.1.0/metadata/en-US.json",
+    "release/1.1.1/store-20261030-copy.json",
+    "src/i18n/social.ts",
+    "src/i18n/planner.ts"
+  ],
+  "appName": "Tribble: Day Trip Planner",
+  "submissionRecord": "store-20261030-submission.json"
+}

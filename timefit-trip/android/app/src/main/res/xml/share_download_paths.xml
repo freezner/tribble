@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- view-shot may use either app cache directory. Only explicitly shared URIs
+     receive temporary grants; no general storage permission is needed. -->
+<paths xmlns:android="http://schemas.android.com/apk/res/android">
+    <cache-path name="trip_cards_internal" path="." />
+    <external-cache-path name="trip_cards_external" path="." />
+</paths>
